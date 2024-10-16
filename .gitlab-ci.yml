@@ -1,0 +1,35 @@
+stages:
+  - build
+  - deploy
+
+# Build Frontend Application
+build_frontend:
+  stage: build
+  image: node:18
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/build
+  only:
+    - main
+
+# Deploy Frontend Application
+deploy_frontend:
+  stage: deploy
+  image: alpine:latest
+  dependencies:
+    - build_frontend
+  before_script:
+    - apk add --no-cache openssh-client rsync
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -p $SSH_PORT $DEPLOY_HOST >> ~/.ssh/known_hosts
+  script:
+    - rsync -avz --delete -e "ssh -p $SSH_PORT" frontend/build/ $DEPLOY_USER@$DEPLOY_HOST:/var/www/naziir-frontend/
+  only:
+    - main
