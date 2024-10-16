@@ -26,6 +26,6 @@ deploy_frontend:
     - chmod 700 ~/.ssh
     - ssh-keyscan -p $SSH_PORT $DEPLOY_HOST >> ~/.ssh/known_hosts
   script:
-    - rsync -avz --delete -e "ssh -p $SSH_PORT" ./dist $DEPLOY_USER@$DEPLOY_HOST:/var/www/naziir-frontend/
+    - rsync -avz --delete -e "ssh -p $SSH_PORT" ./dist $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/
   only:
     - main
