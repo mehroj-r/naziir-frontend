@@ -1,0 +1,56 @@
+.header {
+  padding: 10px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    cursor: pointer;
+    
+    img{
+      height: 54px;
+    }
+  }
+
+  .navbar {
+    display: flex;
+    gap: 12px;
+
+    .element {
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 12px;
+    }
+
+    .active {
+      background-color: #00aaff;
+      color: white;
+    }
+  }
+
+  .searchContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    .searchButton {
+      border-radius: 6px;
+      border: 1px solid #00aaff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 39px;
+      height: 32px;
+      
+      &:active{
+        background-color: #00aaff;
+      }
+
+      img{
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}

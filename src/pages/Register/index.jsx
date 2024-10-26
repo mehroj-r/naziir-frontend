@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import styles from "./RegisterPage.module.scss";
+import styles from "./Register.module.scss";
 import { EmailIcon, LockIcon } from "../../assets/icons/loginRegisterIcons";
 import { Center } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
@@ -37,7 +37,7 @@ export default function RegisterPage() {
       setSuccessMessage(true);
       setTimeout(() => {
         setSuccessMessage(false);
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.error(error);
     } finally {
