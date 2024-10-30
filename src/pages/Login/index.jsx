@@ -1,10 +1,10 @@
 import styles from "./LoginPage.module.scss";
 import { EmailIcon, LockIcon } from "../../assets/icons/loginRegisterIcons";
 import { Center } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
-  const navigate = useNavigate();
+  
 
   return (
     <div className={styles.loginPage}>

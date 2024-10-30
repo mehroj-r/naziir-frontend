@@ -4,7 +4,8 @@ import styles from "./Register.module.scss";
 import { EmailIcon, LockIcon } from "../../assets/icons/loginRegisterIcons";
 import { Center } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
+// import { GoogleLogin } from "react-google-login";
+import { authService } from "../../services/auth.service";
 
 export default function RegisterPage() {
   const {
@@ -29,20 +30,22 @@ export default function RegisterPage() {
     console.error("Google sign-in failed:", error);
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     setIsLoading(true);
-    try {
-      console.log(data);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      setSuccessMessage(true);
-      setTimeout(() => {
-        setSuccessMessage(false);
-      }, 1000);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    const body = {
+      email: data?.email,
+      password: data?.password,
+    };
+    authService.register(body)
+      .then((res) => {
+        console.log("res", res); // log
+      })
+      .catch((err) => {
+        console.log("err", err); // log
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -126,14 +129,14 @@ export default function RegisterPage() {
             {isLoading ? " Registering..." : "Register"}
           </button>
 
-          <GoogleLogin
+          {/* <GoogleLogin
             clientId="YOUR_GOOGLE_CLIENT_ID" // Replace with your Google Client ID
             buttonText="Sign up with Google"
             onSuccess={handleGoogleSuccess}
             onFailure={handleGoogleFailure}
             cookiePolicy={"single_host_origin"}
             className={styles.googleBtn}
-          />
+          /> */}
 
           <div className={styles.links}>
             <Link to="/login">Already have an account</Link>

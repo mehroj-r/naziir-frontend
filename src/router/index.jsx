@@ -1,4 +1,3 @@
-// src/router/index.jsx
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -8,12 +7,12 @@ import LoginPage from "../pages/Login";
 import RegisterPage from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import CreateQuiz from "../pages/CreateQuiz";
-import Statistics from "../pages/Statistics"; // Import the Statistics page
+import Statistics from "../pages/Statistics";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
 
-  if (!isAuth && false) {
+  if (!isAuth) {
     return (
       <Routes>
         <Route path="/" element={<AuthLayout />}>
