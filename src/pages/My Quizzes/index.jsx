@@ -1,8 +1,11 @@
+// src/pages/QuizzesPage.jsx
 import React, { useState, useEffect } from "react";
 import styles from "./Quizzes.module.scss";
 import searchimg from "../../assets/images/search.png";
+import { useNavigate } from "react-router-dom";
 
 const QuizzesPage = () => {
+  const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
@@ -11,6 +14,10 @@ const QuizzesPage = () => {
     group: "NSE 05",
     status: "All", // Added status filter
   });
+
+  const handleQuizClick = (quizId) => {
+    navigate(`/quizzes/${quizId}`);
+  };
 
   useEffect(() => {
     // Simulate API call to fetch quizzes
@@ -130,7 +137,7 @@ const QuizzesPage = () => {
           name: "Quiz 13",
           subject: "Algorithms and Structure",
           questions: 28,
-          status: "completed",
+          status: "Completed",
           semester: "Fall 2025",
           group: "NSE 05",
         },
@@ -202,12 +209,16 @@ const QuizzesPage = () => {
               onChange={handleSearchChange}
             />
             <button type="button">
-              <img src={searchimg}></img>
+              <img src={searchimg} alt="Search" />
             </button>
           </div>
           <div className={styles.scrollableBox}>
             {filteredQuizzes.map((quiz) => (
-              <div className={styles.quizItem} key={quiz.id}>
+              <div
+                className={styles.quizItem}
+                key={quiz.id}
+                onClick={() => handleQuizClick(quiz.id)}
+              >
                 <div className={styles.quizDetails}>
                   <div>
                     <h3>{quiz.name}</h3>

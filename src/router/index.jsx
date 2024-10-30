@@ -11,6 +11,7 @@ import CreateQuiz from "../pages/CreateQuiz";
 import Statistics from "../pages/Statistics";
 import CoursesPage from "../pages/My Courses";
 import QuizzesPage from "../pages/My Quizzes";
+import QuizInfo from "../pages/QuizInfo";
 // Import the Statistics page
 
 const Router = () => {
@@ -36,6 +37,7 @@ const Router = () => {
           <Route path="statistics" element={<Statistics />} />
           <Route path="courses" element={<CoursesPage />} />
           <Route path="quizzes" element={<QuizzesPage />} />
+          <Route path="quizzes/:quizId" element={<QuizInfo />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
         </Route>
       </Routes>

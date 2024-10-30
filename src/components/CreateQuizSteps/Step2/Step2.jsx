@@ -16,8 +16,8 @@ const Step2 = ({ nextStep, prevStep }) => {
       italic: false,
       underline: false,
     },
-    image: null, // For image upload
-    video: null, // For video upload
+    image: null, 
+    video: null,
   };
 
   const [questions, setQuestions] = useState([initialQuestion]);
@@ -56,7 +56,7 @@ const Step2 = ({ nextStep, prevStep }) => {
     const updatedQuestions = [...questions];
     const fontStyle = updatedQuestions[qIndex].fontStyle;
 
-    // Toggle font style
+  
     fontStyle[styleType] = !fontStyle[styleType];
     updatedQuestions[qIndex].fontStyle = { ...fontStyle };
     setQuestions(updatedQuestions);
@@ -64,7 +64,7 @@ const Step2 = ({ nextStep, prevStep }) => {
 
   const handleFileChange = (qIndex, fileType, file) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[qIndex][fileType] = file; // Set image or video
+    updatedQuestions[qIndex][fileType] = file; 
     setQuestions(updatedQuestions);
   };
 
@@ -84,7 +84,7 @@ const Step2 = ({ nextStep, prevStep }) => {
   const changeOrder = (qIndex, newPosition) => {
     const updatedQuestions = [...questions];
     const [movedQuestion] = updatedQuestions.splice(qIndex, 1);
-    updatedQuestions.splice(newPosition - 1, 0, movedQuestion); // Insert at new position
+    updatedQuestions.splice(newPosition - 1, 0, movedQuestion); 
     setQuestions(updatedQuestions);
   };
 
@@ -106,7 +106,7 @@ const Step2 = ({ nextStep, prevStep }) => {
               className={styles.questionInput}
             />
 
-            {/* Right Side: Upload image/video, change font style */}
+            
             <div className={styles.rightPanel}>
               <div className={styles.upload}>
                 <label>Upload:</label>
@@ -159,7 +159,7 @@ const Step2 = ({ nextStep, prevStep }) => {
                   <option>Times New Roman</option>
                 </select>
               </div>
-              {/* Question order change input */}
+            
               <div className={styles.orderChange}>
                 <label>Change Order to:</label>
                 <input
