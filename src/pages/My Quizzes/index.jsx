@@ -1,4 +1,3 @@
-// src/pages/QuizzesPage.jsx
 import React, { useState, useEffect } from "react";
 import styles from "./Quizzes.module.scss";
 import searchimg from "../../assets/images/search.png";
@@ -12,7 +11,7 @@ const QuizzesPage = () => {
     semester: "Fall 2025",
     subject: "Algorithms and Structure",
     group: "NSE 05",
-    status: "All", // Added status filter
+    status: "All",
   });
 
   const handleQuizClick = (quizId) => {
@@ -20,9 +19,7 @@ const QuizzesPage = () => {
   };
 
   useEffect(() => {
-    // Simulate API call to fetch quizzes
     const fetchQuizzes = async () => {
-      // Replace this with actual API call
       const quizData = [
         {
           id: 1,

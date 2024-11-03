@@ -31,8 +31,13 @@ const Step1 = ({ nextStep }) => {
   return (
     <div className={styles.step1}>
       <h1 className={styles.heading}>Entering Quiz Info:</h1>
-      <Grid pt='27px' justifyItems='center' templateColumns="repeat(2, 1fr)" gap='16px' mb="36px">
-        {/* Quiz Name */}
+      <Grid
+        pt="27px"
+        justifyItems="center"
+        templateColumns="repeat(2, 1fr)"
+        gap="16px"
+        mb="36px"
+      >
         <GridItem>
           <label>Write your quiz name:</label>
           <Input
@@ -40,12 +45,11 @@ const Step1 = ({ nextStep }) => {
             placeholder="Best methods"
             value={quizDetails.quizName}
             onChange={handleChange}
-            border='1px solid #02d5f2'
-            p='8px'
+            border="1px solid #02d5f2"
+            p="8px"
           />
         </GridItem>
 
-        {/* Start Date */}
         <GridItem className={styles.gridItem}>
           <Text mb={2}>Starting date:</Text>
           <Input
@@ -57,7 +61,6 @@ const Step1 = ({ nextStep }) => {
           />
         </GridItem>
 
-        {/* Select Subject */}
         <GridItem className={styles.gridItem}>
           <Text mb={2}>Select subject:</Text>
           <Select
@@ -73,7 +76,6 @@ const Step1 = ({ nextStep }) => {
           </Select>
         </GridItem>
 
-        {/* End Date */}
         <GridItem className={styles.gridItem}>
           <Text mb={2}>Finishing date:</Text>
           <Input
@@ -85,7 +87,6 @@ const Step1 = ({ nextStep }) => {
           />
         </GridItem>
 
-        {/* Group */}
         <GridItem className={styles.gridItem}>
           <Text mb={2}>Assign groups:</Text>
           <Select
@@ -100,7 +101,6 @@ const Step1 = ({ nextStep }) => {
           </Select>
         </GridItem>
 
-        {/* Number of Questions */}
         <GridItem className={styles.gridItem}>
           <Text mb={2}>Number of questions:</Text>
           <Input
@@ -114,10 +114,7 @@ const Step1 = ({ nextStep }) => {
         </GridItem>
       </Grid>
 
-      <button
-        className={styles.submitButton}
-        onClick={() => nextStep()}
-      >
+      <button className={styles.submitButton} onClick={() => nextStep()}>
         Next
       </button>
     </div>
