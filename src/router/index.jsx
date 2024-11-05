@@ -1,38 +1,50 @@
+// src/router/index.jsx
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import AuthLayout from "../layouts/AuthLayout";
 import MainLayout from "../layouts/MainLayout";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
+import LoginPage from "../pages/Login";
+import RegisterPage from "../pages/Register";
+import Dashboard from "../pages/Dashboard";
+import CreateQuiz from "../pages/CreateQuiz";
+import Statistics from "../pages/Statistics";
+import CoursesPage from "../pages/My Courses";
+import QuizzesPage from "../pages/My Quizzes";
+import QuizInfo from "../pages/QuizInfo";
+import AddCourse from "../components/AddCourse";
+
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
 
-  if (!isAuth || true)
+  if (!isAuth && false) {
     return (
       <Routes>
         <Route path="/" element={<AuthLayout />}>
-          <Route index element={<Navigate to="/login " />} />
+          <Route index element={<Navigate to="/login" />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Route>
-        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     );
-  else
+  } else {
     return (
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Navigate to="/dashboard" />} />
-          <Route path="dashboard" element={<Login />} />
+          <Route index element={<Dashboard />} />
+          <Route path="create-quiz" element={<CreateQuiz />} />
+          <Route path="statistics" element={<Statistics />} />
+          <Route path="courses" element={<CoursesPage />} />
+          <Route path="add-course" element={<AddCourse />} />
+          <Route path="quizzes" element={<QuizzesPage />} />
+          <Route path="quizzes/:quizId" element={<QuizInfo />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
         </Route>
-
-        <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     );
+  }
 };
 
 export default Router;
