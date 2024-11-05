@@ -4,16 +4,7 @@ import axios from "axios";
 
 const httpRequest = axios.create({
   baseURL: "https://project2.newuu.uz",
-  // timeout: 100000,
-  // headers: {
-    // "Content-Type": "application/json",
-    // "Content-Length": "<calculated when request is sent>",
-    // Host: "<calculated when request is sent>",
-    // "User-Agent": "PostmanRuntime/7.42.0",
-    // Accept: "*/*",
-    // "Accept-Encoding": "gzip, deflate, br",
-    // Connection: "keep-alive",
-  // },
+  timeout: 100000,
 });
 
 // const errorHandler = (error, hooks) => {

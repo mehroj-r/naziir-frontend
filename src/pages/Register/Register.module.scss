@@ -87,15 +87,7 @@
       align-items: center;
       gap: 10px; /* To separate the text from the spinner */
       position: relative;
-
-      .spinner {
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-top: 3px solid white;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        animation: spin 1s linear infinite;
-      }
+      height: 40px;
     }
 
     .googleBtn {

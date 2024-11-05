@@ -8,12 +8,15 @@ import { BrowserRouter } from "react-router-dom";
 
 import { persistor, store } from "./store/store";
 import Router from "./router";
+import { ToastContainer } from "react-toastify";
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
         <ChakraProvider>
+          <ToastContainer />
           <Router />
         </ChakraProvider>
       </BrowserRouter>

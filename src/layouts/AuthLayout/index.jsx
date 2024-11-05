@@ -1,12 +1,12 @@
-import { Box } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 import styles from './index.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AuthLayout = () => {
 	return (
-		<Box maxW="100vw" maxH="100vh">
+		<div className={styles.authLayout}>
 			<Outlet />
-		</Box>
+		</div>
 	);
 };
 

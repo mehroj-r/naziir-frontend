@@ -1,6 +1,6 @@
-import httpRequest from "./httpRequest";
+import httpRequestAuth from "./httpRequestAuth";
 
 export const authService = {
-	login: async (body) => await httpRequest.post("api/auth/login", body),
-	register: async (body) => await httpRequest.post("api/auth/login", body), 
+	login: async (body) => await httpRequestAuth.post("api/auth/login", body),
+	register: async (body) => await httpRequestAuth.post("api/auth/register", body), 
 }

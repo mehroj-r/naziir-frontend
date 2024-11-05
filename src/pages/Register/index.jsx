@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./Register.module.scss";
 import { EmailIcon, LockIcon } from "../../assets/icons/loginRegisterIcons";
-import { Center } from "@chakra-ui/react";
+import { Center, Spinner } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 // import { GoogleLogin } from "react-google-login";
 import { authService } from "../../services/auth.service";
+import { customToast } from "../../utils/toastify";
 
 export default function RegisterPage() {
   const {
@@ -35,13 +36,26 @@ export default function RegisterPage() {
     const body = {
       email: data?.email,
       password: data?.password,
+      firstName: "Nurdaulet",
+      lastName: "Shinpolatov"
     };
     authService.register(body)
       .then((res) => {
         console.log("res", res); // log
+        if (res?.status == 200) {
+          customToast("success", "User registered successfully", 3000)
+          customToast("info", "Please confirm your email to log in", 3000)
+        }
       })
       .catch((err) => {
         console.log("err", err); // log
+        if (err?.response?.data?.message == "Email address already in use!") {
+          customToast("error", "Email address already in use!")
+        } else if(!navigator?.online){
+          customToast("error", "No connection to the internet")
+        } else {
+          customToast("error", "Something went wrong")
+        }
       })
       .finally(() => {
         setIsLoading(false);
@@ -125,8 +139,7 @@ export default function RegisterPage() {
             className={styles.loginBtn}
             disabled={!isValid || isLoading}
           >
-            {isLoading && <span className={styles.spinner}></span>}
-            {isLoading ? " Registering..." : "Register"}
+            {isLoading ? <Spinner borderWidth="3px" size="sm"/> : "Register"}
           </button>
 
           {/* <GoogleLogin
@@ -140,7 +153,6 @@ export default function RegisterPage() {
 
           <div className={styles.links}>
             <Link to="/login">Already have an account</Link>
-            <a href="#">Forgot password?</a>
           </div>
         </form>
       </Center>

@@ -1,11 +1,11 @@
-// import axios from 'axios';
+import axios from 'axios';
 // import { standaloneToast } from '../../App';
 // import authStore from '../../store/auth.store';
 
-// const httpRequestAuth = axios.create({
-// 	baseURL: import.meta.env.VITE_AUTH_BASE_URL,
-// 	timeout: 100000,
-// });
+const httpRequestAuth = axios.create({
+    baseURL: "https://project2.newuu.uz",
+    timeout: 100000,
+  });
 
 // const errorHandler = (error, hooks) => {
 // 	// if(error?.response?.status === 401) {
@@ -59,4 +59,4 @@
 // 	errorHandler
 // );
 
-// export default httpRequestAuth;
+export default httpRequestAuth;
