@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./Register.module.scss";
-import styles from "./Register.module.scss";
 import { EmailIcon, LockIcon } from "../../assets/icons/loginRegisterIcons";
 import { Center, Spinner } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
