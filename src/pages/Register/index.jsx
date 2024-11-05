@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./Register.module.scss";
 import { EmailIcon, LockIcon } from "../../assets/icons/loginRegisterIcons";
-import { Center } from "@chakra-ui/react";
+import { Center, Spinner } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
+// import { GoogleLogin } from "react-google-login";
+import { authService } from "../../services/auth.service";
+import { customToast } from "../../utils/toastify";
 
 export default function RegisterPage() {
   const {
@@ -29,20 +31,35 @@ export default function RegisterPage() {
     console.error("Google sign-in failed:", error);
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     setIsLoading(true);
-    try {
-      console.log(data);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      setSuccessMessage(true);
-      setTimeout(() => {
-        setSuccessMessage(false);
-      }, 1000);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    const body = {
+      email: data?.email,
+      password: data?.password,
+      firstName: "Nurdaulet",
+      lastName: "Shinpolatov"
+    };
+    authService.register(body)
+      .then((res) => {
+        console.log("res", res); // log
+        if (res?.status == 200) {
+          customToast("success", "User registered successfully", 3000)
+          customToast("info", "Please confirm your email to log in", 3000)
+        }
+      })
+      .catch((err) => {
+        console.log("err", err); // log
+        if (err?.response?.data?.message == "Email address already in use!") {
+          customToast("error", "Email address already in use!")
+        } else if(!navigator?.online){
+          customToast("error", "No connection to the internet")
+        } else {
+          customToast("error", "Something went wrong")
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -122,22 +139,20 @@ export default function RegisterPage() {
             className={styles.loginBtn}
             disabled={!isValid || isLoading}
           >
-            {isLoading && <span className={styles.spinner}></span>}
-            {isLoading ? " Registering..." : "Register"}
+            {isLoading ? <Spinner borderWidth="3px" size="sm"/> : "Register"}
           </button>
 
-          <GoogleLogin
+          {/* <GoogleLogin
             clientId="YOUR_GOOGLE_CLIENT_ID" // Replace with your Google Client ID
             buttonText="Sign up with Google"
             onSuccess={handleGoogleSuccess}
             onFailure={handleGoogleFailure}
             cookiePolicy={"single_host_origin"}
             className={styles.googleBtn}
-          />
+          /> */}
 
           <div className={styles.links}>
             <Link to="/login">Already have an account</Link>
-            <a href="#">Forgot password?</a>
           </div>
         </form>
       </Center>

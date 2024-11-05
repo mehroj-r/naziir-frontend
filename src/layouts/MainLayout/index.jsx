@@ -1,17 +1,18 @@
-// src/layouts/MainLayout/index.jsx
-import { Box, Flex } from "@chakra-ui/react";
 import Header from "../../components/Header";
 import { Outlet } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
+import styles from './MainLayout.module.scss';
 
 const MainLayout = () => {
   return (
-    <Box>
+    <div className={styles.mainLayout} >
       <Header />
-      <Box flex={1} overflowX="hidden">
+      <div className={styles.container}>
         <Outlet />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
+
 
 export default MainLayout;
