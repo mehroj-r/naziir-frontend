@@ -13,7 +13,7 @@ import CoursesPage from "../pages/My Courses";
 import QuizzesPage from "../pages/My Quizzes";
 import QuizInfo from "../pages/QuizInfo";
 import AddCourse from "../components/AddCourse";
-// Import the Statistics page
+
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);

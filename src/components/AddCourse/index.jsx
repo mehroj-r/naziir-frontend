@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Text,
@@ -11,6 +12,8 @@ import {
 import styles from "./AddCourse.module.scss";
 
 const AddCourse = () => {
+  const navigate = useNavigate();
+
   const [courseDetails, setCourseDetails] = React.useState({
     courseName: "",
     semester: "",
@@ -112,8 +115,11 @@ const AddCourse = () => {
         </GridItem>
       </Grid>
 
-      <button className={styles.submitButton} onClick={() => nextStep()}>
-        Next
+      <button
+        className={styles.submitButton}
+        onClick={() => navigate("/courses")}
+      >
+        Back
       </button>
     </div>
   );
