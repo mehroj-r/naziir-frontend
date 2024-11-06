@@ -1,5 +1,43 @@
 .mainLayout{
+    display: flex;
+
+    .sidebarWrapper{
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 250px;
+        transform: translateX(0);
+        transition: 0.5s;
+    }
+    .closeSidebar{
+        transform: translateX(-100%);
+    }
     .container{
         overflow-x: hidden;
+        
+        .headerWrapper{
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 60px;
+            width: calc(100vw - 250px);
+            transition: 0.5s;
+        }
+        .longHeader{
+            width: 100vw;
+        }
+        .outlet{
+            position: fixed;
+            top: 60px;
+            right: 0;
+            max-height: calc(100vh - 60px);
+            width: calc(100vw - 250px);
+            overflow-y: scroll;
+            transition: 0.5s;
+        }
+        .longOutlet{
+            width: 100vw;
+        }
     }
 }
