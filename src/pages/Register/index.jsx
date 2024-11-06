@@ -36,25 +36,26 @@ export default function RegisterPage() {
     const body = {
       email: data?.email,
       password: data?.password,
-      firstName: "Nurdaulet",
-      lastName: "Shinpolatov"
+      firstName: data?.firstName,
+      lastName: data?.lastName,
     };
-    authService.register(body)
+    authService
+      .register(body)
       .then((res) => {
         console.log("res", res); // log
         if (res?.status == 200) {
-          customToast("success", "User registered successfully", 3000)
-          customToast("info", "Please confirm your email to log in", 3000)
+          customToast("success", "User registered successfully", 3000);
+          customToast("info", "Please confirm your email to log in", 3000);
         }
       })
       .catch((err) => {
         console.log("err", err); // log
         if (err?.response?.data?.message == "Email address already in use!") {
-          customToast("error", "Email address already in use!")
-        } else if(!navigator?.online){
-          customToast("error", "No connection to the internet")
+          customToast("error", "Email address already in use!");
+        } else if (!navigator?.online) {
+          customToast("error", "No connection to the internet");
         } else {
-          customToast("error", "Something went wrong")
+          customToast("error", "Something went wrong");
         }
       })
       .finally(() => {
@@ -77,6 +78,44 @@ export default function RegisterPage() {
 
           <div className={styles.inputBox}>
             <input
+              type="text"
+              placeholder="First Name"
+              {...register("firstName", {
+                required: "First Name is required",
+                minLength: {
+                  value: 2,
+                  message: "First Name must be at least 2 characters",
+                },
+              })}
+            />
+            {errors.firstName && (
+              <p className={`${styles.error} ${styles.visible}`}>
+                {errors.firstName.message}
+              </p>
+            )}
+          </div>
+
+          <div className={styles.inputBox}>
+            <input
+              type="text"
+              placeholder="Last Name"
+              {...register("lastName", {
+                required: "Last Name is required",
+                minLength: {
+                  value: 2,
+                  message: "Last Name must be at least 2 characters",
+                },
+              })}
+            />
+            {errors.lastName && (
+              <p className={`${styles.error} ${styles.visible}`}>
+                {errors.lastName.message}
+              </p>
+            )}
+          </div>
+
+          <div className={styles.inputBox}>
+            <input
               type="email"
               placeholder="Email"
               {...register("email", {
@@ -88,10 +127,12 @@ export default function RegisterPage() {
               })}
             />
             <EmailIcon />
+            {errors.email && (
+              <p className={`${styles.error} ${styles.visible}`}>
+                {errors.email.message}
+              </p>
+            )}
           </div>
-          {errors.email && (
-            <p className={styles.error}>{errors.email.message}</p>
-          )}
 
           <div className={styles.inputBox}>
             <input
@@ -108,15 +149,17 @@ export default function RegisterPage() {
                     /(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[\W_])/.test(
                       value
                     ) ||
-                    "Password must include a number, an uppercase letter, and a symbol",
+                    "At least one number, an uppercase letter, and a symbol",
                 },
               })}
             />
             <LockIcon />
+            {errors.password && (
+              <p className={`${styles.error} ${styles.visible}`}>
+                {errors.password.message}
+              </p>
+            )}
           </div>
-          {errors.password && (
-            <p className={styles.error}>{errors.password.message}</p>
-          )}
 
           <div className={styles.inputBox}>
             <input
@@ -129,17 +172,19 @@ export default function RegisterPage() {
               })}
             />
             <LockIcon />
+            {errors.confirmPassword && (
+              <p className={`${styles.error} ${styles.visible}`}>
+                {errors.confirmPassword.message}
+              </p>
+            )}
           </div>
-          {errors.confirmPassword && (
-            <p className={styles.error}>{errors.confirmPassword.message}</p>
-          )}
 
           <button
             type="submit"
             className={styles.loginBtn}
             disabled={!isValid || isLoading}
           >
-            {isLoading ? <Spinner borderWidth="3px" size="sm"/> : "Register"}
+            {isLoading ? <Spinner borderWidth="3px" size="sm" /> : "Register"}
           </button>
 
           {/* <GoogleLogin

@@ -10,7 +10,7 @@ import { userActions } from "../../store/slices/userSlice";
 import { useDispatch } from "react-redux";
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const {
@@ -19,41 +19,36 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm({
     mode: "onChange",
-    reValidateMode: "onChange"
+    reValidateMode: "onChange",
   });
 
   const onSubmit = (data) => {
-
     const body = {
       email: data?.email,
       password: data?.password,
     };
 
-    console.log("data", data) // log
-
-    setIsLoading(true)
+    setIsLoading(true);
     authService
       .login(body)
       .then((res) => {
-        console.log("res", res); // log
         if (res?.data?.token) {
-          customToast("success", "Successfully logged in!")
-          console.log("res?.data?.token", res?.data?.token) // log
-          dispatch(userActions.setToken(res?.data?.token))
+          customToast("success", "Successfully logged in!");
+          dispatch(userActions.setToken(res?.data?.token));
         }
       })
       .catch((err) => {
         if (err?.response?.data?.message) {
-          customToast("error", err?.response?.data?.message)
-        } else if(!navigator?.online){
-          customToast("error", "No connection to the internet")
+          customToast("error", err?.response?.data?.message);
+        } else if (!navigator?.online) {
+          customToast("error", "No connection to the internet");
         } else {
-          customToast("error", "Something went wrong")
+          customToast("error", "Something went wrong");
         }
       })
       .finally(() => {
-        setIsLoading(false)
-      })
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -82,9 +77,8 @@ export default function LoginPage() {
             />
             <EmailIcon />
           </div>
-          {errors.email && (
-            <p className={styles.error}>{errors.email.message}</p>
-          )}
+          <p className={styles.error}>{errors.email?.message}</p>
+
           <div className={styles.inputBox}>
             <input
               type="password"
@@ -104,13 +98,12 @@ export default function LoginPage() {
                 },
               })}
             />
-            <EmailIcon />
+            <LockIcon />
           </div>
-          {errors.password && (
-            <p className={styles.error}>{errors.password.message}</p>
-          )}
+          <p className={styles.error}>{errors.password?.message}</p>
+
           <button className={styles.loginBtn}>
-            {isLoading ? <Spinner borderWidth="3px" size="sm"/> : "Login"}
+            {isLoading ? <Spinner borderWidth="3px" size="sm" /> : "Login"}
           </button>
           <div className={styles.links}>
             <Link to="/register">Create an account</Link>
