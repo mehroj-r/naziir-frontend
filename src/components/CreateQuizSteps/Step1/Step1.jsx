@@ -31,7 +31,13 @@ const Step1 = ({ nextStep }) => {
   return (
     <div className={styles.step1}>
       <h1 className={styles.heading}>Entering Quiz Info:</h1>
-      <Grid pt='27px' justifyItems='center' templateColumns="repeat(2, 1fr)" gap='16px' mb="36px">
+      <Grid
+        pt="27px"
+        justifyItems="center"
+        templateColumns="repeat(2, 1fr)"
+        gap="16px"
+        mb="36px"
+      >
         {/* Quiz Name */}
         <GridItem>
           <label>Write your quiz name:</label>
@@ -40,8 +46,8 @@ const Step1 = ({ nextStep }) => {
             placeholder="Best methods"
             value={quizDetails.quizName}
             onChange={handleChange}
-            border='1px solid #02d5f2'
-            p='8px'
+            border="1px solid #02d5f2"
+            p="8px"
           />
         </GridItem>
 
@@ -114,10 +120,7 @@ const Step1 = ({ nextStep }) => {
         </GridItem>
       </Grid>
 
-      <button
-        className={styles.submitButton}
-        onClick={() => nextStep()}
-      >
+      <button className={styles.submitButton} onClick={() => nextStep()}>
         Next
       </button>
     </div>

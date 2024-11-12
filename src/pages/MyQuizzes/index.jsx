@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./Quizzes.module.scss";
+import styles from "./MyQuizzes.module.scss";
 import searchimg from "../../assets/images/search.png";
 import { useNavigate } from "react-router-dom";
 
