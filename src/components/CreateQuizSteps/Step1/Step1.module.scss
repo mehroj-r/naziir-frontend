@@ -2,16 +2,13 @@
   border-radius: 8px;
   padding: 24px;
   display: grid;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  color: #404040;
-  
+
   .heading {
     font-size: 32px;
     font-weight: 500;
   }
 
-  label{
+  label {
     display: inline-block;
     margin-bottom: 8px;
     cursor: pointer;
@@ -27,7 +24,7 @@
     border-color: #00e0cb;
     width: 388px;
   }
-  
+
   .submitButton {
     width: 130px;
     height: 30px;
@@ -38,9 +35,8 @@
     margin-top: 10px;
     justify-self: end;
   }
-  
+
   .submitButton:hover {
     background-color: #00ae9c;
   }
 }
-
