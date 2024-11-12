@@ -26,8 +26,6 @@ const Step1 = ({ nextStep, register }) => {
             id="quizName"
             name="quizName"
             placeholder="Best methods"
-            value={quizDetails.quizName}
-            onChange={handleChange}
             border='1px solid #02d5f2'
             p='8px'
           />
