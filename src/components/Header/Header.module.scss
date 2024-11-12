@@ -1,56 +1,52 @@
 .header {
-  padding: 10px 5%;
+  width: 100%;
+  height: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-
-  .logo {
-    cursor: pointer;
-    
-    img{
-      height: 54px;
-    }
-  }
-
-  .navbar {
-    display: flex;
-    gap: 12px;
-
-    .element {
-      padding: 8px 16px;
-      cursor: pointer;
-      font-size: 16px;
-      border-radius: 12px;
-    }
-
-    .active {
-      background-color: #00aaff;
-      color: white;
-    }
-  }
+  justify-content: space-between;
+  padding: 4px 5%;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  // background-color: #009688;
+  // background-color: #FF6B6B;
+  // background-color: #FFA726;
+  // background-color: #8BC34A;
+  // background-color: #FFC107;
+  // background-color: #B39DDB;
+  // background-color: #E57373;
+  // background-color: #B0BEC5;
+  // background-color: #42A5F5;
 
   .searchContainer {
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    display: flex;
+    padding: 2px 6px 2px 12px;
+    width: 300px;
+
+    &:focus-within {
+      border-color: #009688;
+      border-color: #081545;
+    }
+    .searchInput {
+      border: transparent;
+      outline: none;
+      font-size: 14px;
+      background-color: transparent;
+      flex-grow: 1;
+    }
+  }
+  .profile {
     display: flex;
     align-items: center;
-    gap: 8px;
-    
-    .searchButton {
-      border-radius: 6px;
-      border: 1px solid #00aaff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 39px;
-      height: 32px;
-      
-      &:active{
-        background-color: #00aaff;
-      }
+    gap: 12px;
 
-      img{
-        width: 20px;
-        height: 20px;
-      }
+    .profileImage {
+      width: 35px;
+      height: 35px;
+    }
+    .userName {
+      font-size: 14px;
     }
   }
 }

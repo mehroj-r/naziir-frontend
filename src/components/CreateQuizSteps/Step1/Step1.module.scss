@@ -1,41 +1,46 @@
 .step1 {
   border-radius: 8px;
-  box-shadow: 0 4px 12px #02d5f2;
-  background-color: #f5faff;
-  border: 1px solid #02d5f2;
   padding: 24px;
   display: grid;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  color: #404040;
   
   .heading {
-    font-size: 48px;
-    font-weight: bold;
+    font-size: 32px;
+    font-weight: 500;
   }
 
   label{
     display: inline-block;
     margin-bottom: 8px;
+    cursor: pointer;
+  }
+  .gridItem{
+    label{
+      display: block;
+    }
   }
 
   .input {
-    border: 1px solid #02d5f2;
     padding: 8px;
+    border-color: #00e0cb;
     width: 388px;
   }
   
   .submitButton {
     width: 130px;
     height: 30px;
-    background-color: #02d5f2;
+    background-color: #009688;
     color: white;
     border-radius: 10px;
     font-size: 15px;
-    transition: background-color 0.3s;
     margin-top: 10px;
     justify-self: end;
   }
   
   .submitButton:hover {
-    background-color: #01c0e2;
+    background-color: #00ae9c;
   }
 }
 
