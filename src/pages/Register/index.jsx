@@ -4,7 +4,7 @@ import styles from "./Register.module.scss";
 import { EmailIcon, LockIcon } from "../../assets/icons/loginRegisterIcons";
 import { Center, Spinner } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-// import { GoogleLogin } from "react-google-login";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { authService } from "../../services/auth.service";
 import { customToast } from "../../utils/toastify";
 
@@ -42,14 +42,12 @@ export default function RegisterPage() {
     authService
       .register(body)
       .then((res) => {
-        console.log("res", res); // log
         if (res?.status == 200) {
           customToast("success", "User registered successfully", 3000);
           customToast("info", "Please confirm your email to log in", 3000);
         }
       })
       .catch((err) => {
-        console.log("err", err); // log
         if (err?.response?.data?.message == "Email address already in use!") {
           customToast("error", "Email address already in use!");
         } else if (!navigator?.online) {
@@ -187,14 +185,26 @@ export default function RegisterPage() {
             {isLoading ? <Spinner borderWidth="3px" size="sm" /> : "Register"}
           </button>
 
-          {/* <GoogleLogin
-            clientId="YOUR_GOOGLE_CLIENT_ID" // Replace with your Google Client ID
-            buttonText="Sign up with Google"
-            onSuccess={handleGoogleSuccess}
-            onFailure={handleGoogleFailure}
-            cookiePolicy={"single_host_origin"}
-            className={styles.googleBtn}
-          /> */}
+          <div className={styles.googleBtnContainer}>
+            <GoogleOAuthProvider clientId="26408612225-5cfkg5k83sfmv954ukl2kkb8nlktr9a1.apps.googleusercontent.com">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleFailure}
+                useOneTap
+                theme="outline"
+                text="signup_with"
+                render={(renderProps) => (
+                  <button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                    className={styles.googleButton}
+                  >
+                    Sign up with Google
+                  </button>
+                )}
+              />
+            </GoogleOAuthProvider>
+          </div>
 
           <div className={styles.links}>
             <Link to="/login">Already have an account</Link>
