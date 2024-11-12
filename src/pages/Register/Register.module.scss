@@ -47,9 +47,10 @@
       justify-content: space-between;
       border-bottom: 1px solid black;
       height: 40px;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       padding-right: 10px;
       gap: 10px;
+      position: relative;
 
       &:nth-last-of-type(2) {
         margin-bottom: 47px;
@@ -70,6 +71,20 @@
           color: #4e4e4e;
         }
       }
+
+      .error {
+        position: absolute;
+        color: red;
+        bottom: -25px;
+        left: 0;
+        font-size: 14px;
+
+        visibility: hidden;
+
+        &.visible {
+          visibility: visible;
+        }
+      }
     }
 
     .loginBtn {
@@ -85,140 +100,56 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 10px; /* To separate the text from the spinner */
+      gap: 10px;
       position: relative;
       height: 40px;
     }
 
-    .googleBtn {
-      margin-bottom: 20px;
-    }
-
     .links {
+      margin-top: 20px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 500;
-      color: $light-blue;
-    }
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.successMessage {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  z-index: 1001;
-  font-size: 18px;
-}
-
-@media (max-width: 1200px) {
-  .loginPage {
-    .gradient {
-      p {
-        font-size: 40px;
-        width: 60%;
-      }
-    }
-    .right {
-      padding: 30px;
-      form {
-        max-width: 380px;
-      }
-      .heading {
-        font-size: 32px;
-      }
-    }
-  }
-}
-
-@media (max-width: 992px) {
-  .loginPage {
-    flex-direction: column;
-    .gradient {
-      flex: unset;
-      height: 300px;
       justify-content: center;
-      text-align: center;
-      p {
-        width: 80%;
-        font-size: 36px;
-      }
-    }
-    .right {
-      flex: unset;
-      padding: 20px;
-      margin-top: -50px;
-      form {
-        padding-top: 100px;
-        max-width: 350px;
-      }
-      .heading {
-        font-size: 28px;
-      }
-    }
-  }
-}
 
-@media (max-width: 768px) {
-  .loginPage {
-    .gradient {
-      p {
-        font-size: 28px;
-        width: 90%;
-      }
-    }
-    .right {
-      padding: 15px;
-      form {
-        padding-top: 100px;
-        max-width: 300px;
-      }
-      .heading {
-        font-size: 24px;
-      }
-      .inputBox input {
+      a {
+        color: $light-blue;
+        text-decoration: none;
         font-size: 16px;
-      }
-    }
-  }
-}
+        font-weight: 500;
 
-@media (max-width: 576px) {
-  .loginPage {
-    .gradient {
-      p {
-        font-size: 22px;
+        &:hover {
+          color: #00c4cc;
+        }
       }
     }
-    .right {
-      padding: 10px;
-      form {
-        padding-top: 100px;
-        max-width: 260px;
-      }
-      .heading {
-        font-size: 20px;
-      }
-      .inputBox {
-        height: 35px;
-      }
-      .inputBox input {
+
+    .googleBtnContainer {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+
+      button {
+        padding: 12px;
+        background-color: #4285f4;
+        border: none;
+        border-radius: 10px;
         font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #357ae8;
+        }
+
+        &:disabled {
+          background-color: #d1e3f0;
+          cursor: not-allowed;
+        }
+
+        svg {
+          margin-right: 8px;
+        }
       }
     }
   }
