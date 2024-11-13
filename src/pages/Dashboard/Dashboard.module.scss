@@ -1,5 +1,5 @@
 .dashboard {
-  padding: 64px 10% 0;
+  padding: 64px 5% 0;
   display: flex;
   flex-direction: column;
   gap: 36px;
@@ -10,44 +10,46 @@
     align-items: flex-start;
     border-radius: 10px;
     border: solid 2px #081545;
+    flex-wrap: wrap;
   }
 
   .dashboardCard {
     flex: 1;
-    padding: 16px;
+    padding: 12px;
     border: 2px solid #081545;
     border-radius: 20px;
     text-align: center;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
     min-height: 380px;
-    min-width: 330px;
+    min-width: 260px;
     box-shadow: 0 8px 20px rgba(0, 170, 255, 0.3);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 15px 10px 0px 10px;
+    margin: 10px 8px;
+
     &:hover {
       transform: scale(1.05);
       box-shadow: 0 12px 30px rgba(0, 170, 255, 0.5);
     }
 
     .cardImage {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 16px;
+      width: 100px;
+      height: 100px;
+      margin-bottom: 12px;
     }
 
     .cardTitle {
-      font-size: 22px;
+      font-size: 18px;
       font-weight: bold;
       margin-bottom: 0.5rem;
     }
 
     .cardDescription {
       margin-bottom: 1rem;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
   }
 
@@ -57,25 +59,25 @@
     flex-direction: column;
     gap: 12px;
     max-height: 400px;
-    padding: 16px 10px 16px 0px;
+    padding: 12px 8px;
     overflow-y: auto;
 
     .listItem {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 12px;
+      padding: 8px 10px;
       background-color: #f9f9f9;
       border-radius: 10px;
       border: 1px solid #081545;
 
       .listItemText {
-        font-size: 16px;
+        font-size: 14px;
         color: #333;
       }
 
       .listButton {
-        padding: 4px 12px;
+        padding: 4px 10px;
         border-radius: 8px;
         background-color: #081545;
         color: #fff;
@@ -91,22 +93,147 @@
   }
 
   .createquizzstats {
+    flex: 2;
     display: flex;
-    gap: 24px;
+    gap: 12px;
     align-items: flex-start;
     border-radius: 10px;
     border: solid 2px #081545;
-    min-height: 380px;
-    min-width: 750px;
-    margin: 15px 20px 20px 0px;
+    min-height: 300px;
+
+    margin: 15px 0px 20px 0px;
   }
 
   .emptyCard {
     flex: 1;
-    min-height: 340px;
-    min-width: 280px;
+    min-height: 320px;
+    min-width: 260px;
     border: 2px dashed #081545;
     border-radius: 20px;
-    margin: 15px 20px 15px 0px;
+    margin: 35px 20px 25px 0px;
+  }
+
+  @media (max-width: 1200px) {
+    .dashboardCard .cardTitle {
+      font-size: 18px;
+    }
+    .dashboardCard .cardDescription {
+      font-size: 0.8rem;
+    }
+    .listContainer .listItemText {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 992px) {
+    padding: 48px 5% 0;
+    gap: 24px;
+
+    .dashboardCard {
+      min-width: 280px;
+      .cardTitle {
+        font-size: 16px;
+      }
+      .cardDescription {
+        font-size: 0.75rem;
+      }
+    }
+
+    .listContainer {
+      max-height: 350px;
+      padding: 12px 8px;
+    }
+
+    .listContainer .listItemText {
+      font-size: 13px;
+    }
+
+    .createquizzstats {
+      flex-direction: column;
+      min-width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 32px 2% 0;
+    gap: 18px;
+
+    .section {
+      flex-direction: column;
+    }
+
+    .dashboardCard {
+      min-width: 90%;
+      max-width: 270px;
+      .cardTitle {
+        font-size: 16px;
+      }
+      .cardDescription {
+        font-size: 0.75rem;
+      }
+    }
+
+    .emptyCard {
+      flex: 1;
+      min-width: 90%;
+      max-width: 270px;
+      margin: 15px 0;
+    }
+
+    .listContainer {
+      max-height: 250px;
+      padding: 10px 6px;
+      overflow-x: auto;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 8px;
+
+      .listItemText {
+        font-size: 13px;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    padding: 16px 2% 0;
+    gap: 12px;
+
+    .dashboardCard {
+      min-width: 100%;
+      max-width: 250px;
+      .cardTitle {
+        font-size: 14px;
+      }
+      .cardDescription {
+        font-size: 0.7rem;
+      }
+    }
+
+    .emptyCard {
+      flex: 1;
+      min-width: 100%;
+      max-width: 250px;
+      min-height: 180px;
+    }
+
+    .listContainer {
+      max-height: 180px;
+      min-height: 160px;
+      padding: 8px 4px;
+      overflow-x: auto;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+
+      .listItemText {
+        font-size: 12px;
+      }
+    }
+
+    .createquizzstats {
+      min-width: 100%;
+      min-height: auto;
+    }
   }
 }

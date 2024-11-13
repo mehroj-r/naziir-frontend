@@ -108,10 +108,8 @@ const Dashboard = () => {
           </Text>
           <Button colorScheme="teal">Create Quiz</Button>
         </div>
-        <div className={styles.createquizzstats}>
-          <div className={styles.emptyCard}></div>
-          <div className={styles.emptyCard}></div>
-        </div>
+        <div className={styles.createquizzstats}></div>
+        <div className={styles.emptyCard}></div>
       </div>
     </div>
   );
