@@ -8,8 +8,6 @@
     display: flex;
     gap: 24px;
     align-items: flex-start;
-    border-radius: 10px;
-    border: solid 2px #081545;
     flex-wrap: wrap;
   }
 
@@ -21,14 +19,15 @@
     text-align: center;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
-    min-height: 380px;
-    min-width: 260px;
+    min-height: 390px;
+    min-width: 150px;
+    max-width: 320px;
     box-shadow: 0 8px 20px rgba(0, 170, 255, 0.3);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 10px 8px;
+    margin: 0px 8px;
 
     &:hover {
       transform: scale(1.05);
@@ -52,41 +51,48 @@
       font-size: 0.8rem;
     }
   }
-
-  .listContainer {
+  .secondcard {
     flex: 2;
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-height: 400px;
-    padding: 12px 8px;
-    overflow-y: auto;
+    border-radius: 10px;
+    border: solid 2px #081545;
+    min-width: 700px;
 
-    .listItem {
+    .listContainer {
+      flex: 2;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 10px;
-      background-color: #f9f9f9;
-      border-radius: 10px;
-      border: 1px solid #081545;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 400px;
+      padding: 12px 35px 12px 20px;
+      overflow-y: auto;
 
-      .listItemText {
-        font-size: 14px;
-        color: #333;
-      }
+      .listItem {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        border: 1px solid #081545;
 
-      .listButton {
-        padding: 4px 10px;
-        border-radius: 8px;
-        background-color: #081545;
-        color: #fff;
-        font-size: 14px;
-        cursor: pointer;
-        transition: background-color 0.2s;
+        .listItemText {
+          font-size: 14px;
+          color: #333;
+        }
 
-        &:hover {
-          background-color: #0056b3;
+        .listButton {
+          padding: 4px 10px;
+          border-radius: 8px;
+          background-color: #081545;
+          color: #fff;
+          font-size: 14px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background-color: #0056b3;
+          }
         }
       }
     }
@@ -112,40 +118,48 @@
     border-radius: 20px;
     margin: 35px 20px 25px 0px;
   }
-
   @media (max-width: 1200px) {
     .dashboardCard .cardTitle {
-      font-size: 18px;
+      font-size: 16px;
     }
     .dashboardCard .cardDescription {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
     .listContainer .listItemText {
-      font-size: 14px;
+      font-size: 13px;
     }
   }
 
   @media (max-width: 992px) {
-    padding: 48px 5% 0;
-    gap: 24px;
+    padding: 40px 4% 0;
+    gap: 20px;
 
     .dashboardCard {
-      min-width: 280px;
+      flex: 1;
+      min-width: 30%;
+
       .cardTitle {
-        font-size: 16px;
+        font-size: 15px;
       }
       .cardDescription {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
       }
+    }
+
+    .secondcard {
+      flex: 1;
+      min-width: 50%;
+      border-radius: 8px;
     }
 
     .listContainer {
-      max-height: 350px;
-      padding: 12px 8px;
+      max-height: 330px;
+      min-width: 30%;
+      padding: 10px 6px;
     }
 
     .listContainer .listItemText {
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .createquizzstats {
@@ -155,79 +169,86 @@
   }
 
   @media (max-width: 768px) {
-    padding: 32px 2% 0;
-    gap: 18px;
+    padding: 28px 2% 0;
+    gap: 16px;
 
     .section {
-      flex-direction: column;
-    }
-
-    .dashboardCard {
-      min-width: 90%;
-      max-width: 270px;
-      .cardTitle {
-        font-size: 16px;
-      }
-      .cardDescription {
-        font-size: 0.75rem;
-      }
-    }
-
-    .emptyCard {
-      flex: 1;
-      min-width: 90%;
-      max-width: 270px;
-      margin: 15px 0;
-    }
-
-    .listContainer {
-      max-height: 250px;
-      padding: 10px 6px;
-      overflow-x: auto;
       display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      gap: 8px;
-
-      .listItemText {
-        font-size: 13px;
-      }
+      flex-wrap: wrap;
+      gap: 16px;
     }
-  }
-
-  @media (max-width: 576px) {
-    padding: 16px 2% 0;
-    gap: 12px;
 
     .dashboardCard {
-      min-width: 100%;
-      max-width: 250px;
+      flex: 1;
+      min-width: 48%;
+      max-width: 48%;
+
       .cardTitle {
-        font-size: 14px;
+        font-size: 15px;
       }
       .cardDescription {
         font-size: 0.7rem;
       }
     }
 
+    .secondcard {
+      flex: 1;
+      min-width: 48%;
+      max-width: 48%;
+    }
+
     .emptyCard {
       flex: 1;
-      min-width: 100%;
-      max-width: 250px;
-      min-height: 180px;
+      min-width: 48%;
+      max-width: 48%;
+      margin: 15px 0;
     }
 
     .listContainer {
-      max-height: 180px;
-      min-height: 160px;
-      padding: 8px 4px;
-      overflow-x: auto;
+      max-height: 240px;
+      padding: 8px 6px;
       display: flex;
       flex-direction: row;
       gap: 8px;
 
       .listItemText {
         font-size: 12px;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    padding: 16px 2% 0;
+    gap: 10px;
+
+    .section {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .dashboardCard,
+    .secondcard,
+    .emptyCard {
+      min-width: 100%;
+      max-width: 100%;
+    }
+
+    .dashboardCard .cardTitle {
+      font-size: 14px;
+    }
+
+    .dashboardCard .cardDescription {
+      font-size: 0.65rem;
+    }
+
+    .listContainer {
+      max-height: 160px;
+      padding: 6px 4px;
+      flex-direction: row;
+      gap: 6px;
+
+      .listItemText {
+        font-size: 11px;
       }
     }
 
