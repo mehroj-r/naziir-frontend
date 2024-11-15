@@ -19,7 +19,7 @@ const items = [
   },
   {
     id: 2,
-    title: "Mu Courses",
+    title: "My Courses",
     icon: <CourseIcon />,
     navigateTo: "/courses",
   },
@@ -59,7 +59,7 @@ export default function Sidebar() {
             key={item.id}
             className={`
                 ${styles.item} 
-                ${location?.pathname == item.navigateTo ? styles.active : ''}
+                ${location?.pathname == item.navigateTo ? styles.active : ""}
             `}
             onClick={() => navigate(item.navigateTo)}
           >

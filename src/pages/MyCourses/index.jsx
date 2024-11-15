@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MyCourses.module.scss";
 import searchimg from "../../assets/images/search.png";
+import bgImage from "../../assets/images/background.png";
 import addCourseImg from "../../assets/images/AddCourse.png";
 import { useNavigate } from "react-router-dom";
 
@@ -121,19 +122,21 @@ const CoursesPage = () => {
 
   return (
     <div className={styles.coursesPage}>
+      <img src={bgImage} alt="Background Left" className={styles.bgLeft} />
+      <img src={bgImage} alt="Background Right" className={styles.bgRight} />
       <h1>My courses:</h1>
       <div className={styles.coursesContainer}>
         <div className={styles.coursesList}>
           <div className={styles.searchBar}>
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-            <button type="button">
+            <div className={styles.inputt}>
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
               <img src={searchimg} alt="Search" />
-            </button>
+            </div>
           </div>
           <div className={styles.scrollableBox}>
             {filteredCourses.map((course) => (
@@ -141,13 +144,15 @@ const CoursesPage = () => {
                 <div className={styles.courseDetails}>
                   <h3>{course.name}</h3>
                   <p>{course.semester}</p>
+
+                  <div className={styles.courseInfo}></div>
                 </div>
-                <button
+                <div
                   className={styles.syllabusButton}
                   onClick={() => handleSyllabusClick(course.id)}
                 >
-                  Syllabus
-                </button>
+                  <p>Syllabus</p>
+                </div>
               </div>
             ))}
           </div>
