@@ -52,7 +52,7 @@ const Router = () => {
           <Route path="quizzes" element={<QuizzesPage />} />
           <Route path="quizzes/:quizId" element={<QuizInfo />} />
           <Route path="not-found" element={<NotFoundPage />} />
-          <Route path="*" element={<Navigate to="/not-found" />} />
+          <Route path="*" element={<Navigate to="/" />} />
           <Route
             path="logout"
             element={<button onClick={logout}>logout</button>}

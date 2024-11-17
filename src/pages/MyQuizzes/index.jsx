@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MyQuizzes.module.scss";
 import searchimg from "../../assets/images/search.png";
+import bgImage from "../../assets/images/background.png";
 import { useNavigate } from "react-router-dom";
 
 const QuizzesPage = () => {
@@ -195,27 +196,25 @@ const QuizzesPage = () => {
 
   return (
     <div className={styles.quizzesPage}>
+      <img src={bgImage} alt="Background Left" className={styles.bgLeft} />
+      <img src={bgImage} alt="Background Right" className={styles.bgRight} />
       <h1>My quizzes:</h1>
       <div className={styles.quizzesContainer}>
         <div className={styles.quizzesList}>
           <div className={styles.searchBar}>
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-            <button type="button">
+            <div className={styles.input}>
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
               <img src={searchimg} alt="Search" />
-            </button>
+            </div>
           </div>
           <div className={styles.scrollableBox}>
             {filteredQuizzes.map((quiz) => (
-              <div
-                className={styles.quizItem}
-                key={quiz.id}
-                onClick={() => handleQuizClick(quiz.id)}
-              >
+              <div className={styles.quizItem} key={quiz.id}>
                 <div className={styles.quizDetails}>
                   <div>
                     <h3>{quiz.name}</h3>
@@ -226,11 +225,12 @@ const QuizzesPage = () => {
                   </div>
                 </div>
                 <div
+                  onClick={() => handleQuizClick(quiz.id)}
                   className={`${styles.quizStatus} ${
                     styles[quiz.status.toLowerCase()]
                   }`}
                 >
-                  {quiz.status}
+                  <p>{quiz.status}</p>
                 </div>
               </div>
             ))}
