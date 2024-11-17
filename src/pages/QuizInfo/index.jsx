@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./QuizInfo.module.scss";
-
+import bgImage from "../../assets/images/background.png";
 const QuizInfo = () => {
   const { quizId } = useParams();
   const [students, setStudents] = useState([]);
@@ -94,6 +94,8 @@ const QuizInfo = () => {
 
   return (
     <div className={styles.quizInfoPage}>
+      <img src={bgImage} alt="Background Left" className={styles.bgLeft} />
+      <img src={bgImage} alt="Background Right" className={styles.bgRight} />
       <h1 className={styles.pageTitle}>Quiz Information</h1>
       <div className={styles.container}>
         <div className={styles.quizInfo}>
@@ -165,7 +167,7 @@ const QuizInfo = () => {
           <div className={styles.studentItems}>
             {students.map((student) => (
               <div className={styles.studentItem} key={student.id}>
-                <img src="" alt="" className={styles.avatar} />
+                <div className={styles.avatar}></div>
                 <span className={styles.studentName}>{student.name}</span>
                 <span className={styles.studentId}>{student.studentId}</span>
                 <span className={styles.studentGroup}>{student.group}</span>
