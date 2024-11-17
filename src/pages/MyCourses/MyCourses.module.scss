@@ -1,0 +1,189 @@
+.coursesPage {
+  position: relative;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 320px;
+
+  h1 {
+    font-size: 3vw;
+    margin-bottom: 20px;
+  }
+
+  .bgLeft,
+  .bgRight {
+    position: absolute;
+    top: 0;
+    width: 20%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .bgLeft {
+    left: 0;
+    transform: rotate(180deg);
+  }
+
+  .bgRight {
+    right: 0;
+  }
+
+  .coursesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    border: 1px solid #081545;
+    box-shadow: 0 8px 20px rgba(0, 170, 255, 0.3);
+    border-radius: 30px;
+    width: 80%;
+    max-width: 2000px;
+    padding: 1% 0.5%;
+    min-height: 60vh;
+    justify-content: center;
+    min-width: 320px;
+
+    .coursesList {
+      flex: 2;
+      padding: 3% 0 3% 3%;
+      border-radius: 10px;
+      max-width: 100%;
+      min-width: 30vw;
+
+      .scrollableBox {
+        overflow-y: auto;
+        max-height: 50vh;
+      }
+
+      .searchBar {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5%;
+        max-width: 100%;
+        min-width: 30vw;
+        padding: 5px;
+        border: 1px solid #081545;
+        border-radius: 10px;
+        padding-right: 1vw;
+
+        .inputt {
+          display: flex;
+          align-items: center;
+          flex: 1;
+
+          input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 0.5rem;
+            font-size: 2vh;
+          }
+
+          img {
+            margin-left: 0.5rem;
+            cursor: pointer;
+            height: 3vh;
+            width: 2vw;
+          }
+        }
+      }
+
+      .courseItem {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2%;
+        border: 1px solid #081545;
+        border-radius: 10px;
+        height: 4vw;
+        padding: 0 1vw;
+
+        .courseDetails {
+          display: flex;
+          align-items: center;
+          h3 {
+            font-size: 1.2vw;
+            min-width: 13vw;
+          }
+          p {
+            font-size: 1vw;
+            color: #888;
+            opacity: 0.7;
+            margin: 0.5vh 0 0 5vw;
+          }
+        }
+
+        .syllabusButton {
+          align-self: center;
+          padding: 1% 2%;
+          border: none;
+          border-radius: 10px;
+          background-color: #007bff;
+          color: white;
+          cursor: pointer;
+          font-size: 0.8vw;
+
+          &:hover {
+            background-color: #081545;
+          }
+        }
+      }
+    }
+
+    .courseFilter {
+      flex: 1;
+      width: 100%;
+      max-width: 30vw;
+      padding: 2.5% 5% 5% 0;
+      margin: 0 0 0 5%;
+      min-width: 23vw;
+      
+
+      h2 {
+        font-size: 2vw;
+        margin-bottom: 5%;
+      }
+
+      .filterGroup {
+        margin-bottom: 8%;
+
+        label {
+          display: block;
+        }
+
+        select {
+          width: 100%;
+          padding: 2% 3%;
+          border: 1px solid #081545;
+          border-radius: 10px;
+          background-color: #f8f9fa;
+          color: #888;
+          opacity: 0.7;
+          min-height: 6vh;
+        }
+      }
+
+      .addCourse {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10%;
+        cursor: pointer;
+        min-width: 20vw;
+        border-radius: 10px;
+        border: 1px solid #081545;
+        img {
+          width: 10vw;
+          height: 10vh;
+          margin: 2vh 4vh;
+        }
+
+        p {
+          font-size: 4vh;
+          color: #081545;
+        }
+      }
+    }
+  }
+}

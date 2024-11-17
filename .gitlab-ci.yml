@@ -1,0 +1,31 @@
+stages:
+  - build
+  - deploy
+
+# Build Frontend Application
+build_frontend:
+  stage: build
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - ./dist
+  only:
+    - main
+
+# Deploy Frontend Application
+deploy_frontend:
+  stage: deploy
+  dependencies:
+    - build_frontend
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -p $SSH_PORT $DEPLOY_HOST >> ~/.ssh/known_hosts
+  script:
+    - rsync -avz --delete -e "ssh -p $SSH_PORT" ./dist $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/
+  only:
+    - main

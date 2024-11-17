@@ -1,31 +1,28 @@
-import { Box, Flex } from '@chakra-ui/react';
-import Sidebar from '../../components/Sidebar';
-import styles from './index.module.scss';
-
-import { Outlet } from 'react-router-dom';
-
-const elements = [
-	{
-		label: 'Дашборд',
-		icon: "",
-		link: '/dashboard',
-	},
-	{
-		label: 'Пользователи',
-		icon: "",
-		link: '/users',
-	},
-];
+import Header from "../../components/Header";
+import { Outlet } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
+import styles from './MainLayout.module.scss';
+import Sidebar from "../../components/Sidebar";
+import { useState } from "react";
 
 const MainLayout = () => {
-	return (
-		<Flex>
-			{/* <Sidebar elements={elements} /> */}
-
-			<Box flex={1} overflowX="hidden">
-				<Outlet />
-			</Box>
-		</Flex>
-	);
+  const [openSidebar, setOpenSidebar] = useState(true);
+  return (
+    <div className={styles.mainLayout} >
+      <span className={`${styles.sidebarWrapper} ${openSidebar ? '' : styles.closeSidebar}`}>
+        <Sidebar />
+      </span>
+      <div className={styles.container}>
+        <span className={`${styles.headerWrapper} ${openSidebar ? '' : styles.longHeader}`}>
+          <Header setOpenSidebar={setOpenSidebar}/>
+        </span>
+        <div className={`${styles.outlet} ${openSidebar ? '' : styles.longOutlet}`}>
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
 };
+
+
 export default MainLayout;

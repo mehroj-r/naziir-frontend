@@ -1,0 +1,316 @@
+.quizInfoPage {
+  position: relative;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  .bgLeft,
+  .bgRight {
+    position: absolute;
+    top: 0;
+    width: 20vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .bgLeft {
+    left: 0vw;
+    transform: rotate(180deg);
+  }
+
+  .bgRight {
+    right: 0;
+  }
+
+  .pageTitle {
+    font-size: 1.5vw;
+    margin-bottom: 1vh;
+    color: #081545;
+    text-align: center;
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3%;
+    padding: 2vh 2vw;
+    border: 0.1vw solid #081545;
+    box-shadow: 0 0.3vw 0.5vw rgba(0, 170, 255, 0.2);
+    border-radius: 1vw;
+    background-color: #ffffff;
+    justify-content: space-between;
+    min-width: 60vw;
+
+    .quizInfo {
+      flex: 1;
+      max-width: 45%;
+      margin-bottom: 2vh;
+
+      h2 {
+        font-size: 1.2vw;
+        margin-bottom: 1vh;
+        color: #081545;
+      }
+
+      .infoField {
+        margin-bottom: 1.5vh;
+
+        label {
+          font-size: 0.9vw;
+          font-weight: bold;
+          display: block;
+          margin-bottom: 0.3vh;
+          color: #081545;
+        }
+
+        input {
+          width: 100%;
+          padding: 0.8vh 0.6vw;
+          font-size: 0.8vw;
+          border: 0.1vw solid #ccc;
+          border-radius: 0.5vw;
+          background-color: #f9f9f9;
+        }
+      }
+
+      .assignedGroups {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1%;
+        border: 0.1vw solid #ccc;
+        padding: 1vh;
+        border-radius: 0.8vw;
+        max-width: 30vw;
+        
+
+        .groupBadge {
+          padding: 0.5vh 1vw;
+          background-color: #081545;
+          color: #ffffff;
+          border-radius: 1vw;
+          font-size: 0.9vw;
+          display: flex;
+          align-items: center;
+          margin-bottom: 1vh;
+
+          .deleteGroup {
+            color: #ff0000;
+            margin-left: 0.5vw;
+            font-size: 1vw;
+            cursor: pointer;
+          }
+        }
+
+        .addGroupDiv {
+          display: flex;
+          gap: 0.6vw;
+          align-items: center;
+
+          .addGroupInput {
+            padding: 0.5vh 0.6vw;
+            font-size: 0.8vw;
+            border: 0.1vw solid #ccc;
+            border-radius: 0.5vw;
+            flex: 1;
+          }
+
+          .addButton {
+            padding: 0.8vh 1.5vw;
+            font-size: 0.9vw;
+            background-color: #081545;
+            color: white;
+            border: none;
+            border-radius: 0.5vw;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #0056b3;
+            }
+          }
+        }
+      }
+
+      .statusBadge {
+        padding: 0.8vh 1.5vw;
+        color: #ffffff;
+        border-radius: 0.5vw;
+        text-align: center;
+        font-weight: bold;
+        font-size: 0.9vw;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 1vh;
+
+        &.completed {
+          background-color: #28a745;
+        }
+
+        &.uncompleted {
+          background-color: #dc3545;
+        }
+      }
+
+      .updateButton {
+        display: block;
+        margin-top: 2vh;
+        padding: 1vh 2vw;
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 0.5vw;
+        font-size: 1vw;
+        cursor: pointer;
+        text-align: center;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+
+    .studentsList {
+      flex: 1;
+      min-width: 20vw;
+      min-height: 45vh;
+      background: #f5f9ff;
+      border: 0.1vw solid #081545;
+      border-radius: 1vw;
+      box-shadow: 0 0.2vw 0.4vw rgba(0, 193, 255, 0.15);
+      padding: 1vh 1.5vw;
+      overflow-y: auto;
+      height: 40vh;
+      margin-left: 5vw;
+
+      h2 {
+        font-size: 1.2vw;
+        margin-bottom: 2vh;
+        font-weight: bold;
+        color: #333333;
+      }
+
+      .studentItems {
+        .studentItem {
+          display: flex;
+          align-items: center;
+          padding: 1vh 0.8vw;
+          margin-bottom: 1vh;
+          background-color: #ffffff;
+          border: 0.1vw solid #081545;
+          border-radius: 10px;
+          box-shadow: 0 0.2vw 0.4vw rgba(0, 193, 255, 0.1);
+
+          .avatar {
+            width: 3vw;
+            height: 3vw;
+            border-radius: 50%;
+            background-color: #e0f7ff;
+            margin-right: 1vw;
+          }
+
+          .studentName {
+            font-weight: bold;
+            font-size: 0.9vw;
+            color: #333333;
+            margin-right: auto;
+          }
+
+          .studentId,
+          .studentGroup {
+            font-size: 0.8vw;
+            color: #666666;
+            margin-right: 1vw;
+          }
+
+          .resultsButton {
+            padding: 0.5vh 1vw;
+            background-color: #00c1ff;
+            color: #ffffff;
+            border: none;
+            border-radius: 0.5vw;
+            font-size: 0.8vw;
+            font-weight: bold;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #007bff;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 2vh 3vw;
+
+    .pageTitle {
+      font-size: 1.8vw;
+    }
+
+    .container {
+      flex-direction: column;
+      align-items: center;
+
+      .quizInfo,
+      .studentsList {
+        max-width: 90%;
+        margin-bottom: 2vh;
+      }
+
+      .studentsList {
+        height: auto;
+        overflow-y: visible;
+      }
+    }
+
+    .quizInfo {
+      h2 {
+        font-size: 1.5vw;
+      }
+
+      .infoField label {
+        font-size: 1vw;
+      }
+
+      .infoField input {
+        font-size: 0.9vw;
+      }
+
+      .statusBadge {
+        font-size: 1vw;
+      }
+
+      .updateButton {
+        font-size: 1.1vw;
+      }
+    }
+
+    .studentsList {
+      h2 {
+        font-size: 1.5vw;
+      }
+
+      .studentItem {
+        .avatar {
+          width: 2.5vw;
+          height: 2.5vw;
+        }
+
+        .studentName {
+          font-size: 1vw;
+        }
+
+        .studentId,
+        .studentGroup {
+          font-size: 0.9vw;
+        }
+
+        .resultsButton {
+          font-size: 0.9vw;
+        }
+      }
+    }
+  }
+}

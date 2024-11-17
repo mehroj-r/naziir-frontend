@@ -1,44 +1,73 @@
-import { Box, Icon, Text } from '@chakra-ui/react';
-// import styles from './Sidebar.module.scss';
+import styles from "./Sidebar.module.scss";
+import logo from "../../assets/images/whiteLogo.png";
+import newuuLogo from "../../assets/images/newuuLogo.png";
+import {
+  CourseIcon,
+  CreateQuizIcon,
+  HomeIcon,
+  QuizzesIcon,
+  StatisticsIcon,
+} from "../../assets/icons/sidebarIcons";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { useLocation, useNavigate } from 'react-router-dom';
+const items = [
+  {
+    id: 1,
+    title: "Dashboard",
+    icon: <HomeIcon />,
+    navigateTo: "/",
+  },
+  {
+    id: 2,
+    title: "My Courses",
+    icon: <CourseIcon />,
+    navigateTo: "/courses",
+  },
+  {
+    id: 3,
+    title: "Create Quiz",
+    icon: <CreateQuizIcon />,
+    navigateTo: "/create-quiz",
+  },
+  {
+    id: 4,
+    title: "My Quizzes",
+    icon: <QuizzesIcon />,
+    navigateTo: "/quizzes",
+  },
+  {
+    id: 5,
+    title: "Statistics",
+    icon: <StatisticsIcon />,
+    navigateTo: "/statistics",
+  },
+];
 
-const Sidebar = ({ elements }) => {
-	const navigate = useNavigate();
-	const { pathname } = useLocation();
+export default function Sidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-	const onRowClick = (element) => {
-		navigate(element.link);
-	};
-
-	return (
-		<Box className={styles.sidebar}>
-			<Box className={styles.header}>
-				{/* <img src={Logo} alt="logo" /> */}
-        Logo
-				<Icon
-					as={AiFillLeftCircle}
-					boxSize="24px"
-					color="primary.main"
-					cursor="pointer"
-					_hover={{ color: 'primary.500' }}
-				/>
-			</Box>
-
-			<Box className={styles.body}>
-				{elements?.map((element, index) => (
-					<Box
-						key={index}
-						onClick={() => onRowClick(element)}
-					>
-						<Box className={styles.element}>
-							<Icon as={element.icon} className={styles.icon} />
-							<Text className={styles.label}>{element.label}</Text>
-						</Box>
-					</Box>
-				))}
-			</Box>
-		</Box>
-	);
-};
-export default Sidebar;
+  return (
+    <div className={styles.sidebar}>
+      <div className={styles.logos}>
+        <img src={logo} alt="Naziir-logo" className={styles.naziirLogo} />
+        <img src={newuuLogo} alt="NewUU-logo" className={styles.newuuLogo} />
+      </div>
+      <div className={styles.pages}>
+        {items.map((item) => (
+          <div
+            key={item.id}
+            className={`
+                ${styles.item} 
+                ${location?.pathname == item.navigateTo ? styles.active : ""}
+            `}
+            onClick={() => navigate(item.navigateTo)}
+          >
+            {item.icon}
+            <span>{item.title}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

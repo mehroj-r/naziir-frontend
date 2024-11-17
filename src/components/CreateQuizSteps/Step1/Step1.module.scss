@@ -1,0 +1,42 @@
+.step1 {
+  border-radius: 8px;
+  padding: 24px;
+  display: grid;
+
+  .heading {
+    font-size: 32px;
+    font-weight: 500;
+  }
+
+  label {
+    display: inline-block;
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+  .gridItem{
+    label{
+      display: block;
+    }
+  }
+
+  .input {
+    padding: 8px;
+    border-color: #00e0cb;
+    width: 388px;
+  }
+
+  .submitButton {
+    width: 130px;
+    height: 30px;
+    background-color: #009688;
+    color: white;
+    border-radius: 10px;
+    font-size: 15px;
+    margin-top: 10px;
+    justify-self: end;
+  }
+
+  .submitButton:hover {
+    background-color: #00ae9c;
+  }
+}

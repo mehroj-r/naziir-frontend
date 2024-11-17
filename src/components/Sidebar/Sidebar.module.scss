@@ -1,66 +1,47 @@
 .sidebar {
-  width: 260px;
-  border-right: 1px solid darkgray;
+  background-color: #081545;
+  height: 100%;
+  width: 100%;
 
-  .header {
+  .logos {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    height: 64px;
+    justify-content: space-evenly;
+    padding: 10px 0;
+    margin-bottom: 48px;
+
+    .naziirLogo {
+      height: 40px;
+    }
+    .newuuLogo {
+      height: 40px;
+    }
   }
+  .pages {
+    color: white;
+    cursor: pointer;
 
-  .body {
-    height: calc(100vh - 64px);
-    overflow: auto;
-    padding: 12px 0;
+    .item {
+      display: flex;
+      padding: 16px 36px;
+      gap: 16px;
+      transition: 0.3s;
 
-    .row {
-      padding: 0 16px;
-      margin-bottom: 4px;
-      position: relative;
-      cursor: pointer;
-
-      .element {
-        height: 44px;
-        padding: 0 14px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #9aa6ac;
-
-        .icon {
-          font-size: 18px;
-        }
-
-        .label {
-          font-weight: 500;
-          font-size: 16px;
-          line-height: 24px;
-        }
+      &:hover {
+        background-color: #fff;
+        background-color: #009688;
+        // background-color: #FFA726;
+        // background-color: #E57373;
+        // background-color: #42A5F5;
       }
 
-      &.active {
-        .element {
-          background-color: $primary-background;
-          color: $primary;
-        }
-
-        &::after {
-          content: "";
-          position: absolute;
-          right: 0;
-          top: 0;
-          height: 100%;
-          background-color: $primary;
-          width: 4px;
-          border-radius: px 0 0 px;
-        }
-      }
-
-      &:hover > .element {
-        background-color: $row-hover;
-      }
+      // span{
+      //     flex-grow: 1;
+      //     display: flex;
+      //     justify-content: center;
+      // }
+    }
+    .active {
+      background-color: #009688;
     }
   }
 }
