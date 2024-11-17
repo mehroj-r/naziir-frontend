@@ -1,5 +1,4 @@
 import {
-  Text,
   Input,
   Select,
   Grid,
@@ -27,6 +26,7 @@ const Step1 = ({ nextStep, register }) => {
             name="quizName"
             placeholder="Best methods"
             border='1px solid #02d5f2'
+            {...register("quizName")}
             p='8px'
           />
         </GridItem>

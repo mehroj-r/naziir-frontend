@@ -4,9 +4,11 @@ import styles from "./Register.module.scss";
 import { EmailIcon, LockIcon } from "../../assets/icons/loginRegisterIcons";
 import { Center, Spinner } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import { authService } from "../../services/auth.service";
 import { customToast } from "../../utils/toastify";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../store/slices/userSlice";
 
 export default function RegisterPage() {
   const {
@@ -20,15 +22,42 @@ export default function RegisterPage() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(false);
   const password = watch("password");
+  const dispatch = useDispatch();
 
   const handleGoogleSuccess = (response) => {
     console.log("Google sign-in successful:", response);
+    if (response?.credential) {
+      setIsLoading(true)
+      const body = {
+        idToken: response?.credential
+      }
+      
+      authService.google(body)
+        .then(res => {
+          if (res?.data?.token) {
+            customToast("success", "Successfully registered!")
+            dispatch(userActions.setToken(res?.data?.token));
+          }
+        })
+        .catch(err => {
+          console.log("err", err) // log
+          if (false) {
+            customToast("error", err?.response?.data?.message);
+          } else if (!navigator?.online) {
+            customToast("error", "No connection to the internet");
+          } else {
+            customToast("error", "Something went wrong");
+          }
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    }
   };
 
   const handleGoogleFailure = (error) => {
-    console.error("Google sign-in failed:", error);
+    console.log("Google sign-in failed:", error);
   };
 
   const onSubmit = (data) => {
@@ -39,8 +68,7 @@ export default function RegisterPage() {
       firstName: data?.firstName,
       lastName: data?.lastName,
     };
-    authService
-      .register(body)
+    authService.register(body)
       .then((res) => {
         if (res?.status == 200) {
           customToast("success", "User registered successfully", 3000);
@@ -186,24 +214,22 @@ export default function RegisterPage() {
           </button>
 
           <div className={styles.googleBtnContainer}>
-            <GoogleOAuthProvider clientId="26408612225-5cfkg5k83sfmv954ukl2kkb8nlktr9a1.apps.googleusercontent.com">
-              <GoogleLogin
-                onSuccess={handleGoogleSuccess}
-                onError={handleGoogleFailure}
-                useOneTap
-                theme="outline"
-                text="signup_with"
-                render={(renderProps) => (
-                  <button
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                    className={styles.googleButton}
-                  >
-                    Sign up with Google
-                  </button>
-                )}
-              />
-            </GoogleOAuthProvider>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleFailure}
+              useOneTap
+              theme="outline"
+              text="signup_with"
+              render={(renderProps) => (
+                <button
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                  className={styles.googleButton}
+                >
+                  Sign up with Google
+                </button>
+              )}
+            />
           </div>
 
           <div className={styles.links}>
@@ -211,10 +237,6 @@ export default function RegisterPage() {
           </div>
         </form>
       </Center>
-
-      {successMessage && (
-        <div className={styles.successMessage}>Successfully registered ✅</div>
-      )}
     </div>
   );
 }
