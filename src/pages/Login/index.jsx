@@ -72,7 +72,7 @@ export default function LoginPage() {
           }
         })
         .catch(err => {
-          console.log("err", err) // log
+          console.log("error", err) // log
           if (false) {
             customToast("error", err?.response?.data?.message);
           } else if (!navigator?.online) {
