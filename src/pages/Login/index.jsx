@@ -8,9 +8,12 @@ import { useForm } from "react-hook-form";
 import { customToast } from "../../utils/toastify";
 import { userActions } from "../../store/slices/userSlice";
 import { useDispatch } from "react-redux";
+import { GoogleLogin } from "@react-oauth/google";
+import ForgotPassword from "../../components/ForgotPassword";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false)
   const dispatch = useDispatch();
 
   const {
@@ -26,6 +29,7 @@ export default function LoginPage() {
     const body = {
       email: data?.email,
       password: data?.password,
+      role: "ADMIN"
     };
 
     setIsLoading(true);
@@ -51,6 +55,44 @@ export default function LoginPage() {
       });
   };
 
+  const handleGoogleSuccess = (response) => {
+    console.log("Google sign-in successful:", response);
+    if (response?.credential) {
+      setIsLoading(true)
+      const body = {
+        idToken: response?.credential,
+        role: "STUDENT"
+      }
+      
+      authService.google(body)
+        .then(res => {
+          if (res?.data?.token) {
+            customToast("success", "Successfully logged in!")
+            dispatch(userActions.setToken(res?.data?.token));
+          }
+        })
+        .catch(err => {
+          console.log("err", err) // log
+          if (false) {
+            customToast("error", err?.response?.data?.message);
+          } else if (!navigator?.online) {
+            customToast("error", "No connection to the internet");
+          } else {
+            customToast("error", "Something went wrong");
+          }
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    }
+  };
+
+
+
+  const handleGoogleFailure = (error) => {
+    console.log("Google sign-in failed:", error);
+  };
+
   return (
     <div className={styles.loginPage}>
       <div className={styles.gradient}>
@@ -61,7 +103,8 @@ export default function LoginPage() {
         </p>
       </div>
       <Center className={styles.right}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        {!isForgotPassword ? (
+          <form onSubmit={handleSubmit(onSubmit)}>
           <h1 className={styles.heading}>Login</h1>
           <div className={styles.inputBox}>
             <input
@@ -105,11 +148,34 @@ export default function LoginPage() {
           <button className={styles.loginBtn}>
             {isLoading ? <Spinner borderWidth="3px" size="sm" /> : "Login"}
           </button>
+
+          <div className={styles.googleBtnContainer}>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleFailure}
+              useOneTap
+              theme="outline"
+              text="signup_with"
+              render={(renderProps) => (
+                <button
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                  className={styles.googleButton}
+                >
+                  Sign up with Google
+                </button>
+              )}
+            />
+          </div>
+
           <div className={styles.links}>
             <Link to="/register">Create an account</Link>
-            <Link to="#">Forgot password?</Link>
+            <button onClick={() => setIsForgotPassword(true)}>Forgot password?</button>
           </div>
         </form>
+        ) : (
+          <ForgotPassword setIsForgotPassword={setIsForgotPassword} />
+        )}
       </Center>
     </div>
   );

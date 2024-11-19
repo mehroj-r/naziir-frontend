@@ -9,6 +9,7 @@
         width: 250px;
         transform: translateX(0);
         transition: 0.5s;
+        z-index: 999;
     }
     .closeSidebar{
         transform: translateX(-100%);
@@ -23,6 +24,7 @@
             height: 60px;
             width: calc(100vw - 250px);
             transition: 0.5s;
+            z-index: 999;
         }
         .longHeader{
             width: 100vw;
