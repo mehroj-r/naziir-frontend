@@ -30,7 +30,9 @@ export default function RegisterPage() {
     if (response?.credential) {
       setIsLoading(true)
       const body = {
-        idToken: response?.credential
+        idToken: response?.credential,
+        organizationId: "285b0609-8656-4ecd-869f-67338f68dab5",
+        role: "STUDENT"
       }
       
       authService.google(body)
@@ -44,8 +46,6 @@ export default function RegisterPage() {
           console.log("err", err) // log
           if (false) {
             customToast("error", err?.response?.data?.message);
-          } else if (!navigator?.online) {
-            customToast("error", "No connection to the internet");
           } else {
             customToast("error", "Something went wrong");
           }
@@ -78,8 +78,6 @@ export default function RegisterPage() {
       .catch((err) => {
         if (err?.response?.data?.message == "Email address already in use!") {
           customToast("error", "Email address already in use!");
-        } else if (!navigator?.online) {
-          customToast("error", "No connection to the internet");
         } else {
           customToast("error", "Something went wrong");
         }
@@ -220,15 +218,6 @@ export default function RegisterPage() {
               useOneTap
               theme="outline"
               text="signup_with"
-              render={(renderProps) => (
-                <button
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                  className={styles.googleButton}
-                >
-                  Sign up with Google
-                </button>
-              )}
             />
           </div>
 

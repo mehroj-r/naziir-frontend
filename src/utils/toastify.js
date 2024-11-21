@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 
 export const customToast = (type, msg, autoClose=2500) => {
+  console.log(`toast ${type}: `, msg) // log
   toast[type](msg, {
     position: "top-right",
     autoClose: autoClose,
@@ -12,14 +13,3 @@ export const customToast = (type, msg, autoClose=2500) => {
     theme: "light",
   });
 };
-
-export const promiseToast = (promiseFunction, msg) => {
-  toast.promise(
-    promiseFunction,
-    {
-      pending: msg.pending,
-      success: msg.success,
-      error: msg.success,
-    }
-)
-}
