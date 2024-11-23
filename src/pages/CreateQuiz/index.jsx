@@ -5,7 +5,7 @@ import Step3 from "../../components/CreateQuizSteps/Step3/Step3";
 import styles from "./CreateQuiz.module.scss";
 import { useForm } from "react-hook-form";
 
-export default function CreateQuiz(){
+export default function CreateQuiz() {
   const [step, setStep] = useState(1);
 
   const {
@@ -15,8 +15,8 @@ export default function CreateQuiz(){
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log("quiz data", data) // log
-  }
+    console.log("quiz data", data); // log
+  };
 
   const nextStep = () => {
     setStep((prevStep) => prevStep + 1);
@@ -29,9 +29,11 @@ export default function CreateQuiz(){
   const renderStep = () => {
     switch (step) {
       case 1:
-        return <Step1 nextStep={nextStep} register={register}/>;
+        return <Step1 nextStep={nextStep} register={register} />;
       case 2:
-        return <Step2 nextStep={nextStep} register={register} prevStep={prevStep} />;
+        return (
+          <Step2 nextStep={nextStep} register={register} prevStep={prevStep} />
+        );
       case 3:
         return <Step3 prevStep={prevStep} register={register} />;
       default:
@@ -41,10 +43,7 @@ export default function CreateQuiz(){
 
   return (
     <div className={styles.createQuiz}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        { renderStep() }
-      <button type="submit">submit</button>
-      </form>
+      <form onSubmit={handleSubmit(onSubmit)}>{renderStep()}</form>
     </div>
   );
-};
+}
