@@ -16,8 +16,8 @@ const Step2 = ({ nextStep, prevStep }) => {
       italic: false,
       underline: false,
     },
-    image: null, // For image upload
-    video: null, // For video upload
+    image: null,
+    video: null,
   };
 
   const [questions, setQuestions] = useState([initialQuestion]);
@@ -56,7 +56,6 @@ const Step2 = ({ nextStep, prevStep }) => {
     const updatedQuestions = [...questions];
     const fontStyle = updatedQuestions[qIndex].fontStyle;
 
-    // Toggle font style
     fontStyle[styleType] = !fontStyle[styleType];
     updatedQuestions[qIndex].fontStyle = { ...fontStyle };
     setQuestions(updatedQuestions);
@@ -64,7 +63,7 @@ const Step2 = ({ nextStep, prevStep }) => {
 
   const handleFileChange = (qIndex, fileType, file) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[qIndex][fileType] = file; // Set image or video
+    updatedQuestions[qIndex][fileType] = file;
     setQuestions(updatedQuestions);
   };
 
@@ -82,19 +81,25 @@ const Step2 = ({ nextStep, prevStep }) => {
   };
 
   const changeOrder = (qIndex, newPosition) => {
+    if (newPosition < 1 || newPosition > questions.length) return;
+
     const updatedQuestions = [...questions];
     const [movedQuestion] = updatedQuestions.splice(qIndex, 1);
-    updatedQuestions.splice(newPosition - 1, 0, movedQuestion); // Insert at new position
+    updatedQuestions.splice(newPosition - 1, 0, movedQuestion);
+
     setQuestions(updatedQuestions);
   };
 
   return (
-    <div className={styles.headingtext}>
-      <h2 className={styles.heading}>Creating questions:</h2>
+    <div className={styles.container}>
+      <h2 className={styles.heading}>Creating Questions:</h2>
 
-      <div className={styles.container}>
-        {questions.map((question, qIndex) => (
-          <div key={qIndex} className={styles.questionTemplate}>
+      {questions.map((question, qIndex) => (
+        <div
+          key={question.questionText + qIndex}
+          className={styles.questionCard}
+        >
+          <div className={styles.questionSection}>
             <input
               type="text"
               placeholder="Type your question here"
@@ -106,77 +111,28 @@ const Step2 = ({ nextStep, prevStep }) => {
               className={styles.questionInput}
             />
 
-            {/* Right Side: Upload image/video, change font style */}
-            <div className={styles.rightPanel}>
-              <div className={styles.upload}>
-                <label>Upload:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) =>
-                    handleFileChange(qIndex, "image", e.target.files[0])
-                  }
-                />
-                <input
-                  type="file"
-                  accept="video/*"
-                  onChange={(e) =>
-                    handleFileChange(qIndex, "video", e.target.files[0])
-                  }
-                />
-              </div>
-
-              <div className={styles.textOptions}>
-                <button
-                  onClick={() => handleFontChange(qIndex, "bold")}
-                  className={styles.boldButton}
-                >
-                  B
-                </button>
-                <button
-                  onClick={() => handleFontChange(qIndex, "italic")}
-                  className={styles.italicButton}
-                >
-                  I
-                </button>
-                <button
-                  onClick={() => handleFontChange(qIndex, "underline")}
-                  className={styles.underlineButton}
-                >
-                  U
-                </button>
-              </div>
-
-              <div className={styles.fontSelect}>
-                <label>Font:</label>
-                <select
-                  onChange={(e) =>
-                    handleQuestionChange(qIndex, "fontFamily", e.target.value)
-                  }
-                >
-                  <option>Arial</option>
-                  <option>Georgia</option>
-                  <option>Times New Roman</option>
-                </select>
-              </div>
-              {/* Question order change input */}
-              <div className={styles.orderChange}>
-                <label>Change Order to:</label>
-                <input
-                  type="number"
-                  placeholder="New Order"
-                  onBlur={(e) => {
-                    const newPosition = Number(e.target.value);
-                    if (newPosition > 0 && newPosition <= questions.length) {
-                      changeOrder(qIndex, newPosition);
-                    }
-                  }}
-                  className={styles.orderInput}
-                />
-              </div>
+            <div className={styles.textOptions}>
+              <button
+                onClick={() => handleFontChange(qIndex, "bold")}
+                className={styles.boldButton}
+              >
+                B
+              </button>
+              <button
+                onClick={() => handleFontChange(qIndex, "italic")}
+                className={styles.italicButton}
+              >
+                I
+              </button>
+              <button
+                onClick={() => handleFontChange(qIndex, "underline")}
+                className={styles.underlineButton}
+              >
+                U
+              </button>
             </div>
 
-            <div className={styles.optionsTop}>
+            <div className={styles.questionTypeSection}>
               <select
                 value={question.questionType}
                 onChange={(e) =>
@@ -188,6 +144,7 @@ const Step2 = ({ nextStep, prevStep }) => {
                 <option value="Written response">Written response</option>
                 <option value="Matching">Matching</option>
               </select>
+
               <input
                 type="number"
                 placeholder="Points: 5"
@@ -225,7 +182,7 @@ const Step2 = ({ nextStep, prevStep }) => {
                         className={styles.matchInput}
                       />
                     )}
-                    <label className={styles.correctans}>
+                    <label className={styles.correctAns}>
                       <input
                         type="checkbox"
                         checked={option.isCorrect}
@@ -265,8 +222,42 @@ const Step2 = ({ nextStep, prevStep }) => {
               />
             )}
           </div>
-        ))}
-      </div>
+
+          <div className={styles.rightPanel}>
+            <div className={styles.upload}>
+              <label>Upload:</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) =>
+                  handleFileChange(qIndex, "image", e.target.files[0])
+                }
+              />
+              <input
+                type="file"
+                accept="video/*"
+                onChange={(e) =>
+                  handleFileChange(qIndex, "video", e.target.files[0])
+                }
+              />
+            </div>
+
+            <div className={styles.orderChange}>
+              <label>Change Order to:</label>
+              <input
+                type="number"
+                placeholder="New Order"
+                onBlur={(e) => {
+                  const newPosition = Number(e.target.value);
+                  changeOrder(qIndex, newPosition);
+                }}
+                className={styles.orderInput}
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+
       <div className={styles.buttonContainer}>
         <button onClick={prevStep} className={styles.prevButton}>
           Previous
