@@ -15,6 +15,7 @@ import LoginPage from "../pages/Login";
 import RegisterPage from "../pages/Register";
 import CreateQuiz from "../pages/CreateQuiz";
 import NotFoundPage from "../pages/NotFoundPage";
+import StudentResults from "../pages/StudentResults";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -29,7 +30,7 @@ const Router = () => {
     customToast("success", "You have logged out successfully");
   };
 
-  if (!isAuth) {
+  if (isAuth) {
     return (
       <Routes>
         <Route path="/" element={<AuthLayout />}>
@@ -56,6 +57,10 @@ const Router = () => {
           <Route
             path="logout"
             element={<button onClick={logout}>logout</button>}
+          />
+          <Route
+            path="students/:studentId/results"
+            element={<StudentResults />}
           />
         </Route>
       </Routes>

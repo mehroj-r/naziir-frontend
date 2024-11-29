@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./QuizInfo.module.scss";
 import bgImage from "../../assets/images/background.png";
 const QuizInfo = () => {
   const { quizId } = useParams();
+  const navigate = useNavigate();
   const [students, setStudents] = useState([]);
   const [quiz, setQuiz] = useState(null);
   const [newGroup, setNewGroup] = useState("");
@@ -40,6 +42,11 @@ const QuizInfo = () => {
       ...prevQuiz,
       status: prevQuiz.status === "Completed" ? "Uncompleted" : "Completed",
     }));
+  };
+
+  const handleResultsClick = (studentId) => {
+    console.log(`Navigating to /students/${studentId}/results`);
+    navigate(`/students/${studentId}/results`);
   };
 
   const handleDeleteGroup = (groupToDelete) => {
@@ -171,7 +178,12 @@ const QuizInfo = () => {
                 <span className={styles.studentName}>{student.name}</span>
                 <span className={styles.studentId}>{student.studentId}</span>
                 <span className={styles.studentGroup}>{student.group}</span>
-                <button className={styles.resultsButton}>Results</button>
+                <button
+                  className={styles.resultsButton}
+                  onClick={() => handleResultsClick(student.studentId)}
+                >
+                  Results
+                </button>
               </div>
             ))}
           </div>
