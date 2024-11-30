@@ -3,7 +3,9 @@ import styles from "./StudentResults.module.scss";
 import ai_image from "../../assets/images/ai_image.png";
 const sampleResults = {
   correctAnswers: [1, 5, 6, 9, 11, 12, 2],
-  wrongAnswers: [3, 4, 7, 8, 10, 13, 14],
+  wrongAnswers: [
+    3, 4, 7, 8, 10, 13, 14, 4, 7, 8, 10, 13, 14, 4, 7, 8, 10, 13, 14,
+  ],
   totalPoints: 70,
 };
 
