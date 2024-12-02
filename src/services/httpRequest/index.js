@@ -3,7 +3,7 @@ import axios from "axios";
 // import authStore from "../../store/auth.store";
 
 const httpRequest = axios.create({
-  baseURL: "https://project2.newuu.uz",
+  baseURL: "https://project2.newuu.uz/api",
   timeout: 100000,
 });
 
