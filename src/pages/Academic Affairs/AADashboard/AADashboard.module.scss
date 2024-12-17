@@ -1,0 +1,62 @@
+.dashboard {
+  padding: 64px 10% 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+
+  .bgLeft,
+  .bgRight {
+    position: absolute;
+    top: 0;
+    width: 20%;
+    height: 120%;
+    background-size: cover;
+    background-position: center;
+    z-index: -999999;
+  }
+
+  .bgLeft {
+    left: 0;
+    transform: rotate(180deg);
+  }
+
+  .bgRight {
+    right: 0;
+  }
+}
+
+.dashboardCard {
+  padding: 16px;
+  border: 2px solid #071649;
+  border-radius: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  min-height: 390px;
+  height: max-content;
+  box-shadow: 0 8px 20px rgba(0, 170, 255, 0.3);
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(0, 170, 255, 0.5);
+  }
+}
+
+.cardImage {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 16px;
+}
+
+.cardTitle {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.cardDescription {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #989898;
+  min-height: 64px;
+}
