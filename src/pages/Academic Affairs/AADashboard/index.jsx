@@ -7,7 +7,7 @@ import bgImage from "../../../assets/images/background.png";
 const cards = [
   {
     id: 1,
-    title: "Upcoming Quizzes",
+    title: "Courses",
     description: "See upcoming and next quizzes",
     btnText: "Go to Courses",
     imgSrc: "/src/assets/images/courses.png",
@@ -15,21 +15,21 @@ const cards = [
   },
   {
     id: 2,
-    title: "My Quizzes",
+    title: "Professors",
     description:
       "Instant access to your latest quizzes' data. See and check results",
     btnText: "Go to Quizzes",
     imgSrc: "/src/assets/images/myquizes.png",
-    linkTo: "/quizzes",
+    linkTo: "/Professors",
   },
   {
     id: 3,
-    title: "Suggest questions for professor",
+    title: "Students",
     description:
       "With a variety of question kinds and formatting options, you can quickly design visually appealing examinations.",
     btnText: "Create Quiz",
     imgSrc: "/src/assets/images/startquiz.png",
-    linkTo: "/create-quiz",
+    linkTo: "/Students",
   },
 ];
 
