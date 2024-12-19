@@ -25,6 +25,7 @@ function Professors() {
           <div className={styles.professorList}>
             {professors.map((professor, index) => (
               <div key={index} className={styles.listItem}>
+                <div className={styles.avatar}></div>
                 <span>{professor.name}</span>
                 <span>
                   {professor.code} {professor.section}
