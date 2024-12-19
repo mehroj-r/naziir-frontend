@@ -17,6 +17,7 @@ import CreateQuiz from "../pages/CreateQuiz";
 import NotFoundPage from "../pages/NotFoundPage";
 import StudentResults from "../pages/StudentResults";
 import AADashboard from "../pages/Academic Affairs/AADashboard";
+import Professors from "../pages/Academic Affairs/Professors";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -64,6 +65,7 @@ const Router = () => {
             element={<StudentResults />}
           />
           <Route path="aadashboard" element={<AADashboard />} />
+          <Route path="Professors" element={<Professors />} />
         </Route>
       </Routes>
     );

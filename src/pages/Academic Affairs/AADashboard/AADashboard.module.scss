@@ -3,6 +3,7 @@
   height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center;
 
   .bgLeft,
   .bgRight {
@@ -52,11 +53,13 @@
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 0.5rem;
+  height:55px;
 }
 
 .cardDescription {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-size: 0.9rem;
   color: #989898;
-  min-height: 64px;
+  height: 80px;
+
 }
