@@ -4,9 +4,147 @@ import searchimg from "../../assets/images/search.png";
 import bgImage from "../../assets/images/background.png";
 import { useNavigate } from "react-router-dom";
 
+const defaultQuizData = [
+  {
+    id: 1,
+    name: "Quiz 1",
+    subject: "Algorithms and Structure",
+    questions: 30,
+    status: "Completed",
+    semester: "Fall 2025",
+    group: "NSE 05",
+  },
+  {
+    id: 2,
+    name: "Quiz 2",
+    subject: "Data Structures",
+    questions: 30,
+    status: "Uncompleted",
+    semester: "Fall 2025",
+    group: "Group B",
+  },
+  {
+    id: 3,
+    name: "Quiz 3",
+    subject: "Algorithms and Structure",
+    questions: 30,
+    status: "Completed",
+    semester: "Spring 2025",
+    group: "NSE 05",
+  },
+  {
+    id: 4,
+    name: "Quiz 4",
+    subject: "Data Structures",
+    questions: 30,
+    status: "Completed",
+    semester: "Spring 2025",
+    group: "Group B",
+  },
+  {
+    id: 5,
+    name: "Quiz 5",
+    subject: "Algorithms and Structure",
+    questions: 20,
+    status: "Uncompleted",
+    semester: "Fall 2025",
+    group: "NSE 05",
+  },
+  {
+    id: 6,
+    name: "Quiz 6",
+    subject: "Data Structures",
+    questions: 25,
+    status: "Completed",
+    semester: "Spring 2025",
+    group: "Group B",
+  },
+  {
+    id: 7,
+    name: "Quiz 7",
+    subject: "Algorithms and Structure",
+    questions: 15,
+    status: "Uncompleted",
+    semester: "Fall 2025",
+    group: "NSE 05",
+  },
+  {
+    id: 8,
+    name: "Quiz 8",
+    subject: "Data Structures",
+    questions: 18,
+    status: "Completed",
+    semester: "Spring 2025",
+    group: "Group B",
+  },
+  {
+    id: 9,
+    name: "Quiz 9",
+    subject: "Algorithms and Structure",
+    questions: 22,
+    status: "Completed",
+    semester: "Fall 2025",
+    group: "NSE 05",
+  },
+  {
+    id: 10,
+    name: "Quiz 10",
+    subject: "Data Structures",
+    questions: 10,
+    status: "Uncompleted",
+    semester: "Spring 2025",
+    group: "Group B",
+  },
+  {
+    id: 11,
+    name: "Quiz 11",
+    subject: "Algorithms and Structure",
+    questions: 35,
+    status: "Completed",
+    semester: "Fall 2025",
+    group: "NSE 05",
+  },
+  {
+    id: 12,
+    name: "Quiz 12",
+    subject: "Data Structures",
+    questions: 40,
+    status: "Uncompleted",
+    semester: "Spring 2025",
+    group: "Group B",
+  },
+  {
+    id: 13,
+    name: "Quiz 13",
+    subject: "Algorithms and Structure",
+    questions: 28,
+    status: "Completed",
+    semester: "Fall 2025",
+    group: "NSE 05",
+  },
+  {
+    id: 14,
+    name: "Quiz 14",
+    subject: "Data Structures",
+    questions: 30,
+    status: "Uncompleted",
+    semester: "Spring 2025",
+    group: "Group B",
+  },
+  {
+    id: 15,
+    name: "Quiz 15",
+    subject: "Algorithms and Structure",
+    questions: 32,
+    status: "Completed",
+    semester: "Fall 2025",
+    group: "NSE 05",
+  },
+];
+
 const QuizzesPage = () => {
   const navigate = useNavigate();
-  const [quizzes, setQuizzes] = useState([]);
+  const [quizzes, setQuizzes] = useState(defaultQuizData);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState({
     semester: "Fall 2025",
@@ -18,151 +156,6 @@ const QuizzesPage = () => {
   const handleQuizClick = (quizId) => {
     navigate(`/quizzes/${quizId}`);
   };
-
-  useEffect(() => {
-    const fetchQuizzes = async () => {
-      const quizData = [
-        {
-          id: 1,
-          name: "Quiz 1",
-          subject: "Algorithms and Structure",
-          questions: 30,
-          status: "Completed",
-          semester: "Fall 2025",
-          group: "NSE 05",
-        },
-        {
-          id: 2,
-          name: "Quiz 2",
-          subject: "Data Structures",
-          questions: 30,
-          status: "Uncompleted",
-          semester: "Fall 2025",
-          group: "Group B",
-        },
-        {
-          id: 3,
-          name: "Quiz 3",
-          subject: "Algorithms and Structure",
-          questions: 30,
-          status: "Completed",
-          semester: "Spring 2025",
-          group: "NSE 05",
-        },
-        {
-          id: 4,
-          name: "Quiz 4",
-          subject: "Data Structures",
-          questions: 30,
-          status: "Completed",
-          semester: "Spring 2025",
-          group: "Group B",
-        },
-        {
-          id: 5,
-          name: "Quiz 5",
-          subject: "Algorithms and Structure",
-          questions: 20,
-          status: "Uncompleted",
-          semester: "Fall 2025",
-          group: "NSE 05",
-        },
-        {
-          id: 6,
-          name: "Quiz 6",
-          subject: "Data Structures",
-          questions: 25,
-          status: "Completed",
-          semester: "Spring 2025",
-          group: "Group B",
-        },
-        {
-          id: 7,
-          name: "Quiz 7",
-          subject: "Algorithms and Structure",
-          questions: 15,
-          status: "Uncompleted",
-          semester: "Fall 2025",
-          group: "NSE 05",
-        },
-        {
-          id: 8,
-          name: "Quiz 8",
-          subject: "Data Structures",
-          questions: 18,
-          status: "Completed",
-          semester: "Spring 2025",
-          group: "Group B",
-        },
-        {
-          id: 9,
-          name: "Quiz 9",
-          subject: "Algorithms and Structure",
-          questions: 22,
-          status: "Completed",
-          semester: "Fall 2025",
-          group: "NSE 05",
-        },
-        {
-          id: 10,
-          name: "Quiz 10",
-          subject: "Data Structures",
-          questions: 10,
-          status: "Uncompleted",
-          semester: "Spring 2025",
-          group: "Group B",
-        },
-        {
-          id: 11,
-          name: "Quiz 11",
-          subject: "Algorithms and Structure",
-          questions: 35,
-          status: "Completed",
-          semester: "Fall 2025",
-          group: "NSE 05",
-        },
-        {
-          id: 12,
-          name: "Quiz 12",
-          subject: "Data Structures",
-          questions: 40,
-          status: "Uncompleted",
-          semester: "Spring 2025",
-          group: "Group B",
-        },
-        {
-          id: 13,
-          name: "Quiz 13",
-          subject: "Algorithms and Structure",
-          questions: 28,
-          status: "Completed",
-          semester: "Fall 2025",
-          group: "NSE 05",
-        },
-        {
-          id: 14,
-          name: "Quiz 14",
-          subject: "Data Structures",
-          questions: 30,
-          status: "Uncompleted",
-          semester: "Spring 2025",
-          group: "Group B",
-        },
-        {
-          id: 15,
-          name: "Quiz 15",
-          subject: "Algorithms and Structure",
-          questions: 32,
-          status: "Completed",
-          semester: "Fall 2025",
-          group: "NSE 05",
-        },
-      ];
-      setQuizzes(quizData);
-    };
-
-    fetchQuizzes();
-  }, []);
 
   const filteredQuizzes = quizzes.filter((quiz) => {
     const matchesSearch = quiz.name

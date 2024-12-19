@@ -2,24 +2,24 @@ import React, { useState } from "react";
 import { Xdelete } from "../../../assets/icons/loginRegisterIcons";
 import styles from "./Step2.module.scss";
 
-const Step2 = ({ nextStep, prevStep }) => {
-  const initialQuestion = {
-    questionText: "",
-    questionType: "Multiple Choice",
-    points: 5,
-    options: [
-      { text: "", isCorrect: false },
-      { text: "", isCorrect: false },
-    ],
-    fontStyle: {
-      bold: false,
-      italic: false,
-      underline: false,
-    },
-    image: null,
-    video: null,
-  };
+const initialQuestion = {
+  questionText: "",
+  questionType: "Multiple Choice", // "WrittenResponse", "Matching"
+  points: 5,
+  options: [
+    { text: "", isCorrect: false },
+    { text: "", isCorrect: false },
+  ],
+  fontStyle: {
+    bold: false,
+    italic: false,
+    underline: false,
+  },
+  image: null,
+  video: null,
+};
 
+const Step2 = ({ nextStep, prevStep }) => {
   const [questions, setQuestions] = useState([initialQuestion]);
 
   const handleQuestionChange = (index, field, value) => {
