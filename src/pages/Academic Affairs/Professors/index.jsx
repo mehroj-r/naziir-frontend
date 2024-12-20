@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Professors.module.scss";
 import img1 from "../../../assets/images/sultan.png";
 import img2 from "../../../assets/images/profilepicture2.png";
+import { SearchIcon } from "../../../assets/icons/headerIcons";
 const professorsData = [
   {
     id: "1",
@@ -36,7 +37,12 @@ const Professors = () => {
   return (
     <div className={styles.pageBody}>
       <h1>Professors</h1>
-      <input type="text" placeholder="Search professors" />
+      <div className={styles.Searchbar}>
+      <button>
+          <SearchIcon />
+        </button>
+        <input type="text" placeholder="Search professors" />
+      </div>
       <div className={styles.professorList}>
         {professorsData.map((professor) => (
           <div
@@ -49,7 +55,7 @@ const Professors = () => {
               alt={professor.name}
               className={styles.avatarSmall}
             />
-            <div>
+            <div className={styles.description}>
               <h2>{professor.name}</h2>
               <p>{professor.title}</p>
             </div>

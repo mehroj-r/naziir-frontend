@@ -17,7 +17,7 @@ const professorsData = [
     name: "Tara M. Richardson, Ph.D.",
     title: "Assistant Professor of Computer Science",
     university: "University of California, Berkeley",
-    avatar: img1,
+    avatar: img2,
     courses: ["Course CS 61A", "Course CS 61B"],
   },
   {
