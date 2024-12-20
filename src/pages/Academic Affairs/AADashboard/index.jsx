@@ -1,35 +1,35 @@
 import React from "react";
-import { Text, Button, Grid, GridItem, Image } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import styles from "./AADashboard.module.scss";
 import bgImage from "../../../assets/images/background.png";
 
+import courseImage from "../../../assets/images/courses.png";
+import professorImage from "../../../assets/images/myquizes.png";
+import studentImage from "../../../assets/images/startquiz.png";
+import { SearchIcon } from "../../../assets/icons/headerIcons";
+
 const cards = [
   {
     id: 1,
-    title: "Courses",
-    description: "See upcoming and next quizzes",
-    btnText: "Go to Courses",
-    imgSrc: "/src/assets/images/courses.png",
+    title: "Course List",
+    description: "View courses and manage course-related operations",
+    imgSrc: courseImage,
     linkTo: "/courses",
   },
   {
     id: 2,
-    title: "Professors",
-    description:
-      "Instant access to your latest quizzes' data. See and check results",
-    btnText: "Go to Quizzes",
-    imgSrc: "/src/assets/images/myquizes.png",
-    linkTo: "/Professors",
+    title: "Professor List",
+    description: "View professors and manage professor-related operations",
+    imgSrc: professorImage,
+    linkTo: "/professors",
   },
   {
     id: 3,
-    title: "Students",
-    description:
-      "With a variety of question kinds and formatting options, you can quickly design visually appealing examinations.",
-    btnText: "Create Quiz",
-    imgSrc: "/src/assets/images/startquiz.png",
-    linkTo: "/Students",
+    title: "Student List",
+    description: "View students and manage student-related operations",
+    imgSrc: studentImage,
+    linkTo: "/students",
   },
 ];
 
@@ -38,21 +38,38 @@ const AADashboard = () => {
 
   return (
     <div className={styles.dashboard}>
-      <img src={bgImage} alt="Background Left" className={styles.bgLeft} />
-      <img src={bgImage} alt="Background Right" className={styles.bgRight} />
-      <Grid templateColumns="repeat(3, 1fr)" gap="36px">
+      <div className={styles.titles}>
+        <h1 className={styles.title}>Academic Affairs</h1>
+        <p className={styles.subTitle}>Quick access</p>
+        <div className={styles.searchContainer}>
+          <input
+            type="text"
+            className={styles.searchBox}
+            placeholder="Search for courses, professors and students"
+          />
+          <button>
+            <SearchIcon />
+          </button>
+        </div>
+      </div>
+      <Grid
+        templateColumns="repeat(3, 1fr)"
+        gap="24px"
+        className={styles.cardContainer}
+      >
         {cards.map((card) => (
           <GridItem
             key={card.id}
-            className={styles.dashboardCard}
+            className={styles.card}
             onClick={() => navigate(card.linkTo)}
           >
-            <img src={card.imgSrc} className={styles.cardImage} />
+            <img
+              src={card.imgSrc}
+              alt={card.title}
+              className={styles.cardImage}
+            />
             <p className={styles.cardTitle}>{card.title}</p>
             <p className={styles.cardDescription}>{card.description}</p>
-            <Button colorScheme="teal" onClick={() => navigate("/courses")}>
-              {card.btnText}
-            </Button>
           </GridItem>
         ))}
       </Grid>

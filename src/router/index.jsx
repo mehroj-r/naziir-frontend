@@ -18,6 +18,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import StudentResults from "../pages/StudentResults";
 import AADashboard from "../pages/Academic Affairs/AADashboard";
 import Professors from "../pages/Academic Affairs/Professors";
+import ProfessorInfo from "../components/ProfessorInfo";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -66,6 +67,8 @@ const Router = () => {
           />
           <Route path="aadashboard" element={<AADashboard />} />
           <Route path="Professors" element={<Professors />} />
+          <Route path="Professors/:professorId" element={<ProfessorInfo />} />
+          <Route path="Professorss" element={<Professors />} />
         </Route>
       </Routes>
     );

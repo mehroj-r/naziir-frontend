@@ -1,65 +1,72 @@
 .dashboard {
-  padding: 64px 10% 0;
-  height: 100vh;
-  display: flex;
+  margin: 5vh 20vw 5vh 3vw;
   justify-content: center;
   align-items: center;
+  
 
-  .bgLeft,
-  .bgRight {
-    position: absolute;
-    top: 0;
-    width: 20%;
-    height: 120%;
-    background-size: cover;
-    background-position: center;
-    z-index: -999999;
+  .titles {
+    display: flex;
+    flex-direction: column;
+    .title {
+      font-size: 28px;
+      font-weight: bold;
+      color: #071649;
+      margin-bottom: 16px;
+    }
+
+    .subTitle {
+      font-size: 16px;
+      color: #4f4f4f;
+    }
+    .searchContainer {
+      display: flex;
+      .searchBox {
+        width: 60%;
+        padding: 12px;
+        margin: 26px -30px 32px 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+    }
   }
 
-  .bgLeft {
-    left: 0;
-    transform: rotate(180deg);
+  .cardContainer {
+    display: flex;
+    gap: 2vw;
   }
 
-  .bgRight {
-    right: 0;
+  .card {
+    background: #f4f9fd;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 24px;
+    min-width: 18vw;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-4px);
+    }
+
+    .cardImage {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 16px;
+    }
+
+    .cardTitle {
+      font-size: 18px;
+      font-weight: 600;
+      color: #071649;
+      margin-bottom: 8px;
+    }
+
+    .cardDescription {
+      font-size: 14px;
+      color: #6f6f6f;
+    }
   }
-}
-
-.dashboardCard {
-  padding: 16px;
-  border: 2px solid #071649;
-  border-radius: 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
-  min-height: 390px;
-  height: max-content;
-  box-shadow: 0 8px 20px rgba(0, 170, 255, 0.3);
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 30px rgba(0, 170, 255, 0.5);
-  }
-}
-
-.cardImage {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 16px;
-}
-
-.cardTitle {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  height:55px;
-}
-
-.cardDescription {
-  margin-bottom: 1.5rem;
-  font-size: 0.9rem;
-  color: #989898;
-  height: 80px;
-
 }
