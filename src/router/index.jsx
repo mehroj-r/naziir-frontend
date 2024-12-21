@@ -19,6 +19,7 @@ import StudentResults from "../pages/StudentResults";
 import AADashboard from "../pages/Academic Affairs/AADashboard";
 import Professors from "../pages/Academic Affairs/Professors";
 import ProfessorInfo from "../components/ProfessorInfo";
+import ACourses from "../pages/Academic Affairs/Courses";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -69,6 +70,7 @@ const Router = () => {
           <Route path="Professors" element={<Professors />} />
           <Route path="Professors/:professorId" element={<ProfessorInfo />} />
           <Route path="Professorss" element={<Professors />} />
+          <Route path="ACourses" element={<ACourses />} />
         </Route>
       </Routes>
     );

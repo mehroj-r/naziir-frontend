@@ -1,7 +1,5 @@
 .dashboard {
   margin: 5vh 20vw 5vh 3vw;
- 
-  
 
   .titles {
     display: flex;
@@ -20,12 +18,13 @@
     .searchContainer {
       display: flex;
       .searchBox {
-        width: 60%;
-        padding: 12px;
-        margin: 26px -30px 32px 0;
+        width: 100%;
+        padding: 6px 12px;
+        margin: 31px -30px 32px 0;
         border: 1px solid #ccc;
         border-radius: 8px;
         font-size: 14px;
+        background-color: #e8edf5;
       }
     }
   }
@@ -39,7 +38,7 @@
     background: #f4f9fd;
     border: 1px solid #ddd;
     border-radius: 12px;
-    padding: 24px;
+    padding: 16px;
     min-width: 18vw;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -51,8 +50,8 @@
     }
 
     .cardImage {
-      width: 80px;
-      height: 80px;
+      width: 24px;
+      height: 24px;
       margin-bottom: 16px;
     }
 

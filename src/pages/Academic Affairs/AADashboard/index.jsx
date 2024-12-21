@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import styles from "./AADashboard.module.scss";
 import bgImage from "../../../assets/images/background.png";
 
-import courseImage from "../../../assets/images/courses.png";
-import professorImage from "../../../assets/images/myquizes.png";
-import studentImage from "../../../assets/images/startquiz.png";
+import courseImage from "../../../assets/icons/Imageicons/courses.png";
+import professorImage from "../../../assets/icons/Imageicons/proflist.png";
+import studentImage from "../../../assets/icons/Imageicons/studentlist.png";
 import { SearchIcon } from "../../../assets/icons/headerIcons";
 
 const cards = [
@@ -15,7 +15,7 @@ const cards = [
     title: "Course List",
     description: "View courses and manage course-related operations",
     imgSrc: courseImage,
-    linkTo: "/courses",
+    linkTo: "/ACourses",
   },
   {
     id: 2,
