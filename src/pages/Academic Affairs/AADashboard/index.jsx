@@ -31,6 +31,13 @@ const cards = [
     imgSrc: studentImage,
     linkTo: "/students",
   },
+  {
+    id: 4,
+    title: "Department List",
+    description: "View departments and manage deparment-related operations",
+    imgSrc: studentImage,
+    linkTo: "/Departments",
+  },
 ];
 
 const AADashboard = () => {

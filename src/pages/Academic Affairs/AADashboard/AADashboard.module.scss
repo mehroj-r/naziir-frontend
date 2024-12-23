@@ -31,7 +31,11 @@
 
   .cardContainer {
     display: flex;
-    gap: 2vw;
+    flex-wrap: wrap;
+    min-width: 72vw;
+    max-width: 80vw;
+    gap: 1vw;
+    
   }
 
   .card {
@@ -39,10 +43,12 @@
     border: 1px solid #ddd;
     border-radius: 12px;
     padding: 16px;
+    max-width: 18vw;
     min-width: 18vw;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     cursor: pointer;
+    
 
     &:hover {
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
