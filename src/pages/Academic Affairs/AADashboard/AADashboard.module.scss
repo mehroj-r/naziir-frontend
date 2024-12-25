@@ -1,5 +1,5 @@
 .dashboard {
-  margin: 5vh 20vw 5vh 3vw;
+  margin: 3vh 20vw 5vh 3vw;
 
   .titles {
     display: flex;
@@ -35,7 +35,6 @@
     min-width: 72vw;
     max-width: 80vw;
     gap: 1vw;
-    
   }
 
   .card {
@@ -48,7 +47,6 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     cursor: pointer;
-    
 
     &:hover {
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);

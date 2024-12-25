@@ -1,8 +1,10 @@
 import React from "react";
 import { SearchIcon } from "../../../assets/icons/headerIcons";
 import styles from "./Departments.module.scss";
+import { useNavigate } from "react-router-dom";
 
 function Departments() {
+  const navigate = useNavigate();
   const departments = [
     {
       name: "Software Engineering",
@@ -45,7 +47,12 @@ function Departments() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>Departments</h1>
-        <button className={styles.newDeptButton}>+ New department</button>
+        <button
+          className={styles.newDeptButton}
+          onClick={() => navigate("/NewDepartment")}
+        >
+          + New department
+        </button>
       </div>
       <div className={styles.searchBar}>
         <div className={styles.searchIcon}>

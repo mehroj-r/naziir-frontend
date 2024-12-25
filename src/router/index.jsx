@@ -21,6 +21,7 @@ import Professors from "../pages/Academic Affairs/Professors";
 import ProfessorInfo from "../components/ProfessorInfo";
 import ACourses from "../pages/Academic Affairs/Courses";
 import Departments from "../pages/Academic Affairs/Departments";
+import NewDepartment from "../components/NewDepartment";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -73,6 +74,7 @@ const Router = () => {
           <Route path="Professorss" element={<Professors />} />
           <Route path="ACourses" element={<ACourses />} />
           <Route path="Departments" element={<Departments />} />
+          <Route path="NewDepartment" element={<NewDepartment />} />
         </Route>
       </Routes>
     );
