@@ -1,0 +1,74 @@
+.dashboard {
+  margin: 3vh 20vw 5vh 3vw;
+
+  .titles {
+    display: flex;
+    flex-direction: column;
+    .title {
+      font-size: 28px;
+      font-weight: bold;
+      color: #071649;
+      margin-bottom: 16px;
+    }
+
+    .subTitle {
+      font-size: 16px;
+      color: #4f4f4f;
+    }
+    .searchContainer {
+      display: flex;
+      .searchBox {
+        width: 100%;
+        padding: 6px 12px;
+        margin: 31px -30px 32px 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        background-color: #e8edf5;
+      }
+    }
+  }
+
+  .cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 72vw;
+    max-width: 80vw;
+    gap: 1vw;
+  }
+
+  .card {
+    background: #f4f9fd;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    max-width: 18vw;
+    min-width: 18vw;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-4px);
+    }
+
+    .cardImage {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 16px;
+    }
+
+    .cardTitle {
+      font-size: 18px;
+      font-weight: 600;
+      color: #071649;
+      margin-bottom: 8px;
+    }
+
+    .cardDescription {
+      font-size: 14px;
+      color: #6f6f6f;
+    }
+  }
+}

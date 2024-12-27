@@ -1,6 +1,5 @@
 import styles from "./Sidebar.module.scss";
-import logo from "../../assets/images/whiteLogo.png";
-import newuuLogo from "../../assets/images/newuuLogo.png";
+
 import {
   CourseIcon,
   CreateQuizIcon,
@@ -9,6 +8,7 @@ import {
   StatisticsIcon,
 } from "../../assets/icons/sidebarIcons";
 import { useLocation, useNavigate } from "react-router-dom";
+import AADashboard from "../../pages/Academic Affairs/AADashboard";
 
 const items = [
   {
@@ -41,6 +41,12 @@ const items = [
     icon: <StatisticsIcon />,
     navigateTo: "/statistics",
   },
+  {
+    id: 1,
+    title: "Academic Affairs",
+    icon: <HomeIcon />,
+    navigateTo: "/aadashboard",
+  },
 ];
 
 export default function Sidebar() {
@@ -49,10 +55,7 @@ export default function Sidebar() {
 
   return (
     <div className={styles.sidebar}>
-      <div className={styles.logos}>
-        <img src={logo} alt="Naziir-logo" className={styles.naziirLogo} />
-        <img src={newuuLogo} alt="NewUU-logo" className={styles.newuuLogo} />
-      </div>
+      <div className={styles.logos}></div>
       <div className={styles.pages}>
         {items.map((item) => (
           <div

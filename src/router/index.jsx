@@ -15,6 +15,13 @@ import LoginPage from "../pages/Login";
 import RegisterPage from "../pages/Register";
 import CreateQuiz from "../pages/CreateQuiz";
 import NotFoundPage from "../pages/NotFoundPage";
+import StudentResults from "../pages/StudentResults";
+import AADashboard from "../pages/Academic Affairs/AADashboard";
+import Professors from "../pages/Academic Affairs/Professors";
+import ProfessorInfo from "../components/ProfessorInfo";
+import ACourses from "../pages/Academic Affairs/Courses";
+import Departments from "../pages/Academic Affairs/Departments";
+import NewDepartment from "../components/NewDepartment";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -29,7 +36,7 @@ const Router = () => {
     customToast("success", "You have logged out successfully");
   };
 
-  if (!isAuth) {
+  if (isAuth) {
     return (
       <Routes>
         <Route path="/" element={<AuthLayout />}>
@@ -57,6 +64,17 @@ const Router = () => {
             path="logout"
             element={<button onClick={logout}>logout</button>}
           />
+          <Route
+            path="students/:studentId/results"
+            element={<StudentResults />}
+          />
+          <Route path="aadashboard" element={<AADashboard />} />
+          <Route path="Professors" element={<Professors />} />
+          <Route path="Professors/:professorId" element={<ProfessorInfo />} />
+          <Route path="Professorss" element={<Professors />} />
+          <Route path="ACourses" element={<ACourses />} />
+          <Route path="Departments" element={<Departments />} />
+          <Route path="NewDepartment" element={<NewDepartment />} />
         </Route>
       </Routes>
     );

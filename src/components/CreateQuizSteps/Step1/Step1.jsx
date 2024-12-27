@@ -18,6 +18,7 @@ const Step1 = ({ nextStep, register }) => {
         gap="16px"
         mb="36px"
       >
+        
         {/* Quiz Name */}
         <GridItem>
           <label htmlFor="quizName">Write your quiz name:</label>

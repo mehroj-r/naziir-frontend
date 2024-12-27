@@ -1,0 +1,132 @@
+.Pagebody {
+  justify-content: center;
+  align-items: center;
+  margin-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  h1 {
+    display: flex;
+    font-size: 2.5vw;
+    margin: 1vw;
+  }
+  .container {
+    display: flex;
+    gap: 2vw;
+    font-family: Arial, sans-serif;
+
+    .leftPart {
+      .searchSection {
+        margin-bottom: 2vh;
+
+        input {
+          width: 100%;
+          padding: 1.2vh 1vw;
+          border: 0.1vw solid #ccc;
+          border-radius: 1vw;
+          font-size: 1.1vw;
+        }
+      }
+
+      .professorList,
+      .departmentList {
+        display: flex;
+        flex-direction: column;
+        gap: 1vh;
+
+        .listItem {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: #f9f9f9;
+          border: 0.1vw solid #ccc;
+          border-radius: 1vw;
+          padding: 1.2vh 1vw;
+          min-width: 35vw;
+
+          .avatar {
+            width: 3vw;
+            height: 3vw;
+            border-radius: 50%;
+            background-color: #e0f7ff;
+            margin-right: -3.5vw;
+          }
+
+          span {
+            font-size: 1.1vw;
+            font-weight: 500;
+            color: #333;
+          }
+
+          .detailsButton {
+            background-color: #0b0b3b;
+            color: #fff;
+            border: none;
+            border-radius: 0.5vw;
+            padding: 0.8vh 1vw;
+            cursor: pointer;
+            font-size: 1vw;
+
+            &:hover {
+              background-color: #1a1a5e;
+            }
+          }
+        }
+      }
+    }
+
+    .rightPart {
+      flex: 1;
+      flex-direction: column;
+
+      .addButtons {
+        display: flex;
+        gap: 2.5vw;
+        margin-bottom: 2vh;
+        margin-left: 0.2vw;
+
+        button {
+          background-color: #0b0b3b;
+          color: #fff;
+          border: none;
+          border-radius: 1vw;
+          padding: 1vh 1.2vw;
+          cursor: pointer;
+          font-size: 1.2vw;
+          text-transform: capitalize;
+          width: 20vw;
+
+          &:hover {
+            background-color: #1a1a5e;
+          }
+        }
+      }
+
+      .statisticsContainer {
+        display: flex;
+        gap: 2vw;
+
+        .statisticsSection {
+          flex: 1;
+          min-height: 58.5vh;
+          min-width: 10vw;
+          border: 2px dashed #081545;
+          border-radius: 20px;
+
+          h3 {
+            margin-left: 1vw;
+            font-size: 1.5vw;
+            font-weight: bold;
+            color: #333;
+          }
+
+          .statsBlank {
+            width: 100%;
+            height: 100%;
+            border: 0.1vw dashed #ccc;
+            border-radius: 1vw;
+          }
+        }
+      }
+    }
+  }
+}
