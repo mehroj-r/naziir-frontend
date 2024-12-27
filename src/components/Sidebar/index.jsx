@@ -41,6 +41,12 @@ const items = [
     icon: <StatisticsIcon />,
     navigateTo: "/statistics",
   },
+  {
+    id: 1,
+    title: "Academic Affairs",
+    icon: <HomeIcon />,
+    navigateTo: "/aadashboard",
+  },
 ];
 
 export default function Sidebar() {

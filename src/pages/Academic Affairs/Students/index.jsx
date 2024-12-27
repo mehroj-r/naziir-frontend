@@ -38,7 +38,7 @@ const Professors = () => {
     <div className={styles.pageBody}>
       <h1>Professors</h1>
       <div className={styles.Searchbar}>
-      <button>
+        <button>
           <SearchIcon />
         </button>
         <input type="text" placeholder="Search professors" />
