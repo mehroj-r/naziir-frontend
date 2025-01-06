@@ -21,6 +21,11 @@ const roles = [
   { value: "MANAGER", label: "Manager" },
 ];
 
+// email: "admin@gmail.com",
+// password: "passworD1234$",
+// role: "ADMIN",
+// organization: "d38c9d1a-8d40-4f10-808b-c74fe64e18d9",
+
 const notifyError = (err) => {
   if (err?.response?.data?.message == "Validation failed for fields: organizationId: Organization id is mandatory") {
     customToast("error", "Please, select organization");
@@ -57,7 +62,7 @@ export default function LoginPage() {
       email: data?.email,
       password: data?.password,
       role: role || undefined,
-      organizationId: organization || undefined,
+      organizationId: "d38c9d1a-8d40-4f10-808b-c74fe64e18d9",
     };
     setIsLoading(true);
     authService.login(body)
@@ -118,16 +123,6 @@ export default function LoginPage() {
         console.log("err", err); // log
       })
       .finally(() => {});
-    
-    if (false) {
-      // should be deleted later
-      onSubmit({
-        email: "admin@gmail.com",
-        password: "passworD1234$",
-        role: "ADMIN",
-        organization: "d38c9d1a-8d40-4f10-808b-c74fe64e18d9",
-      })
-    }
   }, []);
 
   console.log("organizations", organizations); // log

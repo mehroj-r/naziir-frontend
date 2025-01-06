@@ -8,7 +8,6 @@ import {
   StatisticsIcon,
 } from "../../assets/icons/sidebarIcons";
 import { useLocation, useNavigate } from "react-router-dom";
-import AADashboard from "../../pages/Academic Affairs/AADashboard";
 
 const items = [
   {
@@ -42,7 +41,7 @@ const items = [
     navigateTo: "/statistics",
   },
   {
-    id: 1,
+    id: 6,
     title: "Academic Affairs",
     icon: <HomeIcon />,
     navigateTo: "/aadashboard",

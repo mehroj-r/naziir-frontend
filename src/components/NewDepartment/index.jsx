@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./NewDepartment.module.scss";
+import { departmentService } from "../../services/department.service";
 
 const assignedCourses = ["Course CS 61A", "Course CS 61B"];
 const assignedProfessors = ["Sirojiddin Juraev", "Lee Sang Hyuook"];
@@ -26,6 +27,8 @@ const NewDepartment = () => {
     useState(assignedProfessors);
   const [departmentName, setDepartmentName] = useState("");
   const [headProfessor, setHeadProfessor] = useState("Lee Sang Hyook");
+  const [description, setDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleCourses = () => setShowCourses((prev) => !prev);
   const toggleProfessors = () => setShowProfessors((prev) => !prev);
@@ -42,14 +45,22 @@ const NewDepartment = () => {
     }
   };
 
-  const saveAssignments = () => {
-    console.log("Department Name:", departmentName);
-    console.log("Head Professor:", headProfessor);
-    console.log("Assigned Courses:", selectedCourses);
-    console.log("Assigned Professors:", selectedProfessors);
-    alert("Assignments saved successfully!");
-    setShowCourses(false);
-    setShowProfessors(false);
+  const onSubmit = () => {
+    console.log("departmend data: ", departmentName + " " + description); // log
+    departmentService.create({
+      name: departmentName,
+      description: description,
+      organization: "d38c9d1a-8d40-4f10-808b-c74fe64e18d9 " // required only for ADMIN
+    })
+      .then(res => {
+        console.log("res", res) // log
+      })
+      .catch(err => {
+        console.log("err", err) // log
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   };
 
   return (
@@ -71,27 +82,25 @@ const NewDepartment = () => {
           </div>
           <div className={styles.inputGroup}>
             <label htmlFor="headProfessor">
-              <strong>Head of Department:</strong>
+              <strong>Description: </strong>
             </label>
-            <input
-              type="text"
-              id="headProfessor"
-              value={headProfessor}
-              onChange={(e) => setHeadProfessor(e.target.value)}
-              placeholder="Enter head professor"
-            />
+            <textarea
+              onChange={(e) => setDescription(e.target.value)}
+              className={styles.description}
+              placeholder="Enter department description"
+            ></textarea>
           </div>
         </div>
         <div className={styles.buttonGroup}>
-          <button onClick={toggleCourses}>+Assign courses</button>
-          <button onClick={toggleProfessors}>+Assign professors</button>
-          <button className={styles.saveButton} onClick={saveAssignments}>
-            Save & Assign
+          {/* <button onClick={toggleCourses}>+Assign courses</button>
+          <button onClick={toggleProfessors}>+Assign professors</button> */}
+          <button className={styles.saveButton} onClick={onSubmit}>
+            Create
           </button>
         </div>
         <div className={styles.assignedSection}>
           <div className={styles.assignedList}>
-            <div>
+            {/* <div>
               <h3>Courses</h3>
               {selectedCourses.map((course, index) => (
                 <p key={index}>{course}</p>
@@ -102,7 +111,7 @@ const NewDepartment = () => {
               {selectedProfessors.map((professor, index) => (
                 <p key={index}>{professor}</p>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
