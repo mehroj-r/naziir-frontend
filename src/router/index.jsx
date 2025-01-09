@@ -36,7 +36,7 @@ const Router = () => {
     customToast("success", "You have logged out successfully");
   };
 
-  if (isAuth) {
+  if (!isAuth) {
     return (
       <Routes>
         <Route path="/" element={<AuthLayout />}>

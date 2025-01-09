@@ -14,12 +14,16 @@ import styles from "./Login.module.scss";
 
 const roles = [
   { value: "", label: "Select role" },
-  { value: "ADMIN", label: "Admin" },
   { value: "STUDENT", label: "Student" },
   { value: "ACADEMIC_AFFAIRS", label: "Academic Affairs" },
   { value: "PROFESSOR", label: "Professor" },
   { value: "MANAGER", label: "Manager" },
 ];
+
+// email: "admin@gmail.com",
+// password: "passworD1234$",
+// role: "ADMIN",
+// organization: "d38c9d1a-8d40-4f10-808b-c74fe64e18d9",
 
 const notifyError = (err) => {
   if (err?.response?.data?.message == "Validation failed for fields: organizationId: Organization id is mandatory") {
@@ -64,7 +68,10 @@ export default function LoginPage() {
       .then((res) => {
         if (res?.data?.token) {
           customToast("success", "Successfully logged in!");
-          dispatch(userActions.setToken(res?.data?.token));
+          dispatch(userActions.setAuthorization({
+            token: res?.data?.token,
+            role: role
+          }));
         }
       })
       .catch((err) => {
@@ -89,7 +96,10 @@ export default function LoginPage() {
         .then((res) => {
           if (res?.data?.token) {
             customToast("success", "Successfully logged in!");
-            dispatch(userActions.setToken(res?.data?.token));
+            dispatch(userActions.setAuthorization({
+              token: res?.data?.token,
+              role: role
+            }));
           }
         })
         .catch(err => {
@@ -116,28 +126,14 @@ export default function LoginPage() {
     organizationService
       .getAllAvailableOrganizations()
       .then((res) => {
-        console.log("res", res); // log
         if (res?.status == 200) {
           setOrganizations(res?.data);
         }
       })
       .catch((err) => {
-        console.log("err", err); // log
+        console.log("Login>>UseEffect err:\n", err); // log
       })
-      .finally(() => {});
-    
-    if (false) {
-      // should be deleted later
-      onSubmit({
-        email: "admin@gmail.com",
-        password: "passworD1234$",
-        role: "ADMIN",
-        organization: "d38c9d1a-8d40-4f10-808b-c74fe64e18d9",
-      })
-    }
   }, []);
-
-  console.log("organizations", organizations); // log
 
   return (
     <div className={styles.loginPage}>

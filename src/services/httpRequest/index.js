@@ -46,31 +46,14 @@ const httpRequest = axios.create({
 //   return Promise.reject(error.response);
 // };
 
-// httpRequest.interceptors.request.use((config) => {
-//   const variable = JSON.parse(window.localStorage.getItem("persist:auth"));
-//   const token = variable?.token?.slice(1, -1);
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   } else {
-//     config.headers.Authorization =
-//       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfcGxhdGZvcm1faWQiOiIiLCJjbGllbnRfdHlwZV9pZCI6Ijg4ZmNiZGJiLWFjOTUtNDBhNi1hMGRmLTZhMzQwNTNmOTVlNCIsImRhdGEiOiJhZGRpdGlvbmFsIGpzb24gZGF0YSIsImV4cCI6MTY5ODkwMTcxMywiaWF0IjoxNjk4ODE1MzEzLCJpZCI6IjU0NmY3NTBjLTA2YzktNGJmMS05ODQyLWY0NTU5MTgwOWJiNiIsImlwIjoiYWRkaXRpb25hbCBqc29uIGRhdGEiLCJsb2dpbl90YWJsZV9zbHVnIjoidXNlciIsInByb2plY3RfaWQiOiI0ZGJmYjkwNy04YjRiLTQ2MGItOTA2Yi1jYzgxYzU4ZTY1NmMiLCJyb2xlX2lkIjoiNmE2NDlkZmItNWZjOC00ODU5LTljOWItMzk0NDJjMGNkODgwIiwidGFibGVzIjpbXSwidXNlcl9pZCI6ImZiYjgzODliLTJiZTQtNDEzMi1iZTJmLTFmMDUxZmNhNTZlZiJ9.kqE8sRlsE57uV99Mj9-Ys_Ymp4WweFrhU2IQF03Y2Cg";
-//   }
+httpRequest.interceptors.request.use((config) => {
+  const token = JSON.parse(window.localStorage.getItem("persist:user"))?.token;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
-//   const queryParams = {
-//     "project-id": "4dbfb907-8b4b-460b-906b-cc81c58e656c",
-//   };
-
-//   const queryString = Object.entries(queryParams)
-//     .map(
-//       ([key, value]) =>
-//         `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-//     )
-//     .join("&");
-
-//   config.url += `?${queryString}`;
-
-//   return config;
-// });
+  return config;
+});
 
 // httpRequest.interceptors.response.use(
 //   (response) => response.data,
