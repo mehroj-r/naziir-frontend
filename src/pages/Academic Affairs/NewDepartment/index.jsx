@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./NewDepartment.module.scss";
-import { departmentService } from "../../services/department.service";
+import { departmentService } from "../../../services/department.service";
 
 const assignedCourses = ["Course CS 61A", "Course CS 61B"];
 const assignedProfessors = ["Sirojiddin Juraev", "Lee Sang Hyuook"];

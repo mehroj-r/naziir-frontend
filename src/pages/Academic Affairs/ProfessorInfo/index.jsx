@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ProfessorInfo.module.scss";
-import img1 from "../../assets/images/sultan.png";
-import img2 from "../../assets/images/profilepicture2.png";
+import img1 from "../../../assets/images/sultan.png";
+import img2 from "../../../assets/images/profilepicture2.png";
 
 const professorsData = [
   {

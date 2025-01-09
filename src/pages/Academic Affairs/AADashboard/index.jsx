@@ -15,7 +15,7 @@ const cards = [
     title: "Course List",
     description: "View courses and manage course-related operations",
     imgSrc: courseImage,
-    linkTo: "/ACourses",
+    linkTo: "/courses-list",
   },
   {
     id: 2,
@@ -36,7 +36,7 @@ const cards = [
     title: "Department List",
     description: "View departments and manage deparment-related operations",
     imgSrc: studentImage,
-    linkTo: "/Departments",
+    linkTo: "/departments",
   },
 ];
 
