@@ -39,7 +39,10 @@ export default function RegisterPage() {
         .then(res => {
           if (res?.data?.token) {
             customToast("success", "Successfully registered!")
-            dispatch(userActions.setToken(res?.data?.token));
+            dispatch(userActions.setAuthorization({
+              token: res?.data?.token,
+              role: "STUDENT"
+            }));
           }
         })
         .catch(err => {
