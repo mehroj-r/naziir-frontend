@@ -2,40 +2,41 @@ import React from "react";
 import { Grid, GridItem } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import styles from "./AADashboard.module.scss";
-import bgImage from "../../../assets/images/background.png";
-
-import courseImage from "../../../assets/icons/Imageicons/courses.png";
-import professorImage from "../../../assets/icons/Imageicons/proflist.png";
-import studentImage from "../../../assets/icons/Imageicons/studentlist.png";
 import { SearchIcon } from "../../../assets/icons/headerIcons";
+import {
+  Courselisticon,
+  Departmentlisticon,
+  Professorlisticon,
+  StudentlistIcon,
+} from "../../../assets/icons/aadashboardIcons";
 
 const cards = [
   {
     id: 1,
     title: "Course List",
     description: "View courses and manage course-related operations",
-    imgSrc: courseImage,
+    imgSrc: <Courselisticon />,
     linkTo: "/courses-list",
   },
   {
     id: 2,
     title: "Professor List",
     description: "View professors and manage professor-related operations",
-    imgSrc: professorImage,
+    imgSrc: <Professorlisticon />,
     linkTo: "/professors",
   },
   {
     id: 3,
     title: "Student List",
     description: "View students and manage student-related operations",
-    imgSrc: studentImage,
+    imgSrc: <StudentlistIcon />,
     linkTo: "/students",
   },
   {
     id: 4,
     title: "Department List",
     description: "View departments and manage deparment-related operations",
-    imgSrc: studentImage,
+    imgSrc: <Departmentlisticon />,
     linkTo: "/departments",
   },
 ];
@@ -70,11 +71,15 @@ const AADashboard = () => {
             className={styles.card}
             onClick={() => navigate(card.linkTo)}
           >
-            <img
-              src={card.imgSrc}
-              alt={card.title}
-              className={styles.cardImage}
-            />
+            {typeof card.imgSrc === "string" ? (
+              <img
+                src={card.imgSrc}
+                alt={card.title}
+                className={styles.cardImage}
+              />
+            ) : (
+              <div className={styles.cardIcon}>{card.imgSrc}</div>
+            )}
             <p className={styles.cardTitle}>{card.title}</p>
             <p className={styles.cardDescription}>{card.description}</p>
           </GridItem>

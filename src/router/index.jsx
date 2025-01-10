@@ -10,7 +10,7 @@ import Dashboard from "../pages/Dashboard";
 import QuizzesPage from "../pages/MyQuizzes";
 import Statistics from "../pages/Statistics";
 import QuizInfo from "../pages/QuizInfo";
-import AddCourse from "../components/AddCourse";
+import AddCourse from "../pages/AddCourse";
 import LoginPage from "../pages/Login";
 import RegisterPage from "../pages/Register";
 import CreateQuiz from "../pages/CreateQuiz";
