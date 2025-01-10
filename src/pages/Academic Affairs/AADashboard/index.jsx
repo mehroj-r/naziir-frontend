@@ -6,9 +6,10 @@ import { SearchIcon } from "../../../assets/icons/headerIcons";
 import {
   Courselisticon,
   Departmentlisticon,
+  Grouplisticon,
   Professorlisticon,
   StudentlistIcon,
-} from "../../../assets/icons/aadashboardIcons";
+} from "../../../assets/icons/aaDashboardIcons";
 
 const cards = [
   {
@@ -38,6 +39,13 @@ const cards = [
     description: "View departments and manage deparment-related operations",
     imgSrc: <Departmentlisticon />,
     linkTo: "/departments",
+  },
+  {
+    id: 5,
+    title: "Group List",
+    description: "View groups and manage group-related operations",
+    imgSrc: <Grouplisticon />,
+    linkTo: "/groups",
   },
 ];
 
