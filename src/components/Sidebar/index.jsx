@@ -6,6 +6,7 @@ import {
   HomeIcon,
   QuizzesIcon,
   StatisticsIcon,
+  NotificationIcon
 } from "../../assets/icons/sidebarIcons";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -46,6 +47,13 @@ const items = [
     icon: <HomeIcon />,
     navigateTo: "/aadashboard",
   },
+  {
+    id: 7,
+    title: "Notifications", 
+    icon: <NotificationIcon />,
+    navigateTo: "/notifications", 
+  },
+  
 ];
 
 export default function Sidebar() {
