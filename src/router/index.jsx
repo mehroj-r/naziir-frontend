@@ -22,6 +22,8 @@ import ProfessorInfo from "../pages/Academic Affairs/ProfessorInfo";
 import ACourses from "../pages/Academic Affairs/Courses";
 import Departments from "../pages/Academic Affairs/Departments";
 import NewDepartment from "../pages/Academic Affairs/NewDepartment";
+import Students from "../pages/Academic Affairs/Students";
+import Groups from "../pages/Academic Affairs/Groups";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -74,6 +76,8 @@ const Router = () => {
           <Route path="professorss" element={<Professors />} />
           <Route path="courses-list" element={<ACourses />} />
           <Route path="departments" element={<Departments />} />
+          <Route path="students" element={<Students />} />
+          <Route path="groups" element={<Groups />} />
           <Route path="new-department" element={<NewDepartment />} />
         </Route>
       </Routes>
