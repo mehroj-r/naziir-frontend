@@ -8,6 +8,7 @@ const NotificationsPage = () => {
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+
   useEffect(() => {
     setIsLoading(true);
     notificationService
