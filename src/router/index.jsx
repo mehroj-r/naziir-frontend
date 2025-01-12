@@ -23,6 +23,7 @@ import ACourses from "../pages/Academic Affairs/Courses";
 import Departments from "../pages/Academic Affairs/Departments";
 import NewDepartment from "../components/NewDepartment";
 import NotificationsPage from "../pages/Notifications";
+import NotificationsDetail from "../pages/NotificationDetail";
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
   const userData = useSelector((state) => state.user);
@@ -60,6 +61,7 @@ const Router = () => {
           <Route path="quizzes/:quizId" element={<QuizInfo />} />
           <Route path="not-found" element={<NotFoundPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="notifications/:id" element={<NotificationsDetail />} />
           <Route path="*" element={<Navigate to="/" />} />
           <Route
             path="logout"
