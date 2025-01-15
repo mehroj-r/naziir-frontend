@@ -24,7 +24,7 @@ const Groups = () => {
     },
     {
       id: 3,
-      groupName: "NSE05",
+      groupName: "NSE04",
       department: "Software Eng",
       students: 20,
       avgGrade: "B",
@@ -33,7 +33,7 @@ const Groups = () => {
     },
     {
       id: 4,
-      groupName: "NSE05",
+      groupName: "NSE03",
       department: "Software Eng",
       students: 20,
       avgGrade: "A",
@@ -42,7 +42,7 @@ const Groups = () => {
     },
     {
       id: 5,
-      groupName: "NSE05",
+      groupName: "NSE02",
       department: "Software Eng",
       students: 20,
       avgGrade: "A+",
