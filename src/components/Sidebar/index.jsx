@@ -45,7 +45,7 @@ const items = [
     id: 6,
     title: "Academic Affairs",
     icon: <HomeIcon />,
-    navigateTo: "/aadashboard",
+    navigateTo: "/academic-affairs-dashboard",
   },
   {
     id: 7,
