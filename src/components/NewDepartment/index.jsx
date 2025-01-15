@@ -19,6 +19,26 @@ const availableProfessors = [
   "Sultanbek Erkinbaev 4",
 ];
 
+// {
+//   "id": "fca535c2-8c67-4263-96bf-a711fe4b5020",
+//   "name": "New Uzbekistan University",
+//   "address": {
+//       "id": "2d7a9d06-ac15-4687-8a8d-debf4cd2bf01",
+//       "addressLine1": "123 Main St",
+//       "city": "Tashkent",
+//       "state": "Tashkent",
+//       "postalCode": "100045",
+//       "country": "Uzbekistan"
+//   },
+//   "phoneNumber": "123-456-7890",
+//   "organizationType": "UNIVERSITY",
+//   "domain": "newuu"
+// }
+
+// NewUzbekistanUniversity's Academic Affairs accout
+// email: 2110017@newuu.uz
+// password: n9^V%#y%
+
 const NewDepartment = () => {
   const [showCourses, setShowCourses] = useState(false);
   const [showProfessors, setShowProfessors] = useState(false);
@@ -50,7 +70,6 @@ const NewDepartment = () => {
     departmentService.create({
       name: departmentName,
       description: description,
-      organization: "d38c9d1a-8d40-4f10-808b-c74fe64e18d9 " // required only for ADMIN
     })
       .then(res => {
         console.log("res", res) // log

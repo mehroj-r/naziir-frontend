@@ -40,6 +40,13 @@ const cards = [
   },
 ];
 
+// {
+//   "email":"2110017@newuu.uz",
+//   "password":"n9^V%#y%",
+//   "role": "ACADEMIC_AFFAIRS",
+//   "organizationId":"fca535c2-8c67-4263-96bf-a711fe4b5020"
+// }
+
 const AADashboard = () => {
   const navigate = useNavigate();
 
