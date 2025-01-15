@@ -1,13 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Box,
   Text,
   Input,
   Select,
   Grid,
   GridItem,
-  Button,
 } from "@chakra-ui/react";
 import styles from "./AddCourse.module.scss";
 

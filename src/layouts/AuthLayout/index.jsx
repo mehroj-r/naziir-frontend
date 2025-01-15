@@ -6,7 +6,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 const AuthLayout = () => {
 	return (
 		<div className={styles.authLayout}>
-            <GoogleOAuthProvider clientId="809059444803-jn9ol6ntnvc4nsqnoff0crrpgfpluj7g.apps.googleusercontent.com">
+			<GoogleOAuthProvider clientId="809059444803-jn9ol6ntnvc4nsqnoff0crrpgfpluj7g.apps.googleusercontent.com">
 				<Outlet />
 			</GoogleOAuthProvider>
 		</div>
