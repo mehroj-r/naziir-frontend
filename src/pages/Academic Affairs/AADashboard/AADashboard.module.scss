@@ -2,8 +2,7 @@
   margin: 3vh 20vw 5vh 3vw;
 
   .titles {
-    display: flex;
-    flex-direction: column;
+    
     .title {
       font-size: 28px;
       font-weight: bold;
@@ -17,6 +16,7 @@
     }
     .searchContainer {
       display: flex;
+      
       .searchBox {
         width: 100%;
         padding: 6px 12px;
