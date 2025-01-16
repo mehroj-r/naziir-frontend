@@ -23,7 +23,7 @@ import ACourses from "../pages/Academic Affairs/Courses";
 import Departments from "../pages/Academic Affairs/Departments";
 import NewDepartment from "../components/NewDepartment";
 import NotificationsPage from "../pages/Notifications";
-import NotificationsDetail from '../pages/NotificationDetail';
+import NotificationsDetail from "../pages/NotificationDetail";
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
   const userData = useSelector((state) => state.user);
