@@ -1,4 +1,4 @@
-export function Courselisticon() {
+export function Courselisticon() { // CourseListIcon
   return (
     <svg
       width="24"

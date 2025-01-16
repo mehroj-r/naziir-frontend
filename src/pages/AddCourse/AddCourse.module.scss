@@ -34,9 +34,9 @@
     transition: background-color 0.3s;
     margin-top: 10px;
     justify-self: end;
-  }
 
-  .submitButton:hover {
-    background-color: #01c0e2;
+    &:hover{
+      background-color: #fff;
+    }
   }
 }

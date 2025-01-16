@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text, Button, Image } from "@chakra-ui/react";
+import { Box, Text, Button } from "@chakra-ui/react";
 import styles from "./Step3.module.scss";
 
 const Step3 = ({ prevStep }) => {

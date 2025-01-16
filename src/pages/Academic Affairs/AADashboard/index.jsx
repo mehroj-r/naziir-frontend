@@ -16,38 +16,45 @@ const cards = [
     id: 1,
     title: "Course List",
     description: "View courses and manage course-related operations",
-    imgSrc: <Courselisticon />,
+    icon: <Courselisticon />,
     linkTo: "/courses-list",
   },
   {
     id: 2,
     title: "Professor List",
     description: "View professors and manage professor-related operations",
-    imgSrc: <Professorlisticon />,
+    icon: <Professorlisticon />,
     linkTo: "/professors",
   },
   {
     id: 3,
     title: "Student List",
     description: "View students and manage student-related operations",
-    imgSrc: <StudentlistIcon />,
+    icon: <StudentlistIcon />,
     linkTo: "/students",
   },
   {
     id: 4,
     title: "Department List",
     description: "View departments and manage deparment-related operations",
-    imgSrc: <Departmentlisticon />,
+    icon: <Departmentlisticon />,
     linkTo: "/departments",
   },
   {
     id: 5,
     title: "Group List",
     description: "View groups and manage group-related operations",
-    imgSrc: <Grouplisticon />,
+    icon: <Grouplisticon />,
     linkTo: "/groups",
   },
 ];
+
+// {
+//   "email":"2110017@newuu.uz",
+//   "password":"n9^V%#y%",
+//   "role": "ACADEMIC_AFFAIRS",
+//   "organizationId":"fca535c2-8c67-4263-96bf-a711fe4b5020"
+// }
 
 const AADashboard = () => {
   const navigate = useNavigate();
@@ -79,15 +86,7 @@ const AADashboard = () => {
             className={styles.card}
             onClick={() => navigate(card.linkTo)}
           >
-            {typeof card.imgSrc === "string" ? (
-              <img
-                src={card.imgSrc}
-                alt={card.title}
-                className={styles.cardImage}
-              />
-            ) : (
-              <div className={styles.cardIcon}>{card.imgSrc}</div>
-            )}
+            <div className={styles.cardIcon}>{card.icon}</div>
             <p className={styles.cardTitle}>{card.title}</p>
             <p className={styles.cardDescription}>{card.description}</p>
           </GridItem>

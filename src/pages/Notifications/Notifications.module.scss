@@ -1,0 +1,89 @@
+.notificationsPage {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #f9f9f9;
+    height: 100vh;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2d3748;
+    }
+  
+    .writeMessageButton {
+      background-color: #2b6cb0;
+      color: #ffffff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #2c5282;
+      }
+    }
+  }
+  
+  .notificationsList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .notificationCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+  
+    .notificationContent {
+      h2 {
+        font-size: 18px;
+        font-weight: bold;
+        color: #2d3748;
+        margin: 0 0 5px;
+    }
+  
+    p {
+      font-size: 14px;
+      color: #4a5568;
+      margin: 0;
+    }
+  }
+
+  .viewButton {
+    background-color: #4a5568;
+    color: #ffffff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #2d3748;
+    }
+  }
+}
