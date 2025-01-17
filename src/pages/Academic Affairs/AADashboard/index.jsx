@@ -1,5 +1,4 @@
 import React from "react";
-import { Grid, GridItem } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import styles from "./AADashboard.module.scss";
 import { SearchIcon } from "../../../assets/icons/headerIcons";
@@ -63,7 +62,7 @@ const AADashboard = () => {
     <div className={styles.dashboard}>
       <div className={styles.titles}>
         <h1 className={styles.title}>Academic Affairs</h1>
-        <p className={styles.subTitle}>Quick access</p>
+        <h2 className={styles.subTitle}>Quick access</h2>
         <div className={styles.searchContainer}>
           <input
             type="text"
@@ -75,13 +74,13 @@ const AADashboard = () => {
           </button>
         </div>
       </div>
-      <Grid
+      <div
         templateColumns="repeat(3, 1fr)"
         gap="24px"
         className={styles.cardContainer}
       >
         {cards.map((card) => (
-          <GridItem
+          <div
             key={card.id}
             className={styles.card}
             onClick={() => navigate(card.linkTo)}
@@ -89,9 +88,9 @@ const AADashboard = () => {
             <div className={styles.cardIcon}>{card.icon}</div>
             <p className={styles.cardTitle}>{card.title}</p>
             <p className={styles.cardDescription}>{card.description}</p>
-          </GridItem>
+          </div>
         ))}
-      </Grid>
+      </div>
     </div>
   );
 };

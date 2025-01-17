@@ -1,4 +1,5 @@
 import React from "react";
+import { SearchIcon } from "../../../assets/icons/headerIcons";
 import styles from "./Courses.module.scss";
 
 const coursesData = [
@@ -59,11 +60,12 @@ const ACourses = () => {
         <h1>Courses</h1>
         <button className={styles.newCourseButton}>+ New course</button>
       </div>
-      <input
-        type="text"
-        placeholder="Search for a course"
-        className={styles.searchBar}
-      />
+      <div className={styles.Searchbar}>
+        <button>
+          <SearchIcon />
+        </button>
+        <input type="text" placeholder="Search professors" />
+      </div>
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
