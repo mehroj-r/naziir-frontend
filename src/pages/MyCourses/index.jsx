@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MyCourses.module.scss";
-import searchimg from "../../assets/images/search.png";
 import bgImage from "../../assets/images/background.png";
 import addCourseImg from "../../assets/images/AddCourse.png";
 import { useNavigate } from "react-router-dom";
+import { SearchIcon } from "../../assets/icons/headerIcons";
 
 const CoursesPage = () => {
   const navigate = useNavigate();
@@ -135,7 +135,8 @@ const CoursesPage = () => {
                 value={searchTerm}
                 onChange={handleSearchChange}
               />
-              <img src={searchimg} alt="Search" />
+
+              <SearchIcon />
             </div>
           </div>
           <div className={styles.scrollableBox}>

@@ -1,5 +1,7 @@
 import httpRequest from "./httpRequest";
 
+// Should be corrected
+
 export const notificationService = {
 
   getNotifications: async () => {

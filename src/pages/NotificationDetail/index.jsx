@@ -1,58 +1,10 @@
-// import React, { useState, useEffect } from "react";
-// import { useParams, useNavigate } from "react-router-dom";
-// import { notificationService } from "../../services/notification.service";
-// import styles from "./NotificationsDetail.module.scss";
-
-// const NotificationDetailPage = () => {
-//   const [notification, setNotification] = useState(null);
-//   const [isLoading, setIsLoading] = useState(false);
-//   const { id } = useParams(); 
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     setIsLoading(true);
-//     notificationService
-//       .getNotificationById(id) 
-//       .then((res) => {
-//         console.log("Notification detail:", res);
-//         if (res?.status === 200 && res?.data) {
-//           setNotification(res.data);
-//         } else {
-//           navigate("/notifications");
-//         }
-//       })
-//       .catch((err) => {
-//         console.error("Error fetching notification:", err);
-//       })
-//       .finally(() => {
-//         setIsLoading(false);
-//       });
-//   }, [id, navigate]);
-
-//   if (isLoading) return <div>Loading...</div>;
-
-//   return (
-//     <div className={styles.notificationDetailPage}>
-//       {notification ? (
-//         <>
-//           <h1>{notification.title}</h1>
-//           <p>{notification.description}</p>
-//         </>
-//       ) : (
-//         <p>No notification found</p>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default NotificationDetailPage;
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { notificationService } from "../../services/notification.service";
 import styles from "./NotificationsDetail.module.scss";
 
 const NotificationDetailPage = () => {
-  const { id } = useParams(); // URL'dan id olish
+  const { id } = useParams();
   const [notification, setNotification] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -60,7 +12,6 @@ const NotificationDetailPage = () => {
 
   useEffect(() => {
     if (id) {
-      
       notificationService
         .getNotificationById(id)
         .then((response) => {
