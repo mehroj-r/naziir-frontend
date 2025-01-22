@@ -61,9 +61,7 @@ const ACourses = () => {
         <button className={styles.newCourseButton}>+ New course</button>
       </div>
       <div className={styles.Searchbar}>
-        <button>
           <SearchIcon />
-        </button>
         <input type="text" placeholder="Search professors" />
       </div>
       <div className={styles.tableContainer}>

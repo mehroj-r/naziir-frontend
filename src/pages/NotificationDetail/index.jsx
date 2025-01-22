@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { notificationService } from "../../services/notification.service";
-import { Center, Spinner } from "@chakra-ui/react";
 import styles from "./NotificationsDetail.module.scss";
 
-const NotificationDetail = () => {
+const NotificationDetailPage = () => {
   const { id } = useParams();
   const [notification, setNotification] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
       notificationService
         .getNotificationById(id)
-        .then((res) => {
-          setNotification(res?.data);
-          setError(null);
+        .then((response) => {
+          setNotification(response.data); 
         })
         .catch((err) => {
-          setError("Failed to load notification details.");
+          console.error("Error fetching notification by ID:", err);
+          setError("Xabarni olishda xato yuz berdi.");
         })
         .finally(() => {
           setIsLoading(false);
@@ -28,44 +28,27 @@ const NotificationDetail = () => {
   }, [id]);
 
   if (isLoading) {
-    return (
-      <Center className={styles.loadingContainer}>
-        <Spinner size="lg" />
-      </Center>
-    );
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return (
-      <Center className={styles.errorContainer}>
-        <p>{error}</p>
-        <Link to="/notifications" className={styles.backLink}>
-          Back to Notifications
-        </Link>
-      </Center>
-    );
+    return <div>{error}</div>;
+  }
+
+  if (!notification) {
+    return <div>Xabar topilmadi.</div>;
   }
 
   return (
-    <div className={styles.notificationDetailPage}>
-      <div className={styles.header}>
-        <h1>Notification Details</h1>
-        <Link to="/notifications" className={styles.backLink}>
-          Back to Notifications
-        </Link>
-      </div>
-
-      {notification ? (
-        <div className={styles.notificationContent}>
-          <h2 className={styles.title}>{notification.title}</h2>
-          <p className={styles.message}>{notification.message}</p>
-          <p className={styles.date}>Date: {new Date(notification.createdAt).toLocaleString()}</p>
-        </div>
-      ) : (
-        <p className={styles.noData}>No details available for this notification.</p>
-      )}
+    <div className={styles.notificationDetail}>
+      <div className={styles.header}>{notification.title}</div>
+      <div className={styles.message}>{notification.description}</div>
+      <div className={styles.date}>{notification.date}</div>
+      <button className={styles.backButton} onClick={() => navigate("/notifications")}>
+        Back to Notifications
+      </button>
     </div>
   );
 };
 
-export default NotificationDetail;
+export default NotificationDetailPage;
