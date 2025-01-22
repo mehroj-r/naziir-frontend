@@ -25,7 +25,7 @@ import NewDepartment from "../pages/Academic Affairs/NewDepartment";
 import Students from "../pages/Academic Affairs/Students";
 import Groups from "../pages/Academic Affairs/Groups";
 import NotificationsPage from "../pages/Notifications";
-import NotificationsDetail from '../pages/NotificationDetail';
+import NotificationsDetail from "../pages/NotificationDetail";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
