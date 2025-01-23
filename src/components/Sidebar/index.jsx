@@ -6,9 +6,10 @@ import {
   HomeIcon,
   QuizzesIcon,
   StatisticsIcon,
-  NotificationIcon
+  NotificationIcon,
 } from "../../assets/icons/sidebarIcons";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Professorlisticon } from "../../assets/icons/aaDashboardIcons";
 
 const items = [
   {
@@ -49,11 +50,15 @@ const items = [
   },
   {
     id: 7,
-    title: "Notifications", 
+    title: "Notifications",
     icon: <NotificationIcon />,
-    navigateTo: "/notifications", 
+    navigateTo: "/notifications",
   },
-  
+  {
+    id: 8,
+    title: "Professors-pages",
+    navigateTo: "/professors-pages",
+  },
 ];
 
 export default function Sidebar() {
