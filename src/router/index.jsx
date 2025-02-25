@@ -27,6 +27,7 @@ import Groups from "../pages/Academic Affairs/Groups";
 import NotificationsPage from "../pages/Notifications";
 import NotificationsDetail from "../pages/NotificationDetail";
 import PDashboard from "../pages/Professors Pages/Dashboard";
+import MyCourses from "../pages/Professors Pages/MyCourses";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -41,7 +42,7 @@ const Router = () => {
     customToast("success", "You have logged out successfully");
   };
 
-  if (isAuth) {
+  if (!isAuth) {
     return (
       <Routes>
         <Route path="/" element={<AuthLayout />}>
@@ -85,6 +86,7 @@ const Router = () => {
           <Route path="groups" element={<Groups />} />
           <Route path="new-department" element={<NewDepartment />} />
           <Route path="professors-pages" element={<PDashboard />} />
+          <Route path="my-courses" element={<MyCourses />} />
         </Route>
       </Routes>
     );

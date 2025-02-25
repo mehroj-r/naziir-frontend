@@ -1,0 +1,92 @@
+.background {
+  background: #f9f9f9;
+  padding: 24px 85px 0px 41px;
+  .container {
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    margin: 24px 24px 0 24px;
+    border-bottom: 1px solid #00000033;
+
+    h3 {
+      font-size: 21px;
+      font-weight: bold;
+    }
+  }
+
+  .createButton {
+    background: #002147;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+      background: #00152e;
+    }
+  }
+
+  .courseList {
+    display: flex;
+    gap: 20px;
+    padding: 18px 24px 24px 24px;
+  }
+
+  .courseCard {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .courseImage {
+    height: 160px;
+  }
+
+  .courseInfo {
+    padding: 10px;
+
+    h4 {
+      font-size: 18px;
+      margin: 5px 0;
+    }
+
+    .courseCode {
+      font-size: 16px;
+      color: gray;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+  }
+
+  .manageButton {
+    background: none;
+    border: 1px solid #002147;
+    color: #002147;
+    padding: 8px;
+    margin: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background: #002147;
+      color: #fff;
+    }
+  }
+}
