@@ -28,6 +28,8 @@ import NotificationsPage from "../pages/Notifications";
 import NotificationsDetail from "../pages/NotificationDetail";
 import PDashboard from "../pages/Professors Pages/Dashboard";
 import MyCourses from "../pages/Professors Pages/MyCourses";
+import EconomicsPage from "../pages/Economics";
+import QuizPage from "../pages/Quiz";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -67,6 +69,8 @@ const Router = () => {
           <Route path="not-found" element={<NotFoundPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
           <Route path="/notifications/:id" element={<NotificationsDetail />} />
+          <Route path="courses/economics" element={<EconomicsPage />} />
+          <Route path="courses/quiz" element={<QuizPage />} />
           <Route path="*" element={<Navigate to="/" />} />
           <Route
             path="logout"
