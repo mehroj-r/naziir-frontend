@@ -49,7 +49,7 @@ function Departments() {
         <h1>Departments</h1>
         <button
           className={styles.newDeptButton}
-          onClick={() => navigate("/NewDepartment")}
+          onClick={() => navigate("/new-department")}
         >
           + New department
         </button>

@@ -71,3 +71,17 @@ export function StatisticsIcon() {
   );
 }
 
+export function NotificationIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="white"
+    >
+      <path d="M12 2C8.13 2 5 5.13 5 9v6.29L3.71 17H20.29L19 15.29V9c0-3.87-3.13-7-7-7zm1 19h-2v2h2v-2z"></path>
+    </svg>
+  );
+}
+

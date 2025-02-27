@@ -9,23 +9,24 @@
   }
   .Searchbar {
     display: flex;
-    min-width: 100%;
-    z-index: -9999;
-
-    button {
-      margin-left: 10px;
-      margin-top: -18px;
-      z-index: 2;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #f4f4f4;
+    border-radius: 100px;
+    padding: 8px 14px;
+  
+    .button {
+      width: 20px;
+      height: 20px;
+      margin-bottom: 5px;
     }
+  
     input {
-      padding: 10px 10px 10px 38px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      flex-grow: 1;
-      min-width: 100%;
-      margin-left: -35px;
-      z-index: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      flex: 1;
+      font-size: 14px;
     }
   }
   .professorList {
