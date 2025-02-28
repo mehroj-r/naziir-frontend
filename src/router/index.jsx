@@ -36,8 +36,6 @@ const Router = () => {
   const userData = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  console.log("userData", userData); // log
-
   const logout = () => {
     // should be deleted
     dispatch(userActions.logout());

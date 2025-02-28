@@ -70,7 +70,8 @@ export default function LoginPage() {
           customToast("success", "Successfully logged in!");
           dispatch(userActions.setAuthorization({
             token: res?.data?.token,
-            role: role
+            role: role,
+            userId: res?.data?.userId,
           }));
         }
       })
@@ -98,7 +99,8 @@ export default function LoginPage() {
             customToast("success", "Successfully logged in!");
             dispatch(userActions.setAuthorization({
               token: res?.data?.token,
-              role: role
+              role: role,
+              userId: res?.data?.userId
             }));
           }
         })

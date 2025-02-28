@@ -1,37 +1,34 @@
-import styles from "./Header.module.scss";
 import profileImage from "../../assets/images/profileImage.png";
-import { HamburgerIcon, SearchIcon } from "../../assets/icons/headerIcons";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import newuuLogo from "../../assets/images/newuuLogo.png";
+import { Box, Container, Flex, Image, Text } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 
-export default function Header({ setOpenSidebar }) {
+export default function Header() {
   const navigate = useNavigate();
+  const userData = useSelector((state) => state.user);
 
+  console.log("header userData:", userData) // log
   return (
-    <div className={styles.header}>
-      <button onClick={() => setOpenSidebar((v) => !v)}>
-        <HamburgerIcon />
-      </button>
-
-      <img src={logo} alt="Naziir-logo" className={styles.naziirLogo} />
-      <img src={newuuLogo} alt="NewUU-logo" className={styles.newuuLogo} />
-
-      <div className={styles.searchContainer}>
-        <input type="text" className={styles.searchInput} />
-        <button>
-          <SearchIcon />
-        </button>
-      </div>
-
-      <div className={styles.profile} onClick={() => navigate("/logout")}>
-        <img
-          src={profileImage}
-          className={styles.profileImage}
-          alt="profile image"
-        />
-        <span className={styles.userName}>Palonchiev Pistonchi</span>
-      </div>
-    </div>
+    <Box w='100vw' bg='white'>
+      <Container>
+        <Flex justifyContent='space-between'>
+          <Flex alignItems='center' gap={6}>
+            <Image objectFit='contain' h='50px' src={logo} alt="Naziir-logo" />
+            <Image objectFit='contain' h='60px' src={newuuLogo} alt="NewUU-logo" />
+          </Flex>
+          <Flex>
+            <Text>{userData?.data?.firstName} {userData?.data?.lastName}</Text>
+            <Link to='/logout'>
+              <Image
+                src={profileImage}
+                alt="profile image"
+              />
+            </Link>
+          </Flex>
+        </Flex>
+      </Container>
+    </Box>
   );
 }

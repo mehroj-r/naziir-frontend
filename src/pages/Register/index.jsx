@@ -41,7 +41,8 @@ export default function RegisterPage() {
             customToast("success", "Successfully registered!")
             dispatch(userActions.setAuthorization({
               token: res?.data?.token,
-              role: "STUDENT"
+              role: "STUDENT",
+              userId: res?.data?.userId,
             }));
           }
         })

@@ -1,28 +1,30 @@
 import Header from "../../components/Header";
 import { Outlet } from "react-router-dom";
-import 'react-toastify/dist/ReactToastify.css';
-import styles from './MainLayout.module.scss';
+import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../../components/Sidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "@/store/slices/userSlice";
+import { userService } from "@/services/user.service";
 
-const MainLayout = () => {
-  const [openSidebar, setOpenSidebar] = useState(true);
-  return (
-    <div className={styles.mainLayout} >
-      <span className={`${styles.sidebarWrapper} ${openSidebar ? '' : styles.closeSidebar}`}>
-        <Sidebar />
-      </span>
-      <div className={styles.container}>
-        <span className={`${styles.headerWrapper} ${openSidebar ? '' : styles.longHeader}`}>
-          <Header setOpenSidebar={setOpenSidebar}/>
-        </span>
-        <div className={`${styles.outlet} ${openSidebar ? '' : styles.longOutlet}`}>
-          <Outlet />
-        </div>
-      </div>
-    </div>
-  );
-};
+export default function MainLayout() {
+  const userData = useSelector((state) => state.user);
+  const dispatch = useDispatch()
+  console.log("userData", userData) // log
 
+  useEffect(()=>{
+    if (userData.userId && !userData.data) {
+      userService.getById(userData.userId)
+        .then(res => {
+          dispatch(userActions.setUserData(res?.data))
+        })
+    }
+  },[userData])
 
-export default MainLayout;
+  return(
+    <>
+      <Header />
+      <Outlet />
+    </>
+  )
+}

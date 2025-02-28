@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
 
 export const customToast = (type, msg, autoClose=2500) => {
-  console.log(`toast ${type}: `, msg) // log
   toast[type](msg, {
     position: "top-right",
     autoClose: autoClose,
