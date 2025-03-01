@@ -9,39 +9,47 @@ import {
   Professorlisticon,
   StudentlistIcon,
 } from "../../../assets/icons/aaDashboardIcons";
+import SearchBar from "../../../components/SearchBar";
 
 const cards = [
   {
     id: 1,
-    title: "Course List",
+    title: "Courses",
     description: "View courses and manage course-related operations",
     icon: <Courselisticon />,
     linkTo: "/courses-list",
   },
   {
     id: 2,
-    title: "Professor List",
+    title: "Professors",
     description: "View professors and manage professor-related operations",
     icon: <Professorlisticon />,
     linkTo: "/professors",
   },
   {
     id: 3,
-    title: "Student List",
+    title: "Staff",
+    description: "View groups and manage group-related operations",
+    icon: <Grouplisticon />,
+    linkTo: "/groups",
+  },
+  {
+    id: 4,
+    title: "Students",
     description: "View students and manage student-related operations",
     icon: <StudentlistIcon />,
     linkTo: "/students",
   },
   {
-    id: 4,
-    title: "Department List",
+    id: 5,
+    title: "Departments",
     description: "View departments and manage deparment-related operations",
     icon: <Departmentlisticon />,
     linkTo: "/departments",
   },
   {
-    id: 5,
-    title: "Group List",
+    id: 6,
+    title: "Groups",
     description: "View groups and manage group-related operations",
     icon: <Grouplisticon />,
     linkTo: "/groups",
@@ -63,16 +71,7 @@ const AADashboard = () => {
       <div className={styles.titles}>
         <h1 className={styles.title}>Academic Affairs</h1>
         <h2 className={styles.subTitle}>Quick access</h2>
-        <div className={styles.searchContainer}>
-          <input
-            type="text"
-            className={styles.searchBox}
-            placeholder="Search for courses, professors and students"
-          />
-          <button>
-            <SearchIcon />
-          </button>
-        </div>
+        <SearchBar />
       </div>
       <div
         templateColumns="repeat(3, 1fr)"
