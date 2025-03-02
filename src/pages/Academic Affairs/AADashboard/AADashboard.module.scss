@@ -1,9 +1,7 @@
 .dashboard {
   margin: 3vh 20vw 5vh 3vw;
 
-
   .titles {
-    
     .title {
       font-size: 28px;
       font-weight: bold;
@@ -14,19 +12,6 @@
     .subTitle {
       font-size: 19px;
       color: #4f4f4f;
-    }
-    .searchContainer {
-      display: flex;
-      
-      .searchBox {
-        width: 100%;
-        padding: 6px 35px 6px 12px;
-        margin: 31px -30px 32px 0;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 14px;
-        background-color: #e8edf5;
-      }
     }
   }
 

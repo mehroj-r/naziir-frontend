@@ -111,3 +111,4 @@ export function Grouplisticon({ color = 'black' }) {
     </svg>
   );
 }
+
