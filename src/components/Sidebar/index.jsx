@@ -72,7 +72,7 @@ const managers = [
   {
     title: "Dashboard",
     icon: (color) => <HomeIcon color={color} />,
-    navigateTo: "/academic-affairs-dashboard",
+    navigateTo: "/",
   },
   {
     title: "Courses",

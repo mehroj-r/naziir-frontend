@@ -57,7 +57,7 @@ const Router = () => {
     return (
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Dashboard />} />
+          <Route index element={<AADashboard />} />
           <Route path="create-quiz" element={<CreateQuiz />} />
           <Route path="courses" element={<CoursesPage />} />
           <Route path="add-course" element={<AddCourse />} />

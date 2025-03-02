@@ -28,7 +28,9 @@ export default function MainLayout() {
         <Box pl='1px' pb='1px'>
           <Sidebar />
         </Box>
-        <Outlet />
+        <Box overflowY='scroll'>
+          <Outlet />
+        </Box>
       </Grid>
     </>
   )

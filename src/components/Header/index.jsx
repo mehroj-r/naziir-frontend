@@ -17,6 +17,7 @@ import {
   MenuRoot,
   MenuTrigger,
 } from "@/components/ui/menu"
+import { userActions } from "@/store/slices/userSlice";
 
 export default function Header() {
   const navigate = useNavigate();
