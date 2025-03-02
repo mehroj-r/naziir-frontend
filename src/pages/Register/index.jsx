@@ -47,7 +47,6 @@ export default function RegisterPage() {
           }
         })
         .catch(err => {
-          console.log("err", err) // log
           if (false) {
             customToast("error", err?.response?.data?.message);
           } else {

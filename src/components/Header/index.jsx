@@ -31,7 +31,6 @@ export default function Header() {
     customToast("success", "You have logged out successfully");
   };
 
-  console.log("header userData:", userData) // log
   return (
     <Box color='black' w='100vw' bg='white'>
       <Container px='5%'>

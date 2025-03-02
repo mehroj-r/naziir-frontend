@@ -46,7 +46,6 @@ export default function ForgotPassword({ setIsForgotPassword }) {
           }
         })
         .catch((err) => {
-          console.log("err", err); // log
         })
         .finally(() => {
           setIsLoading(false);
@@ -69,7 +68,6 @@ export default function ForgotPassword({ setIsForgotPassword }) {
           }
         })
         .catch((err) => {
-          console.log("err", err); // log
         })
         .finally(() => {
           setIsLoading(false);
@@ -82,7 +80,6 @@ export default function ForgotPassword({ setIsForgotPassword }) {
       }
       authService.resetCode(body)
         .then(res => {
-          console.log("res", res) // log
           if (res?.data == "Your password has been successfully reset.") {
             customToast(
               "success",
@@ -92,7 +89,6 @@ export default function ForgotPassword({ setIsForgotPassword }) {
           }
         })
         .catch(err => {
-          console.log("err", err) // log
         })
         .finally(() => {
           setIsLoading(false);

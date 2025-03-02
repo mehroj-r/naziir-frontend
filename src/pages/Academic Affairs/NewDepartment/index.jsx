@@ -63,16 +63,13 @@ const NewDepartment = () => {
   };
 
   const onSubmit = () => {
-    console.log("departmend data: ", departmentName + " " + description); // log
     departmentService.create({
       name: departmentName,
       description: description,
     })
       .then(res => {
-        console.log("res", res) // log
       })
       .catch(err => {
-        console.log("err", err) // log
       })
       .finally(() => {
         setIsLoading(false)

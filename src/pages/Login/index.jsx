@@ -105,7 +105,6 @@ export default function LoginPage() {
           }
         })
         .catch(err => {
-          console.log("error", err) // log
           if (false) {
             customToast("error", err?.response?.data?.message);
           } else if (!navigator?.online) {
@@ -133,7 +132,6 @@ export default function LoginPage() {
         }
       })
       .catch((err) => {
-        console.log("Login>>UseEffect err:\n", err); // log
       })
   }, []);
 

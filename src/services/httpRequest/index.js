@@ -7,7 +7,6 @@ const httpRequest = axios.create({
 
 httpRequest.interceptors.request.use((config) => {
   const token = JSON.parse(window.localStorage.getItem("persist:user"))?.token?.replace(/"/g, "");
-  console.log("token", `Bearer ${token}`) // log
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
