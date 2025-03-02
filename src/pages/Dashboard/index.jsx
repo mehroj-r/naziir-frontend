@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, GridItem, Button, Text, Image } from "@chakra-ui/react";
+import { Button, Text, Image } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Dashboard.module.scss";
 

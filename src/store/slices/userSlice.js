@@ -5,6 +5,7 @@ const initialState = {
   role: "",
   data: {},
   token: "",
+  userId: "",
 };
 
 export const { actions: userActions, reducer: userReducers } = createSlice({
@@ -15,14 +16,16 @@ export const { actions: userActions, reducer: userReducers } = createSlice({
       state.data = payload;
     },
     setAuthorization: (state, { payload }) => {
-      state.token = payload?.token;
+      state.token = payload.token;
       state.isAuth = true;
-      state.role = payload?.role;
+      state.role = payload.role;
+      state.userId = payload.userId;
     },
-    logout: (state, { payload }) => {
+    logout: (state) => {
       state.isAuth = false;
       state.data = {};
       state.token = "";
-    }
+      state.userId = "";
+    },
   },
 });

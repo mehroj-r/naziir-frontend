@@ -10,7 +10,7 @@ import Dashboard from "../pages/Dashboard";
 import QuizzesPage from "../pages/MyQuizzes";
 import Statistics from "../pages/Statistics";
 import QuizInfo from "../pages/QuizInfo";
-import AddCourse from "../components/AddCourse";
+import AddCourse from "../pages/AddCourse";
 import LoginPage from "../pages/Login";
 import RegisterPage from "../pages/Register";
 import CreateQuiz from "../pages/CreateQuiz";
@@ -18,17 +18,23 @@ import NotFoundPage from "../pages/NotFoundPage";
 import StudentResults from "../pages/StudentResults";
 import AADashboard from "../pages/Academic Affairs/AADashboard";
 import Professors from "../pages/Academic Affairs/Professors";
-import ProfessorInfo from "../components/ProfessorInfo";
+import ProfessorInfo from "../pages/Academic Affairs/ProfessorInfo";
 import ACourses from "../pages/Academic Affairs/Courses";
 import Departments from "../pages/Academic Affairs/Departments";
-import NewDepartment from "../components/NewDepartment";
+import NewDepartment from "../pages/Academic Affairs/NewDepartment";
+import Students from "../pages/Academic Affairs/Students";
+import Groups from "../pages/Academic Affairs/Groups";
+import NotificationsPage from "../pages/Notifications";
+import NotificationsDetail from "../pages/NotificationDetail";
+import PDashboard from "../pages/Professors Pages/Dashboard";
+import MyCourses from "../pages/Professors Pages/MyCourses";
+import EconomicsPage from "../pages/Economics";
+import QuizPage from "../pages/Quiz";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
   const userData = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
-  console.log("userData", userData); // log
 
   const logout = () => {
     // should be deleted
@@ -59,22 +65,26 @@ const Router = () => {
           <Route path="quizzes" element={<QuizzesPage />} />
           <Route path="quizzes/:quizId" element={<QuizInfo />} />
           <Route path="not-found" element={<NotFoundPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="/notifications/:id" element={<NotificationsDetail />} />
+          <Route path="courses/economics" element={<EconomicsPage />} />
+          <Route path="courses/quiz" element={<QuizPage />} />
           <Route path="*" element={<Navigate to="/" />} />
-          <Route
-            path="logout"
-            element={<button onClick={logout}>logout</button>}
-          />
           <Route
             path="students/:studentId/results"
             element={<StudentResults />}
           />
-          <Route path="aadashboard" element={<AADashboard />} />
-          <Route path="Professors" element={<Professors />} />
-          <Route path="Professors/:professorId" element={<ProfessorInfo />} />
-          <Route path="Professorss" element={<Professors />} />
-          <Route path="ACourses" element={<ACourses />} />
-          <Route path="Departments" element={<Departments />} />
-          <Route path="NewDepartment" element={<NewDepartment />} />
+          <Route path="academic-affairs-dashboard" element={<AADashboard />} />
+          <Route path="professors" element={<Professors />} />
+          <Route path="professors/:professorId" element={<ProfessorInfo />} />
+          <Route path="professorss" element={<Professors />} />
+          <Route path="courses-list" element={<ACourses />} />
+          <Route path="departments" element={<Departments />} />
+          <Route path="students" element={<Students />} />
+          <Route path="groups" element={<Groups />} />
+          <Route path="new-department" element={<NewDepartment />} />
+          <Route path="professors-pages" element={<PDashboard />} />
+          <Route path="my-courses" element={<MyCourses />} />
         </Route>
       </Routes>
     );

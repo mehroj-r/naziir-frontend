@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MyQuizzes.module.scss";
-import searchimg from "../../assets/images/search.png";
 import bgImage from "../../assets/images/background.png";
 import { useNavigate } from "react-router-dom";
+import { SearchIcon } from "../../assets/icons/headerIcons";
 
 const defaultQuizData = [
   {
@@ -202,7 +202,7 @@ const QuizzesPage = () => {
                 value={searchTerm}
                 onChange={handleSearchChange}
               />
-              <img src={searchimg} alt="Search" />
+              <SearchIcon />
             </div>
           </div>
           <div className={styles.scrollableBox}>

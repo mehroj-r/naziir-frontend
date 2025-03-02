@@ -1,42 +1,50 @@
 import React from "react";
-import { Grid, GridItem } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import styles from "./AADashboard.module.scss";
-import bgImage from "../../../assets/images/background.png";
-
-import courseImage from "../../../assets/icons/Imageicons/courses.png";
-import professorImage from "../../../assets/icons/Imageicons/proflist.png";
-import studentImage from "../../../assets/icons/Imageicons/studentlist.png";
 import { SearchIcon } from "../../../assets/icons/headerIcons";
+import {
+  Courselisticon,
+  Departmentlisticon,
+  Grouplisticon,
+  Professorlisticon,
+  StudentlistIcon,
+} from "../../../assets/icons/aaDashboardIcons";
 
 const cards = [
   {
     id: 1,
     title: "Course List",
     description: "View courses and manage course-related operations",
-    imgSrc: courseImage,
-    linkTo: "/ACourses",
+    icon: <Courselisticon />,
+    linkTo: "/courses-list",
   },
   {
     id: 2,
     title: "Professor List",
     description: "View professors and manage professor-related operations",
-    imgSrc: professorImage,
+    icon: <Professorlisticon />,
     linkTo: "/professors",
   },
   {
     id: 3,
     title: "Student List",
     description: "View students and manage student-related operations",
-    imgSrc: studentImage,
+    icon: <StudentlistIcon />,
     linkTo: "/students",
   },
   {
     id: 4,
     title: "Department List",
     description: "View departments and manage deparment-related operations",
-    imgSrc: studentImage,
-    linkTo: "/Departments",
+    icon: <Departmentlisticon />,
+    linkTo: "/departments",
+  },
+  {
+    id: 5,
+    title: "Group List",
+    description: "View groups and manage group-related operations",
+    icon: <Grouplisticon />,
+    linkTo: "/groups",
   },
 ];
 
@@ -47,7 +55,7 @@ const AADashboard = () => {
     <div className={styles.dashboard}>
       <div className={styles.titles}>
         <h1 className={styles.title}>Academic Affairs</h1>
-        <p className={styles.subTitle}>Quick access</p>
+        <h2 className={styles.subTitle}>Quick access</h2>
         <div className={styles.searchContainer}>
           <input
             type="text"
@@ -59,27 +67,23 @@ const AADashboard = () => {
           </button>
         </div>
       </div>
-      <Grid
+      <div
         templateColumns="repeat(3, 1fr)"
         gap="24px"
         className={styles.cardContainer}
       >
         {cards.map((card) => (
-          <GridItem
+          <div
             key={card.id}
             className={styles.card}
             onClick={() => navigate(card.linkTo)}
           >
-            <img
-              src={card.imgSrc}
-              alt={card.title}
-              className={styles.cardImage}
-            />
+            <div className={styles.cardIcon}>{card.icon}</div>
             <p className={styles.cardTitle}>{card.title}</p>
             <p className={styles.cardDescription}>{card.description}</p>
-          </GridItem>
+          </div>
         ))}
-      </Grid>
+      </div>
     </div>
   );
 };

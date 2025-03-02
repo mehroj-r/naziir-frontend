@@ -1,6 +1,6 @@
 .container {
   padding: 20px;
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
 
   border-radius: 8px;
@@ -33,14 +33,27 @@
     }
   }
 }
-
-.searchBar {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 100px;
+.Searchbar {
+  display: flex;
+  align-items: center;
   margin-bottom: 20px;
-  font-size: 14px;
+  background-color: #f4f4f4;
+  border-radius: 100px;
+  padding: 8px 14px;
+
+  .button {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 5px;
+  }
+
+  input {
+    border: none;
+    background: transparent;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+  }
 }
 
 .tableContainer {

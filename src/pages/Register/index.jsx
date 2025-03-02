@@ -41,12 +41,12 @@ export default function RegisterPage() {
             customToast("success", "Successfully registered!")
             dispatch(userActions.setAuthorization({
               token: res?.data?.token,
-              role: "STUDENT"
+              role: "STUDENT",
+              userId: res?.data?.userId,
             }));
           }
         })
         .catch(err => {
-          console.log("err", err) // log
           if (false) {
             customToast("error", err?.response?.data?.message);
           } else {

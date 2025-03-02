@@ -2,20 +2,8 @@
   background-color: #081545;
   height: 100%;
   width: 100%;
+  border-radius: 8px;
 
-  .logos {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 10px 0;
-    margin-bottom: 48px;
-
-    .naziirLogo {
-      height: 40px;
-    }
-    .newuuLogo {
-      height: 40px;
-    }
-  }
   .pages {
     color: white;
     cursor: pointer;
@@ -29,16 +17,7 @@
       &:hover {
         background-color: #fff;
         background-color: #009688;
-        // background-color: #FFA726;
-        // background-color: #E57373;
-        // background-color: #42A5F5;
       }
-
-      // span{
-      //     flex-grow: 1;
-      //     display: flex;
-      //     justify-content: center;
-      // }
     }
     .active {
       background-color: #009688;

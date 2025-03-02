@@ -1,28 +1,35 @@
 import Header from "../../components/Header";
 import { Outlet } from "react-router-dom";
-import 'react-toastify/dist/ReactToastify.css';
-import styles from './MainLayout.module.scss';
-import Sidebar from "../../components/Sidebar";
-import { useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "@/store/slices/userSlice";
+import { userService } from "@/services/user.service";
+import { Box, Grid } from "@chakra-ui/react";
+import Sidebar from "@/components/Sidebar";
 
-const MainLayout = () => {
-  const [openSidebar, setOpenSidebar] = useState(true);
-  return (
-    <div className={styles.mainLayout} >
-      <span className={`${styles.sidebarWrapper} ${openSidebar ? '' : styles.closeSidebar}`}>
-        <Sidebar />
-      </span>
-      <div className={styles.container}>
-        <span className={`${styles.headerWrapper} ${openSidebar ? '' : styles.longHeader}`}>
-          <Header setOpenSidebar={setOpenSidebar}/>
-        </span>
-        <div className={`${styles.outlet} ${openSidebar ? '' : styles.longOutlet}`}>
-          <Outlet />
-        </div>
-      </div>
-    </div>
-  );
-};
+export default function MainLayout() {
+  const userData = useSelector((state) => state.user);
+  const dispatch = useDispatch()
 
+  useEffect(()=>{
+    if (userData.userId && !userData.data) {
+      userService.getById(userData.userId)
+        .then(res => {
+          dispatch(userActions.setUserData(res?.data))
+        })
+    }
+  },[userData])
 
-export default MainLayout;
+  return(
+    <>
+      <Header />
+      <Grid h='calc(100vh - 60px)' templateColumns='250px 1fr'>
+        <Box pl='1px' pb='1px'>
+          <Sidebar />
+        </Box>
+        <Outlet />
+      </Grid>
+    </>
+  )
+}

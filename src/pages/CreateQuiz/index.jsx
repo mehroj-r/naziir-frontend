@@ -15,7 +15,6 @@ export default function CreateQuiz() {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log("quiz data", data); // log
   };
 
   const nextStep = () => {

@@ -70,7 +70,8 @@ export default function LoginPage() {
           customToast("success", "Successfully logged in!");
           dispatch(userActions.setAuthorization({
             token: res?.data?.token,
-            role: role
+            role: role,
+            userId: res?.data?.userId,
           }));
         }
       })
@@ -98,12 +99,12 @@ export default function LoginPage() {
             customToast("success", "Successfully logged in!");
             dispatch(userActions.setAuthorization({
               token: res?.data?.token,
-              role: role
+              role: role,
+              userId: res?.data?.userId
             }));
           }
         })
         .catch(err => {
-          console.log("error", err) // log
           if (false) {
             customToast("error", err?.response?.data?.message);
           } else if (!navigator?.online) {
@@ -131,7 +132,6 @@ export default function LoginPage() {
         }
       })
       .catch((err) => {
-        console.log("Login>>UseEffect err:\n", err); // log
       })
   }, []);
 
