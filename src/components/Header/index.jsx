@@ -18,6 +18,7 @@ import {
   MenuTrigger,
 } from "@/components/ui/menu"
 import { userActions } from "@/store/slices/userSlice";
+import { customToast } from "@/utils/toastify";
 
 export default function Header() {
   const navigate = useNavigate();

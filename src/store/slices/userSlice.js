@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isAuth: false,
   role: "",
-  data: {},
+  data: null,
   token: "",
   userId: "",
 };
@@ -23,9 +23,10 @@ export const { actions: userActions, reducer: userReducers } = createSlice({
     },
     logout: (state) => {
       state.isAuth = false;
-      state.data = {};
+      state.data = null;
       state.token = "";
       state.userId = "";
+      state.role = ""
     },
   },
 });
