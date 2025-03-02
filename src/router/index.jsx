@@ -71,10 +71,6 @@ const Router = () => {
           <Route path="courses/quiz" element={<QuizPage />} />
           <Route path="*" element={<Navigate to="/" />} />
           <Route
-            path="logout"
-            element={<button onClick={logout}>logout</button>}
-          />
-          <Route
             path="students/:studentId/results"
             element={<StudentResults />}
           />
