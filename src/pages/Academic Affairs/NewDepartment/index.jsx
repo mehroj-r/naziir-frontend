@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styles from "./NewDepartment.module.scss";
 import { departmentService } from "../../../services/department.service";
+import { customToast } from "@/utils/toastify";
+import { useNavigate } from "react-router-dom";
 
 const assignedCourses = ["Course CS 61A", "Course CS 61B"];
 const assignedProfessors = ["Sirojiddin Juraev", "Lee Sang Hyuook"];
@@ -46,6 +48,7 @@ const NewDepartment = () => {
   const [headProfessor, setHeadProfessor] = useState("Lee Sang Hyook");
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
 
   const toggleCourses = () => setShowCourses((prev) => !prev);
   const toggleProfessors = () => setShowProfessors((prev) => !prev);
@@ -68,6 +71,10 @@ const NewDepartment = () => {
       description: description,
     })
       .then(res => {
+        if(res?.data?.id){
+          customToast("success", "The department is created successfully")
+          navigate(-1)
+        }
       })
       .catch(err => {
       })

@@ -82,7 +82,7 @@ const Router = () => {
           <Route path="departments" element={<Departments />} />
           <Route path="students" element={<Students />} />
           <Route path="groups" element={<Groups />} />
-          <Route path="new-department" element={<NewDepartment />} />
+          <Route path="departments/create" element={<NewDepartment />} />
           <Route path="professors-pages" element={<PDashboard />} />
           <Route path="my-courses" element={<MyCourses />} />
         </Route>

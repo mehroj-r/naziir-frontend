@@ -1,47 +1,25 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { SearchIcon } from "../../../assets/icons/headerIcons";
 import styles from "./Departments.module.scss";
 import { useNavigate } from "react-router-dom";
+import { useDepartments } from "@/services/department.service";
 
 function Departments() {
   const navigate = useNavigate();
-  const departments = [
-    {
-      name: "Software Engineering",
-      professor: 10,
-      students: 120,
-      subjects: 10,
-      head: "Sirojiddin Juraev",
-    },
-    {
-      name: "Chemical Engineering",
-      professor: 10,
-      students: 150,
-      subjects: 10,
-      head: "Lee",
-    },
-    {
-      name: "Industrial Management",
-      professor: 10,
-      students: 110,
-      subjects: 10,
-      head: "Lee",
-    },
-    {
-      name: "Physical Engineering",
-      professor: 10,
-      students: 130,
-      subjects: 10,
-      head: "Lee",
-    },
-    {
-      name: "Pedagogics",
-      professor: 10,
-      students: 130,
-      subjects: 10,
-      head: "Lee",
-    },
-  ];
+  
+  const { data, isLoading } = useDepartments({
+    params: { page: 1, limit: 10 },
+  });
+
+  const departments = useMemo(() => {
+    return data?.data?.data
+  }, [data])
+
+  if(isLoading){
+    return (
+      <>Loading...</>
+    )
+  }
 
   return (
     <div className={styles.container}>
@@ -49,7 +27,7 @@ function Departments() {
         <h1>Departments</h1>
         <button
           className={styles.newDeptButton}
-          onClick={() => navigate("/new-department")}
+          onClick={() => navigate("/departments/create")}
         >
           + New department
         </button>
@@ -72,13 +50,13 @@ function Departments() {
           </tr>
         </thead>
         <tbody>
-          {departments.map((dept, index) => (
+          {departments.map((item, index) => (
             <tr key={index}>
-              <td>{dept.name}</td>
-              <td>{dept.professor}</td>
-              <td>{dept.students}</td>
-              <td>{dept.subjects}</td>
-              <td>{dept.head}</td>
+              <td>{item?.name}</td>
+              <td>{item?.professor}</td>
+              <td>{item?.students}</td>
+              <td>{item?.subjects}</td>
+              <td>{item?.head}</td>
               <td>
                 <button className={styles.viewButton}>View</button>
               </td>
