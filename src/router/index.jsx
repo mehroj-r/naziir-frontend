@@ -77,7 +77,6 @@ const Router = () => {
           <Route path="academic-affairs-dashboard" element={<AADashboard />} />
           <Route path="professors" element={<Professors />} />
           <Route path="professors/:professorId" element={<ProfessorInfo />} />
-          <Route path="professorss" element={<Professors />} />
           <Route path="courses-list" element={<ACourses />} />
           <Route path="departments" element={<Departments />} />
           <Route path="students" element={<Students />} />

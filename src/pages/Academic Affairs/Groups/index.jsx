@@ -1,55 +1,14 @@
 import React from "react";
 import { SearchIcon } from "../../../assets/icons/headerIcons";
 import styles from "./Groups.module.scss";
+import { useGroups } from "@/services/groups.service";
 
 const Groups = () => {
-  const groups = [
-    {
-      id: 1,
-      groupName: "NSE05",
-      department: "Software Eng",
-      students: 20,
-      avgGrade: "B+",
-      started: "Jun 1, 2022",
-      ended: "-",
-    },
-    {
-      id: 2,
-      groupName: "NSE05",
-      department: "Software Eng",
-      students: 20,
-      avgGrade: "A-",
-      started: "Jun 1, 2022",
-      ended: "-",
-    },
-    {
-      id: 3,
-      groupName: "NSE04",
-      department: "Software Eng",
-      students: 20,
-      avgGrade: "B",
-      started: "Jun 1, 2022",
-      ended: "-",
-    },
-    {
-      id: 4,
-      groupName: "NSE03",
-      department: "Software Eng",
-      students: 20,
-      avgGrade: "A",
-      started: "Jun 1, 2022",
-      ended: "-",
-    },
-    {
-      id: 5,
-      groupName: "NSE02",
-      department: "Software Eng",
-      students: 20,
-      avgGrade: "A+",
-      started: "Jun 1, 2022",
-      ended: "-",
-    },
-  ];
+
+  const { data, isLoading } = useGroups({
+    params: { page: 1, limit: 10 },
+  });
+
 
   return (
     <div className={styles.container}>
@@ -79,14 +38,14 @@ const Groups = () => {
             </tr>
           </thead>
           <tbody>
-            {groups.map((group) => (
-              <tr key={group.id}>
-                <td>{group.groupName}</td>
-                <td>{group.department}</td>
-                <td>{group.students}</td>
-                <td>{group.avgGrade}</td>
-                <td>{group.started}</td>
-                <td>{group.ended}</td>
+            {data?.data?.data?.map((group) => (
+              <tr key={group?.id}>
+                <td>{group?.name}</td>
+                <td>{group?.department}</td>
+                <td>{group?.students}</td>
+                <td>{group?.avgGrade}</td>
+                <td>{group?.year}</td>
+                <td>{group?.ended}</td>
                 <td>
                   <button className={styles.viewButton}>View</button>
                 </td>

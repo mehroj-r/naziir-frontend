@@ -4,35 +4,22 @@ import styles from "./Professors.module.scss";
 import img1 from "../../../assets/images/sultan.png";
 import img2 from "../../../assets/images/profilepicture2.png";
 import { SearchIcon } from "../../../assets/icons/headerIcons";
-const professorsData = [
-  {
-    id: "1",
-    name: "Sultanbek Erkinbaev, Ph.D.",
-    title: "Assistant Professor of Computer Science",
-    university: "University of California, Berkeley",
-    avatar: img1,
-    courses: ["Course CS 61A", "Course CS 61B"],
-  },
-  {
-    id: "2",
-    name: "Tara M. Richardson, Ph.D.",
-    title: "Assistant Professor of Computer Science",
-    university: "University of California, Berkeley",
-    avatar: img2,
-    courses: ["Course CS 61A", "Course CS 61B"],
-  },
-  {
-    id: "3",
-    name: "Emma L. Brown, Ph.D.",
-    title: "Associate Professor of Physics",
-    university: "MIT",
-    avatar: img2,
-    courses: ["Course Physics 1", "Course Physics 2"],
-  },
-];
+import { useProfessors } from "@/services/professors.service";
+
 
 const Professors = () => {
   const navigate = useNavigate();
+
+  const { data, isLoading } = useProfessors({
+    params: { 
+      page: 1, 
+      limit: 10, 
+      sortBy: 'firstName',
+      sortOrder: 'ASC'
+    },
+  });
+
+  console.log("profs data:", data) // log
 
   return (
     <div className={styles.pageBody}>
@@ -44,20 +31,23 @@ const Professors = () => {
         <input type="text" placeholder="Search professors" />
       </div>
       <div className={styles.professorList}>
-        {professorsData.map((professor) => (
+        {data?.data?.data?.map((prof) => (
           <div
-            key={professor.id}
+            key={prof?.id}
             className={styles.professorItem}
-            onClick={() => navigate(`/professors/${professor.id}`)}
+            onClick={() => navigate(`/professors/${prof?.id}`)}
           >
-            <img
-              src={professor.avatar}
-              alt={professor.name}
-              className={styles.avatarSmall}
-            />
+            {prof?.image && (
+              <img
+                src={prof?.avatar}
+                alt={prof?.name}
+                className={styles.avatarSmall}
+              />
+            )}
             <div className={styles.description}>
-              <h2>{professor.name}</h2>
-              <p>{professor.title}</p>
+              <h2>{prof?.firstName} {prof?.lastName}</h2>
+              <p>{prof?.employeeId}</p>
+              <p>{prof?.email}</p>
             </div>
             <button className={styles.detailsButton}>View Profile</button>
           </div>
