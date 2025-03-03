@@ -50,7 +50,7 @@ function Departments() {
           </tr>
         </thead>
         <tbody>
-          {departments.map((item, index) => (
+          {departments?.map((item, index) => (
             <tr key={index}>
               <td>{item?.name}</td>
               <td>{item?.professor}</td>
