@@ -1,213 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./MyCourses.module.scss";
-import bgImage from "../../assets/images/background.png";
-import addCourseImg from "../../assets/images/AddCourse.png";
-import { useNavigate } from "react-router-dom";
-import { SearchIcon } from "../../assets/icons/headerIcons";
 
-const CoursesPage = () => {
-  const navigate = useNavigate();
-  const [courses, setCourses] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filters, setFilters] = useState({
-    semester: "Fall 2025",
-    credit: "6",
-    passingPoint: "40",
-  });
+const courses = [
+  { course: "Economics 101", professor: "Dr. John Smith", students: 120, avgGrade: "B+", started: "Jun 1, 2022", ended: "Active" },
+  { course: "Mathematics 201", professor: "Dr. Jane Doe", students: 150, avgGrade: "A-", started: "Jun 1, 2022", ended: "Active" },
+  { course: "History 301", professor: "Dr. Michael Johnson", students: 110, avgGrade: "B", started: "Jun 1, 2022", ended: "Active" },
+  { course: "Psychology 401", professor: "Dr. Emily Brown", students: 130, avgGrade: "A", started: "Jun 1, 2022", ended: "Active" },
+  { course: "Physics 501", professor: "Dr. David Wilson", students: 140, avgGrade: "B-", started: "Jun 1, 2022", ended: "Active" },
+  { course: "Chemistry 601", professor: "Dr. Sarah Lee", students: 160, avgGrade: "A+", started: "Jun 1, 2022", ended: "Active" },
+];
 
-  useEffect(() => {
-    const courseData = [
-      {
-        id: 1,
-        name: "OOP",
-        semester: "Fall 2025",
-        credit: 6,
-        passingPoint: 40,
-      },
-      {
-        id: 2,
-        name: "Database",
-        semester: "Spring 2024",
-        credit: 3,
-        passingPoint: 50,
-      },
-      {
-        id: 3,
-        name: "Programming",
-        semester: "Fall 2021",
-        credit: 6,
-        passingPoint: 40,
-      },
-      {
-        id: 4,
-        name: "Java",
-        semester: "Fall 2022",
-        credit: 3,
-        passingPoint: 50,
-      },
-      {
-        id: 5,
-        name: "Algorithms",
-        semester: "Spring 2023",
-        credit: 6,
-        passingPoint: 40,
-      },
-      {
-        id: 6,
-        name: "Backend development",
-        semester: "Fall 2023",
-        credit: 3,
-        passingPoint: 50,
-      },
-      {
-        id: 7,
-        name: "Frontend development",
-        semester: "Fall 2023",
-        credit: 6,
-        passingPoint: 50,
-      },
-      {
-        id: 8,
-        name: "Data Structures",
-        semester: "Fall 2025",
-        credit: 3,
-        passingPoint: 40,
-      },
-      {
-        id: 9,
-        name: "Software Engineering",
-        semester: "Spring 2024",
-        credit: 3,
-        passingPoint: 50,
-      },
-      {
-        id: 10,
-        name: "Web Development",
-        semester: "Spring 2023",
-        credit: 6,
-        passingPoint: 40,
-      },
-    ];
-    setCourses(courseData);
-  }, []);
-
-  const filteredCourses = courses.filter((course) => {
-    const matchesSearch = course.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesSemester = course.semester === filters.semester;
-    const matchesCredit = course.credit.toString() === filters.credit;
-    const matchesPassingPoint =
-      course.passingPoint.toString() === filters.passingPoint;
-
-    return (
-      matchesSearch && matchesSemester && matchesCredit && matchesPassingPoint
-    );
-  });
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleFilterChange = (e) => {
-    setFilters({
-      ...filters,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSyllabusClick = (courseId) => {
-    navigate(`/syllabus/${courseId}`);
-  };
+const MyCourses = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className={styles.coursesPage}>
-      <img src={bgImage} alt="Background Left" className={styles.bgLeft} />
-      <img src={bgImage} alt="Background Right" className={styles.bgRight} />
-      <h1>My courses:</h1>
-      <div className={styles.coursesContainer}>
-        <div className={styles.coursesList}>
-          <div className={styles.searchBar}>
-            <div className={styles.inputt}>
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
-
-              <SearchIcon />
-            </div>
-          </div>
-          <div className={styles.scrollableBox}>
-            {filteredCourses.map((course) => (
-              <div className={styles.courseItem} key={course.id}>
-                <div className={styles.courseDetails}>
-                  <h3>{course.name}</h3>
-                  <p>{course.semester}</p>
-
-                  <div className={styles.courseInfo}></div>
-                </div>
-                <div
-                  className={styles.syllabusButton}
-                  onClick={() => handleSyllabusClick(course.id)}
-                >
-                  <p>Syllabus</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className={styles.courseFilter}>
-          <h2>Filter:</h2>
-          <div className={styles.filterGroup}>
-            <label>Select semester:</label>
-            <select
-              name="semester"
-              value={filters.semester}
-              onChange={handleFilterChange}
-            >
-              <option value="Fall 2025">Fall 2025</option>
-              <option value="Spring 2024">Spring 2024</option>
-              <option value="Fall 2023">Fall 2023</option>
-              <option value="Spring 2023">Spring 2023</option>
-              <option value="Fall 2022">Fall 2022</option>
-              <option value="Fall 2021">Fall 2021</option>
-            </select>
-          </div>
-          <div className={styles.filterGroup}>
-            <label>Select credit:</label>
-            <select
-              name="credit"
-              value={filters.credit}
-              onChange={handleFilterChange}
-            >
-              <option value="6">6</option>
-              <option value="3">3</option>
-            </select>
-          </div>
-          <div className={styles.filterGroup}>
-            <label>Select course's passing point:</label>
-            <select
-              name="passingPoint"
-              value={filters.passingPoint}
-              onChange={handleFilterChange}
-            >
-              <option value="40">40</option>
-              <option value="50">50</option>
-            </select>
-          </div>
-          <div
-            className={styles.addCourse}
-            onClick={() => navigate("/add-course")}
-          >
-            <img src={addCourseImg} alt="Add new course" />
-            <p>Add new course</p>
-          </div>
+    <div className={styles.myCourses}>
+     
+      <div className={styles.header}>
+        <h2 className={styles.title}>Courses</h2>
+        <div className={styles.searchWrapper}>
+          <input className={styles.searchBar} type="text" placeholder="Search for a course" />
+          <button className={styles.addCourseButton} onClick={() => setIsModalOpen(true)}>
+            + New Course
+          </button>
         </div>
       </div>
+
+     
+      <table className={styles.coursesTable}>
+        <thead>
+          <tr>
+            <th>Course</th>
+            <th>Professor</th>
+            <th>Students</th>
+            <th>Avg Grade</th>
+            <th>Started</th>
+            <th>Ended</th>
+          </tr>
+        </thead>
+        <tbody>
+          {courses.map((course, index) => (
+            <tr key={index}>
+              <td>{course.course}</td>
+              <td>{course.professor}</td>
+              <td>{course.students}</td>
+              <td>{course.avgGrade}</td>
+              <td>{course.started}</td>
+              <td>
+                <span className={styles.status}>{course.ended}</span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+
+      {isModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <button className={styles.modalClose} onClick={() => setIsModalOpen(false)}>×</button>
+            <h3 className={styles.modalTitle}>New Course</h3>
+            <input className={styles.modalInput} type="text" placeholder="Course Info 1" />
+            <input className={styles.modalInput} type="text" placeholder="Course Professor" />
+            <input className={styles.modalInput} type="text" placeholder="Course Range" />
+            <button className={styles.modalButton}>Add Course</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default CoursesPage;
+export default MyCourses;

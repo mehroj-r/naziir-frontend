@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Economics.module.scss";
-import searchimg from "../../assets/images/search.png";
+// import searchimg from "../../assets/images/search.png";
 
 const quizData = [
   { id: 1, name: "Quiz 1", subject: "Economics 112" },
