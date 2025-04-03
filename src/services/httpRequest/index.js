@@ -1,3 +1,4 @@
+import { customToast } from "@/utils/toastify";
 import axios from "axios";
 
 const httpRequest = axios.create({
@@ -13,5 +14,17 @@ httpRequest.interceptors.request.use((config) => {
 
   return config;
 });
+
+httpRequest.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // if (error?.response && error?.response?.status === 403) {
+    //   localStorage.removeItem("persist:user");
+    //   customToast("error", "Session expired. Please log in again.");
+    // }
+    // return Promise.reject(error);
+  }
+);
+
 
 export default httpRequest;

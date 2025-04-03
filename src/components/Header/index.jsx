@@ -3,7 +3,6 @@ import logo from "../../assets/images/logo.png";
 import newuuLogo from "../../assets/images/newuuLogo.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  AvatarIcon,
   Box,
   Button,
   Container,
@@ -11,12 +10,6 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import {
-  MenuContent,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
-} from "@/components/ui/menu"
 import { userActions } from "@/store/slices/userSlice";
 import { customToast } from "@/utils/toastify";
 
@@ -35,8 +28,7 @@ export default function Header() {
 
   return (
     <Box color='black' w='100vw' bg='white'>
-      <Container px='5%'>
-        <Flex justifyContent='space-between'>
+        <Flex px="5%" justifyContent='space-between'>
           <Flex alignItems='center' gap={6}>
             <Image objectFit='contain' h='50px' src={logo} alt="Naziir-logo" />
             <Image objectFit='contain' h='60px' src={newuuLogo} alt="NewUU-logo" />
@@ -44,7 +36,7 @@ export default function Header() {
           <Flex alignItems='center' gap={4}>
             <Text fontSize='18px'>{userData?.data?.firstName} {userData?.data?.lastName}</Text>
             <Box onClick={logout} border='1px solid black' p={2} rounded='50%' >
-              <AvatarIcon />
+              Log out
             </Box>
             {/* <MenuRoot>
               <MenuTrigger asChild>
@@ -69,7 +61,6 @@ export default function Header() {
             </MenuRoot> */}
           </Flex>
         </Flex>
-      </Container>
     </Box>
   );
 }

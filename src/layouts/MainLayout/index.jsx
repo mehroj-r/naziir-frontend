@@ -13,7 +13,7 @@ export default function MainLayout() {
   const dispatch = useDispatch()
 
   useEffect(()=>{
-    if (userData.userId && !userData.data) {
+    if (userData.userId && !!userData?.token && !userData.data) {
       userService.getById(userData.userId)
         .then(res => {
           dispatch(userActions.setUserData(res?.data))

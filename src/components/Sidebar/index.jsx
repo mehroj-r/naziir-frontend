@@ -77,7 +77,7 @@ const managers = [
   {
     title: "Courses",
     icon: (color) => <CourseIcon color={color} />,
-    navigateTo: "/courses-list",
+    navigateTo: "/courses",
   },
   {
     title: "Professors",

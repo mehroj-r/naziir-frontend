@@ -17,7 +17,7 @@ const cards = [
     title: "Courses",
     description: "View courses and manage course-related operations",
     icon: <Courselisticon />,
-    linkTo: "/courses-list",
+    linkTo: "/courses",
   },
   {
     id: 2,
