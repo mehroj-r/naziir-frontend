@@ -80,7 +80,7 @@ const NewGroupForm = ({ onClose }) => {
   const { data } = useDepartments({ params: { page: 1, limit: 100 } });
   const departments = useMemo(() => data?.data?.data ?? [], [data]);
 
-  const organizationId = "3f69ffb4-2e25-4041-9520-c61ea6937650"; // Use from context if dynamic
+  const organizationId = "3f69ffb4-2e25-4041-9520-c61ea6937650";
 
   const onSubmit = () => {
     setIsLoading(true);

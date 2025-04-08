@@ -2,10 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import httpRequest from "./httpRequest";
 
 export const groupService = {
-  create: async ({ name, description, departmentId }) => {
-    const body = { name, description, departmentId };
+  create: async ({ name, description, departmentId, year, organizationId }) => {
+    const body = { name, description, departmentId, year, organizationId };
     return await httpRequest.post("/groups", body);
   },
+
   getAll: async (params) => await httpRequest.get("/groups", { params }),
 };
 
