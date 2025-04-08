@@ -1,26 +1,20 @@
 import React, { useState, useMemo } from "react";
 import styles from "./Groups.module.scss";
-import { useDepartments } from "@/services/department.service";
 import { SearchIcon } from "@/assets/icons/headerIcons";
 import CTable from "@/components/CTable";
 import CModal from "@/components/CModal";
+import { useDepartments } from "@/services/department.service";
+import { useGroups, groupService } from "@/services/group.service";
+import { customToast } from "@/utils/toastify";
 
 const COLUMNS = [
-  {
-    title: "Group Name",
-    key: "name",
-    render: (record) => record?.name,
-  },
+  { title: "Group Name", key: "name", render: (record) => record?.name },
   {
     title: "Department",
     key: "department",
     render: (record) => record?.departmentName ?? "-",
   },
-  {
-    title: "Year",
-    key: "year",
-    render: (record) => record?.year ?? "-",
-  },
+  { title: "Year", key: "year", render: (record) => record?.year ?? "-" },
   {
     title: "Students",
     key: "students",
@@ -31,34 +25,18 @@ const COLUMNS = [
 const Groups = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading } = useDepartments({
-    params: { page: 1, limit: 10 },
+  const { data, isLoading, refetch } = useGroups({
+    params: { page: 1, limit: 50 },
   });
-
-  const groups = useMemo(() => {
-    return [
-      {
-        name: "Group A",
-        departmentName: "Mathematics",
-        year: "2023",
-        students: 30,
-      },
-      {
-        name: "Group B",
-        departmentName: "Physics",
-        year: "2024",
-        students: 25,
-      },
-    ];
-  }, []);
+  const groups = useMemo(() => data?.data?.data ?? [], [data]);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>Groups</h1>
         <button
-          onClick={() => setIsModalOpen(true)}
           className={styles.addButton}
+          onClick={() => setIsModalOpen(true)}
         >
           + New Group
         </button>
@@ -79,7 +57,14 @@ const Groups = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="New Group"
-        body={<NewGroupForm onClose={() => setIsModalOpen(false)} />}
+        body={
+          <NewGroupForm
+            onClose={() => {
+              setIsModalOpen(false);
+              refetch();
+            }}
+          />
+        }
       />
     </div>
   );
@@ -87,15 +72,31 @@ const Groups = () => {
 
 const NewGroupForm = ({ onClose }) => {
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [year, setYear] = useState("");
   const [departmentId, setDepartmentId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { data } = useDepartments({ params: { page: 1, limit: 100 } });
   const departments = useMemo(() => data?.data?.data ?? [], [data]);
 
-  const handleSubmit = () => {
-    console.log({ name, year, departmentId });
-    onClose();
+  const organizationId = "3f69ffb4-2e25-4041-9520-c61ea6937650"; // Use from context if dynamic
+
+  const onSubmit = () => {
+    setIsLoading(true);
+
+    groupService
+      .create({ name, description, year, departmentId, organizationId })
+      .then(() => {
+        customToast("success", "The group is created successfully");
+        onClose();
+      })
+      .catch(() => {
+        customToast("error", "Failed to create group");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -106,9 +107,14 @@ const NewGroupForm = ({ onClose }) => {
         onChange={(e) => setName(e.target.value)}
       />
       <input
-        placeholder="Year"
+        placeholder="Year (e.g., Class of 2025)"
         value={year}
         onChange={(e) => setYear(e.target.value)}
+      />
+      <textarea
+        placeholder="Group description (optional)"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       />
       <select
         value={departmentId}
@@ -121,7 +127,9 @@ const NewGroupForm = ({ onClose }) => {
           </option>
         ))}
       </select>
-      <button onClick={handleSubmit}>Create Group</button>
+      <button onClick={onSubmit} disabled={isLoading}>
+        {isLoading ? "Creating..." : "Create Group"}
+      </button>
     </div>
   );
 };
