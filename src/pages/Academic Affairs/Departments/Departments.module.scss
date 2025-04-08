@@ -16,7 +16,7 @@
     font-weight: bold;
   }
 
-  .newDeptButton {
+  .addButton {
     background-color: #071649;
     color: white;
     border: none;
@@ -27,18 +27,25 @@
   }
 }
 
-.searchBar {
+.searchWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.Searchbar {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
   background-color: #f4f4f4;
   border-radius: 100px;
   padding: 8px 12px;
+  width: 100%;
+  max-width: 100%; /* This makes the search bar take the full width of its parent container */
 
-  .searchIcon {
-    width: 20px;
-    height: 20px;
-    margin-bottom: 5px;
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
     margin-right: 8px;
   }
 
@@ -51,37 +58,42 @@
   }
 }
 
-.table {
-  width: 100%;
-  margin-top: 10px;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-  th,
-  td {
-    padding: 12px 14px;
-    text-align: center;
-  }
-
-  th {
-    background-color:  #e3f2fd;
+  input,
+  textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
     font-size: 14px;
-    font-weight: bold;
+    resize: vertical;
   }
 
-  tr:nth-child(even) {
-    background-color: #fafafa;
-  }
-
-  tr:hover {
-    background-color: #f0f0f0;
-  }
-
-  .viewButton {
+  button {
     background-color: #071649;
     color: white;
     border: none;
-    border-radius: 100px;
-    padding: 6px 12px;
+    border-radius: 8px;
+    padding: 10px 16px;
     font-size: 14px;
     cursor: pointer;
   }
+
+  button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+  }
+}
+
+.viewButton {
+  background-color: #071649;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
 }
