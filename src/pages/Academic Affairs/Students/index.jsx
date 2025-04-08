@@ -6,6 +6,7 @@ import CModal from "@/components/CModal";
 import { Button } from "@chakra-ui/react";
 import imgprofile from "../../../assets/images/sultan.png";
 import { SearchIcon } from "../../../assets/icons/headerIcons";
+import SearchBar from "@/components/SearchBar/index";
 
 const COLUMNS = [
   {
@@ -64,14 +65,7 @@ const Students = () => {
         </div>
       </div>
 
-      <div className={styles.searchWrapper}>
-        <div className={styles.Searchbar}>
-          <button>
-            <SearchIcon />
-          </button>
-          <input type="text" placeholder="Search students" />
-        </div>
-      </div>
+      <SearchBar placeholder="Search for Students" />
 
       <CTable columns={COLUMNS} data={data?.data?.data} loading={isLoading} />
 

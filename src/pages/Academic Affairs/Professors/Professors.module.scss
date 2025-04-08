@@ -1,83 +1,100 @@
-.pageBody {
-  justify-content: center;
+.container {
+  width: 97%;
+  margin: 5vh auto;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  margin: 5vh 10vw 5vh 3vw;
+  margin-bottom: 20px;
 
   h1 {
-    font-size: 45px;
-    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
   }
-  .Searchbar {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    background-color: #f4f4f4;
+
+  .addButton {
+    background-color: #071649;
+    color: white;
+    border: none;
     border-radius: 100px;
-    padding: 8px 14px;
-  
-    .button {
-      width: 20px;
-      height: 20px;
-      margin-bottom: 5px;
-    }
-  
-    input {
-      border: none;
-      background: transparent;
-      outline: none;
-      flex: 1;
-      font-size: 14px;
-    }
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
   }
-  .professorList {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+}
 
+.searchWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 
-    .professorItem {
-      display: flex;
-      align-items: center;
-      background: #f9f9f9;
-      justify-content: space-between;
-      padding: 10px;
-      cursor: pointer;
+.Searchbar {
+  display: flex;
+  align-items: center;
+  background-color: #f4f4f4;
+  border-radius: 100px;
+  padding: 8px 12px;
+  width: 100%;
+  max-width: 100%;
 
-      &:hover {
-        background: #f1f1f1;
-      }
-
-      .avatarSmall {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin-right: 2vw;
-      }
-
-      .description {
-        min-width: 20vw;
-        margin-right: 30vw;
-        h2 {
-          font-size: 1rem;
-        }
-
-        p {
-          font-size: 0.9rem;
-          color: #555;
-        }
-      }
-
-      .detailsButton {
-        background-color: #0b0b3b;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 100px;
-
-        &:hover {
-          background-color: #1a1a5e;
-        }
-      }
-    }
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 8px;
   }
+
+  input {
+    border: none;
+    background: transparent;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  input,
+  textarea,
+  select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    resize: vertical;
+  }
+
+  button {
+    background-color: #071649;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+  }
+}
+
+.viewButton {
+  background-color: #071649;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
 }

@@ -6,6 +6,7 @@ import CModal from "@/components/CModal";
 import { useDepartments } from "@/services/department.service";
 import { useGroups, groupService } from "@/services/group.service";
 import { customToast } from "@/utils/toastify";
+import SearchBar from "@/components/SearchBar/index";
 
 const COLUMNS = [
   { title: "Group Name", key: "name", render: (record) => record?.name },
@@ -42,14 +43,7 @@ const Groups = () => {
         </button>
       </div>
 
-      <div className={styles.searchWrapper}>
-        <div className={styles.Searchbar}>
-          <button>
-            <SearchIcon />
-          </button>
-          <input type="text" placeholder="Search groups" />
-        </div>
-      </div>
+      <SearchBar placeholder="Search for groups" />
 
       <CTable columns={COLUMNS} data={groups} loading={isLoading} />
 

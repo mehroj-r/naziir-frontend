@@ -8,6 +8,7 @@ import {
 import CTable from "@/components/CTable";
 import CModal from "@/components/CModal";
 import { customToast } from "../../../utils/toastify";
+import SearchBar from "@/components/SearchBar/index";
 
 const COLUMNS = [
   {
@@ -63,14 +64,7 @@ const Departments = () => {
         </button>
       </div>
 
-      <div className={styles.searchWrapper}>
-        <div className={styles.Searchbar}>
-          <button>
-            <SearchIcon />
-          </button>
-          <input type="text" placeholder="Search departments" />
-        </div>
-      </div>
+      <SearchBar placeholder="Search for Departments" />
 
       <CTable columns={COLUMNS} data={departments} loading={isLoading} />
 
