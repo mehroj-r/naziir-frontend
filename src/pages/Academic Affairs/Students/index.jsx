@@ -19,9 +19,24 @@ const COLUMNS = [
     render: (record) => record?.lastname,
   },
   {
+    title: "Email",
+    key: "email",
+    render: (record) => record?.email,
+  },
+  {
     title: "Group",
     key: "group",
-    render: (record) => "???",
+    render: (record) => record?.group || "N/A",
+  },
+  {
+    title: "Phone",
+    key: "phone",
+    render: (record) => record?.phone,
+  },
+  {
+    title: "Student ID",
+    key: "studentId",
+    render: (record) => record?.studentId,
   },
 ];
 
@@ -79,9 +94,18 @@ const Students = () => {
 const NewStudentForm = ({ onClose }) => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
   const [group, setGroup] = useState("");
-
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [studentId, setStudentId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const generatePassword = () => {
+    const randomPassword = Math.random().toString(36).slice(-8); // generates a random 8-character password
+    setPassword(randomPassword);
+  };
 
   const onSubmit = () => {
     setIsLoading(true);
@@ -111,10 +135,49 @@ const NewStudentForm = ({ onClose }) => {
       </div>
       <div className={styles.inputGroup}>
         <input
-          placeholder="Group"
+          placeholder="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div className={styles.inputGroup}>
+        <input
+          placeholder="Group (Optional)"
           value={group}
           onChange={(e) => setGroup(e.target.value)}
         />
+      </div>
+      <div className={styles.inputGroup}>
+        <input
+          placeholder="Address (Optional)"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+      </div>
+      <div className={styles.inputGroup}>
+        <input
+          placeholder="Phone"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+      </div>
+      <div className={styles.inputGroup}>
+        <input
+          placeholder="Student ID"
+          value={studentId}
+          onChange={(e) => setStudentId(e.target.value)}
+        />
+      </div>
+      <div className={styles.inputGroup}>
+        <input
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="button" onClick={generatePassword}>
+          Generate Password
+        </button>
       </div>
       <div className={styles.modalFooter}>
         <button onClick={onSubmit} disabled={isLoading}>

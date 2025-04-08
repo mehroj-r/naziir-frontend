@@ -1,59 +1,127 @@
-import React from "react";
-import { SearchIcon } from "../../../assets/icons/headerIcons";
+import React, { useState, useMemo } from "react";
 import styles from "./Groups.module.scss";
-import { useGroups } from "@/services/groups.service";
+import { useDepartments } from "@/services/department.service";
+import { SearchIcon } from "@/assets/icons/headerIcons";
+import CTable from "@/components/CTable";
+import CModal from "@/components/CModal";
+
+const COLUMNS = [
+  {
+    title: "Group Name",
+    key: "name",
+    render: (record) => record?.name,
+  },
+  {
+    title: "Department",
+    key: "department",
+    render: (record) => record?.departmentName ?? "-",
+  },
+  {
+    title: "Year",
+    key: "year",
+    render: (record) => record?.year ?? "-",
+  },
+  {
+    title: "Students",
+    key: "students",
+    render: (record) => record?.students ?? "-",
+  },
+];
 
 const Groups = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading } = useGroups({
+  const { data, isLoading } = useDepartments({
     params: { page: 1, limit: 10 },
   });
 
+  const groups = useMemo(() => {
+    return [
+      {
+        name: "Group A",
+        departmentName: "Mathematics",
+        year: "2023",
+        students: 30,
+      },
+      {
+        name: "Group B",
+        departmentName: "Physics",
+        year: "2024",
+        students: 25,
+      },
+    ];
+  }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>Groups</h1>
-        <button className={styles.addButton}>+ New group</button>
-      </div>
-
-      <div className={styles.Searchbar}>
-        <button>
-          <SearchIcon />
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className={styles.addButton}
+        >
+          + New Group
         </button>
-        <input type="text" placeholder="Search professors" />
       </div>
 
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Group name</th>
-              <th>Department</th>
-              <th>Students</th>
-              <th>Avg grade</th>
-              <th>Started</th>
-              <th>Ended</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.data?.data?.map((group) => (
-              <tr key={group?.id}>
-                <td>{group?.name}</td>
-                <td>{group?.department}</td>
-                <td>{group?.students}</td>
-                <td>{group?.avgGrade}</td>
-                <td>{group?.year}</td>
-                <td>{group?.ended}</td>
-                <td>
-                  <button className={styles.viewButton}>View</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className={styles.searchWrapper}>
+        <div className={styles.Searchbar}>
+          <button>
+            <SearchIcon />
+          </button>
+          <input type="text" placeholder="Search groups" />
+        </div>
       </div>
+
+      <CTable columns={COLUMNS} data={groups} loading={isLoading} />
+
+      <CModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="New Group"
+        body={<NewGroupForm onClose={() => setIsModalOpen(false)} />}
+      />
+    </div>
+  );
+};
+
+const NewGroupForm = ({ onClose }) => {
+  const [name, setName] = useState("");
+  const [year, setYear] = useState("");
+  const [departmentId, setDepartmentId] = useState("");
+
+  const { data } = useDepartments({ params: { page: 1, limit: 100 } });
+  const departments = useMemo(() => data?.data?.data ?? [], [data]);
+
+  const handleSubmit = () => {
+    console.log({ name, year, departmentId });
+    onClose();
+  };
+
+  return (
+    <div className={styles.form}>
+      <input
+        placeholder="Group name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        placeholder="Year"
+        value={year}
+        onChange={(e) => setYear(e.target.value)}
+      />
+      <select
+        value={departmentId}
+        onChange={(e) => setDepartmentId(e.target.value)}
+      >
+        <option value="">Select Department</option>
+        {departments.map((dept) => (
+          <option key={dept.id} value={dept.id}>
+            {dept.name}
+          </option>
+        ))}
+      </select>
+      <button onClick={handleSubmit}>Create Group</button>
     </div>
   );
 };
