@@ -1,0 +1,10 @@
+remove subject from departments
+grpups > started, ended => year "class of 2025"
+groups > numOfStudents
+group > avg grade => hozircha commentga
+group by id > name, email, phone, student id
+search > name boyicha
+filters
+student create > firstName, lastName, email, group (optional), address (optional), phone, password (can be generated or manually entered), studentId
+
+professors > 

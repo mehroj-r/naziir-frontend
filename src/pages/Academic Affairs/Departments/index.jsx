@@ -37,7 +37,7 @@ const COLUMNS = [
     render: (record) => record?.head ?? "-",
   },
   {
-    title: "See",
+    title: "",
     key: "view",
     render: () => <button className={styles.viewButton}>View</button>,
   },

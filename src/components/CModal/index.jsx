@@ -6,7 +6,6 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Button,
 } from '@chakra-ui/react'
 
 export default function CModal({ isOpen, onClose, title, body, footer}) {
@@ -21,7 +20,6 @@ export default function CModal({ isOpen, onClose, title, body, footer}) {
         </ModalBody>
         <ModalFooter>
           {footer}
-          
         </ModalFooter>
       </ModalContent>
     </Modal>
