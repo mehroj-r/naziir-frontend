@@ -2,7 +2,7 @@ import styles from "./CTable.module.scss";
 
 export default function CTable({ columns = [], data = [] }) {
   return (
-    <table className={styles.coursesTable}>
+    <table className={styles.table}>
       <thead>
         <tr>
           {columns?.map(col => (

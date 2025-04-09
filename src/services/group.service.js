@@ -4,6 +4,7 @@ import httpRequest from "./httpRequest";
 export const groupService = {
   create: async (body) => await httpRequest.post("/groups", body),
   getAll: async (params) => await httpRequest.get("/groups", { params }),
+  delete: async (id) => await httpRequest.delete("/groups/" + id),
 };
 
 export const useGroups = ({ params, props }) =>

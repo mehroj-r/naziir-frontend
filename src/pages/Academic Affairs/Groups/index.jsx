@@ -7,33 +7,75 @@ import { useGroups, groupService } from "@/services/group.service";
 import { customToast } from "@/utils/toastify";
 import SearchBar from "@/components/SearchBar/index";
 import { useSelector } from "react-redux";
-
-const COLUMNS = [
-  {
-    title: "Group Name",
-    key: "name",
-    render: (record) => record?.name,
-  },
-  {
-    title: "Department",
-    key: "department",
-    render: (record) => record?.departmentName ?? "-",
-  },
-  { title: "Year", key: "year", render: (record) => record?.year ?? "-" },
-  {
-    title: "Students",
-    key: "students",
-    render: (record) => record?.numOfStudents ?? "-",
-  },
-];
+import ActionMenu from "@/components/ActionMenu";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import ConfirmModal from "@/components/CModal/ConfirmModal";
 
 const Groups = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [idForDelete, setIdForDelete] = useState("");
 
   const { data, isLoading, refetch } = useGroups({
     params: { page: 1, limit: 50 },
   });
+  
   const groups = useMemo(() => data?.data?.data ?? [], [data]);
+
+  const handleDelete = () => {
+    if(!idForDelete) return;
+    setIsDeleting(true)
+    groupService.delete(idForDelete)
+      .then(res => {
+        refetch()
+      })
+      .catch(err => {
+        console.log("err", err) // log
+      })
+      .finally(() => {
+        setIdForDelete("")
+        setIsDeleting(false)
+      })
+  }
+
+  const COLUMNS = [
+    {
+      title: "Group Name",
+      key: "name",
+      render: (record) => record?.name,
+    },
+    {
+      title: "Department",
+      key: "department",
+      render: (record) => record?.departmentName ?? "-",
+    },
+    { title: "Year", key: "year", render: (record) => record?.year ?? "-" },
+    {
+      title: "Students",
+      key: "students",
+      render: (record) => record?.numOfStudents ?? "-",
+    },
+    {
+      title: "",
+      key: "actions",
+      render: (record) => (
+        <ActionMenu
+          actions={[
+            {
+              title: "Edit",
+              icon: <EditIcon />,
+              onClick: () => console.log("actions onclick edit") // log
+            },
+            {
+              title: "Delete",
+              icon: <DeleteIcon />,
+              onClick: () => setIdForDelete(record?.id)
+            }
+          ]}
+        />
+      ),
+    },
+  ];
 
   return (
     <div className={styles.container}>
@@ -48,9 +90,7 @@ const Groups = () => {
       </div>
 
       <SearchBar placeholder="Search for groups" />
-
       <CTable columns={COLUMNS} data={groups} loading={isLoading} />
-
       <CModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -63,6 +103,12 @@ const Groups = () => {
             }}
           />
         }
+      />
+      <ConfirmModal
+        isOpen={Boolean(idForDelete)}
+        onClose={() => setIdForDelete("")}
+        onConfirm={() => handleDelete()}
+        isLoading={isDeleting}
       />
     </div>
   );

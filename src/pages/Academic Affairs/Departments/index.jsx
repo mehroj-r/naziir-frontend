@@ -9,46 +9,82 @@ import CTable from "@/components/CTable";
 import CModal from "@/components/CModal";
 import { customToast } from "../../../utils/toastify";
 import SearchBar from "@/components/SearchBar/index";
-
-const COLUMNS = [
-  {
-    title: "Department",
-    key: "name",
-    render: (record) => record?.name,
-  },
-  {
-    title: "Professor",
-    key: "professor",
-    render: (record) => record?.professor ?? "-",
-  },
-  {
-    title: "Students",
-    key: "students",
-    render: (record) => record?.numOfStudents ?? "-",
-  },
-  {
-    title: "Year",
-    key: "year",
-    render: (record) => record?.year ? `Class of ${record?.year}` : "-",
-  },
-  {
-    title: "Head of Department",
-    key: "head",
-    render: (record) => record?.head ?? "-",
-  },
-  {
-    title: "",
-    key: "view",
-    render: () => <button className={styles.viewButton}>View</button>,
-  },
-];
+import ActionMenu from "@/components/ActionMenu";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import ConfirmModal from "@/components/CModal/ConfirmModal";
 
 const Departments = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [idForDelete, setIdForDelete] = useState("");
 
   const { data, isLoading, refetch } = useDepartments({
     params: { page: 1, limit: 10 },
   });
+
+  const handleDelete = () => {
+    if(!idForDelete) return;
+    setIsDeleting(true)
+    departmentService.delete(idForDelete)
+      .then(res => {
+        refetch()
+      })
+      .catch(err => {
+        console.log("err", err) // log
+      })
+      .finally(() => {
+        setIdForDelete("")
+        setIsDeleting(false)
+      })
+  }
+
+  const columns = [
+    {
+      title: "Department",
+      key: "name",
+      render: (record) => record?.name,
+    },
+    {
+      title: "Professor",
+      key: "professor",
+      render: (record) => record?.professor ?? "-",
+    },
+    {
+      title: "Students",
+      key: "students",
+      render: (record) => record?.numOfStudents ?? "-",
+    },
+    {
+      title: "Year",
+      key: "year",
+      render: (record) => record?.year ? `Class of ${record?.year}` : "-",
+    },
+    {
+      title: "Head of Department",
+      key: "head",
+      render: (record) => record?.head ?? "-",
+    },
+    {
+      title: "",
+      key: "actions",
+      render: (record) => (
+        <ActionMenu 
+          actions={[
+            {
+              title: "Edit",
+              icon: <EditIcon />,
+              onClick: () => console.log("actions onclick edit") // log
+            },
+            {
+              title: "Delete",
+              icon: <DeleteIcon />,
+              onClick: () => setIdForDelete(record?.id)
+            }
+          ]}
+        />
+      ),
+    },
+  ];
 
   const departments = useMemo(() => data?.data?.data ?? [], [data]);
 
@@ -64,7 +100,7 @@ const Departments = () => {
         </button>
       </div>
       <SearchBar placeholder="Search for Departments" />
-      <CTable columns={COLUMNS} data={departments} loading={isLoading} />
+      <CTable columns={columns} data={departments} loading={isLoading} />
       <CModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -77,6 +113,12 @@ const Departments = () => {
             }}
           />
         }
+      />
+      <ConfirmModal 
+        isOpen={Boolean(idForDelete)}
+        onClose={() => setIdForDelete("")}
+        onConfirm={() => handleDelete()}
+        isLoading={isDeleting}
       />
     </div>
   );
