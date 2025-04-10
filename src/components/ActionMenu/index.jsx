@@ -6,8 +6,21 @@ import {
   MenuItem,
   IconButton
 } from '@chakra-ui/react'
+import { useState } from 'react'
 
 export default function ActionMenu({ actions }) {
+  const [openMenu, setOpenMenu] = useState(false)
+
+  const handleActionClick = (e, action) => {
+    e.stopPropagation()
+    action?.onClick()
+  }
+
+  const handleMenuClick = (e) => {
+    e.stopPropagation()
+    setOpenMenu(old => !old)
+  }
+
   return(
     <Menu>
       <MenuButton
@@ -17,10 +30,11 @@ export default function ActionMenu({ actions }) {
         variant='outline'
         h={8}
         maxW={8}
+        onClick={handleMenuClick}
       />
-      <MenuList>
+      <MenuList _open={openMenu}>
         {actions?.map((action, index) => (
-          <MenuItem key={index} onClick={action?.onClick} icon={action?.icon}>
+          <MenuItem key={index} onClick={(e) => handleActionClick(e, action)} icon={action?.icon}>
             {action?.title}
           </MenuItem>
         ))}

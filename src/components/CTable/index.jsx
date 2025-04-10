@@ -1,19 +1,33 @@
 import styles from "./CTable.module.scss";
 
-export default function CTable({ columns = [], data = [] }) {
+export default function CTable({
+  columns = [],
+  data = [],
+  loading = false,
+  onRowClick = null,
+}) {
+  if (loading) {
+    return <>Loading...</>;
+  }
   return (
     <table className={styles.table}>
       <thead>
         <tr>
-          {columns?.map(col => (
+          {columns?.map((col) => (
             <th key={col?.key}>{col?.title}</th>
           ))}
         </tr>
       </thead>
       <tbody>
         {data?.map((item, index) => (
-          <tr key={item?.id}>
-            {columns?.map(col => (
+          <tr
+            key={item?.id}
+            onClick={() => onRowClick?.(item)}
+            style={{ 
+              cursor: onRowClick ? "pointer" : "auto"
+            }}
+          >
+            {columns?.map((col) => (
               <td key={col?.key}>{col?.render(item)}</td>
             ))}
           </tr>

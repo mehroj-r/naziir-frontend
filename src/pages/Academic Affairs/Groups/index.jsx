@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import styles from "./Groups.module.scss";
 import CTable from "@/components/CTable";
 import CModal from "@/components/CModal";
@@ -10,46 +10,50 @@ import { useSelector } from "react-redux";
 import ActionMenu from "@/components/ActionMenu";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ConfirmModal from "@/components/CModal/ConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 const Groups = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [idForDelete, setIdForDelete] = useState("");
+  const [editGroup, setEditGroup] = useState(null);
+  const navigate = useNavigate();
 
   const { data, isLoading, refetch } = useGroups({
     params: { page: 1, limit: 50 },
   });
-  
+
   const groups = useMemo(() => data?.data?.data ?? [], [data]);
 
   const handleDelete = () => {
-    if(!idForDelete) return;
-    setIsDeleting(true)
-    groupService.delete(idForDelete)
-      .then(res => {
-        refetch()
-      })
-      .catch(err => {
-        console.log("err", err) // log
-      })
+    if (!idForDelete) return;
+    setIsDeleting(true);
+    groupService
+      .delete(idForDelete)
+      .then(() => refetch())
+      .catch((err) => console.log("err", err))
       .finally(() => {
-        setIdForDelete("")
-        setIsDeleting(false)
-      })
-  }
+        setIdForDelete("");
+        setIsDeleting(false);
+      });
+  };
 
   const COLUMNS = [
     {
       title: "Group Name",
       key: "name",
-      render: (record) => record?.name,
+      render: (record) => record?.name ?? "-",
     },
     {
       title: "Department",
       key: "department",
       render: (record) => record?.departmentName ?? "-",
     },
-    { title: "Year", key: "year", render: (record) => record?.year ?? "-" },
+    {
+      title: "Year",
+      key: "year",
+      render: (record) => `Class of ${record?.year}` ?? "-",
+    },
     {
       title: "Students",
       key: "students",
@@ -64,13 +68,16 @@ const Groups = () => {
             {
               title: "Edit",
               icon: <EditIcon />,
-              onClick: () => console.log("actions onclick edit") // log
+              onClick: () => {
+                setEditGroup(record);
+                setIsModalOpen(true);
+              },
             },
             {
               title: "Delete",
               icon: <DeleteIcon />,
-              onClick: () => setIdForDelete(record?.id)
-            }
+              onClick: () => setIdForDelete(record?.id),
+            },
           ]}
         />
       ),
@@ -83,22 +90,27 @@ const Groups = () => {
         <h1>Groups</h1>
         <button
           className={styles.addButton}
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setEditGroup(null);
+            setIsModalOpen(true);
+          }}
         >
           + New Group
         </button>
       </div>
 
       <SearchBar placeholder="Search for groups" />
-      <CTable columns={COLUMNS} data={groups} loading={isLoading} />
+      <CTable onRowClick={(record) => navigate(`/groups/${record?.id}`)} columns={COLUMNS} data={groups} loading={isLoading} />
       <CModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="New Group"
+        title={editGroup ? "Edit Group" : "New Group"}
         body={
           <NewGroupForm
+            defaultValues={editGroup}
             onClose={() => {
               setIsModalOpen(false);
+              setEditGroup(null);
               refetch();
             }}
           />
@@ -107,52 +119,87 @@ const Groups = () => {
       <ConfirmModal
         isOpen={Boolean(idForDelete)}
         onClose={() => setIdForDelete("")}
-        onConfirm={() => handleDelete()}
+        onConfirm={handleDelete}
         isLoading={isDeleting}
       />
     </div>
   );
 };
 
-const NewGroupForm = ({ onClose }) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [year, setYear] = useState("");
-  const [departmentId, setDepartmentId] = useState("");
+const NewGroupForm = ({ defaultValues, onClose }) => {
+  const [name, setName] = useState(defaultValues?.name || "");
+  const [description, setDescription] = useState(
+    defaultValues?.description || ""
+  );
+  const [year, setYear] = useState(defaultValues?.year || "");
+  const [departmentId, setDepartmentId] = useState(
+    defaultValues?.departmentId || ""
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const userData = useSelector((state) => state.user);
   const { data } = useDepartments({ params: { page: 1, limit: 100 } });
   const departments = useMemo(() => data?.data?.data ?? [], [data]);
 
-  const onSubmit = () => {
-    if (!userData?.data?.organization) return;
+  useEffect(() => {
+    if (defaultValues) {
+      setName(defaultValues.name || "");
+      setDescription(defaultValues.description || "");
+      setYear(defaultValues.year || "");
+      setDepartmentId(defaultValues.departmentId || "");
+    }
+  }, [defaultValues]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
     setIsLoading(true);
 
-    const body = {
-      name,
-      description,
-      year,
-      departmentId,
-      organizationId: userData?.data?.organization,
-    };
+    if (defaultValues) {
+      const body = {};
+      if (name !== defaultValues.name) body.name = name;
+      if (description !== defaultValues.description)
+        body.description = description;
+      if (year !== defaultValues.year) body.year = year;
 
-    groupService
-      .create(body)
-      .then(() => {
-        customToast("success", "The group is created successfully");
-        onClose();
-      })
-      .catch(() => {
-        customToast("error", "Failed to create group");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      groupService
+        .update(defaultValues.id, body)
+        .then(() => {
+          customToast("success", "Group updated successfully");
+          onClose();
+        })
+        .catch((err) => {
+          console.log(err?.response?.data || err);
+          customToast("error", "Failed to update group");
+        })
+        .finally(() => setIsLoading(false));
+    } else {
+      if (!userData?.data?.organization) return;
+
+      const body = {
+        name,
+        description,
+        year,
+        departmentId,
+        organizationId: userData?.data?.organization,
+      };
+
+      groupService
+        .create(body)
+        .then(() => {
+          customToast("success", "The group is created successfully");
+          onClose();
+        })
+        .catch(() => {
+          customToast("error", "Failed to create group");
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   };
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={onSubmit}>
       <input
         placeholder="Group name"
         value={name}
@@ -160,7 +207,7 @@ const NewGroupForm = ({ onClose }) => {
         required
       />
       <input
-        placeholder="Year (e.g., Class of 2025)"
+        placeholder="Year (e.g., 2025)"
         value={year}
         onChange={(e) => setYear(e.target.value)}
         required
@@ -170,20 +217,28 @@ const NewGroupForm = ({ onClose }) => {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <select
-        value={departmentId}
-        onChange={(e) => setDepartmentId(e.target.value)}
-        required
-      >
-        <option value="">Select Department</option>
-        {departments.map((dept) => (
-          <option key={dept.id} value={dept.id}>
-            {dept.name}
-          </option>
-        ))}
-      </select>
-      <button onClick={onSubmit} disabled={isLoading}>
-        {isLoading ? "Creating..." : "Create Group"}
+      {!defaultValues && (
+        <select
+          value={departmentId}
+          onChange={(e) => setDepartmentId(e.target.value)}
+          required
+        >
+          <option value="">Select Department</option>
+          {departments.map((dept) => (
+            <option key={dept.id} value={dept.id}>
+              {dept.name}
+            </option>
+          ))}
+        </select>
+      )}
+      <button type="submit" disabled={isLoading}>
+        {isLoading
+          ? defaultValues
+            ? "Updating..."
+            : "Creating..."
+          : defaultValues
+          ? "Update"
+          : "Create Group"}
       </button>
     </form>
   );

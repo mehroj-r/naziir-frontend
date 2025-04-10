@@ -27,13 +27,6 @@ const cards = [
     linkTo: "/professors",
   },
   {
-    id: 3,
-    title: "Staff",
-    description: "View groups and manage group-related operations",
-    icon: <Grouplisticon />,
-    linkTo: "/groups",
-  },
-  {
     id: 4,
     title: "Students",
     description: "View students and manage student-related operations",
@@ -67,7 +60,6 @@ const AADashboard = () => {
         <SearchBar />
       </div>
       <div
-        templateColumns="repeat(3, 1fr)"
         gap="24px"
         className={styles.cardContainer}
       >
