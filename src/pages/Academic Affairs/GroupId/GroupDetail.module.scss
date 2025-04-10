@@ -1,0 +1,92 @@
+.container {
+  padding: 36px 48px;
+  font-family: "Inter", sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e1e1e;
+  }
+
+  .deleteButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 8px 20px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
+
+.info {
+  display: flex;
+  justify-content: start;
+  gap: 48px;
+  margin-bottom: 32px;
+
+  div {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      color: #6c757d;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
+}
+
+.list {
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .empty {
+    font-size: 15px;
+    color: #6c757d;
+  }
+
+  table {
+    width: 100%;
+    background-color: #f8fbff;
+    border-radius: 10px;
+    border-collapse: collapse;
+    overflow: hidden;
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+    }
+
+    th {
+      color: #6c757d;
+      font-size: 14px;
+    }
+
+    td {
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
+}

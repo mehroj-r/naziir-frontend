@@ -5,7 +5,7 @@ export default function CTable({ columns = [], data = [] }) {
     <table className={styles.table}>
       <thead>
         <tr>
-          {columns?.map(col => (
+          {columns?.map((col) => (
             <th key={col?.key}>{col?.title}</th>
           ))}
         </tr>
@@ -13,7 +13,7 @@ export default function CTable({ columns = [], data = [] }) {
       <tbody>
         {data?.map((item, index) => (
           <tr key={item?.id}>
-            {columns?.map(col => (
+            {columns?.map((col) => (
               <td key={col?.key}>{col?.render(item)}</td>
             ))}
           </tr>

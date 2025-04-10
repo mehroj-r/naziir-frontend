@@ -4,7 +4,8 @@ import httpRequest from "./httpRequest";
 export const departmentService = {
   create: async (body) => await httpRequest.post("/departments", body),
   getAll: async (params) => await httpRequest.get("/departments", { params }),
-  delete: async (id) => await httpRequest.delete("/departments/"+id)
+  delete: async (id) => await httpRequest.delete("/departments/" + id),
+  update: async (id, body) => await httpRequest.put(`/departments/${id}`, body),
 };
 
 export const useDepartments = ({ params, props }) =>

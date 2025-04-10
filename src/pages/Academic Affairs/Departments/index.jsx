@@ -15,28 +15,42 @@ import ConfirmModal from "@/components/CModal/ConfirmModal";
 
 const Departments = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentDepartment, setCurrentDepartment] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [idForDelete, setIdForDelete] = useState("");
+  const [departments, setDepartments] = useState([]);
 
   const { data, isLoading, refetch } = useDepartments({
     params: { page: 1, limit: 10 },
   });
 
+  useMemo(() => {
+    if (data?.data?.data) {
+      setDepartments(data.data.data);
+    }
+  }, [data]);
+
   const handleDelete = () => {
-    if(!idForDelete) return;
-    setIsDeleting(true)
-    departmentService.delete(idForDelete)
-      .then(res => {
-        refetch()
+    if (!idForDelete) return;
+    setIsDeleting(true);
+    departmentService
+      .delete(idForDelete)
+      .then(() => {
+        setDepartments((prev) =>
+          prev.filter((item) => item.id !== idForDelete)
+        );
+        customToast("success", "Department deleted");
       })
-      .catch(err => {
-        console.log("err", err) // log
+      .catch((err) => {
+        console.log("err", err);
+        customToast("error", "Failed to delete department");
       })
       .finally(() => {
-        setIdForDelete("")
-        setIsDeleting(false)
-      })
-  }
+        setIdForDelete("");
+        setIsDeleting(false);
+      });
+  };
 
   const columns = [
     {
@@ -57,7 +71,7 @@ const Departments = () => {
     {
       title: "Year",
       key: "year",
-      render: (record) => record?.year ? `Class of ${record?.year}` : "-",
+      render: (record) => (record?.year ? `Class of ${record?.year}` : "-"),
     },
     {
       title: "Head of Department",
@@ -68,25 +82,27 @@ const Departments = () => {
       title: "",
       key: "actions",
       render: (record) => (
-        <ActionMenu 
+        <ActionMenu
           actions={[
             {
               title: "Edit",
               icon: <EditIcon />,
-              onClick: () => console.log("actions onclick edit") // log
+              onClick: () => {
+                setIsEditing(true);
+                setCurrentDepartment(record);
+                setIsModalOpen(true);
+              },
             },
             {
               title: "Delete",
               icon: <DeleteIcon />,
-              onClick: () => setIdForDelete(record?.id)
-            }
+              onClick: () => setIdForDelete(record?.id),
+            },
           ]}
         />
       ),
     },
   ];
-
-  const departments = useMemo(() => data?.data?.data ?? [], [data]);
 
   return (
     <div className={styles.container}>
@@ -94,9 +110,13 @@ const Departments = () => {
         <h1>Departments</h1>
         <button
           className={styles.addButton}
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setIsEditing(false);
+            setCurrentDepartment(null);
+            setIsModalOpen(true);
+          }}
         >
-          + New department
+          + New Department
         </button>
       </div>
       <SearchBar placeholder="Search for Departments" />
@@ -104,48 +124,76 @@ const Departments = () => {
       <CModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="New Department"
+        title={isEditing ? "Edit Department" : "New Department"}
         body={
           <NewDepartmentForm
-            onClose={() => {
-              setIsModalOpen(false);
-              refetch();
-            }}
+            onClose={() => setIsModalOpen(false)}
+            department={currentDepartment}
+            isEditing={isEditing}
+            onUpdate={(updated) =>
+              setDepartments((prev) =>
+                prev.map((d) =>
+                  d.id === updated.id ? { ...d, ...updated } : d
+                )
+              )
+            }
+            onCreate={(created) => setDepartments((prev) => [...prev, created])}
           />
         }
       />
-      <ConfirmModal 
+      <ConfirmModal
         isOpen={Boolean(idForDelete)}
         onClose={() => setIdForDelete("")}
-        onConfirm={() => handleDelete()}
+        onConfirm={handleDelete}
         isLoading={isDeleting}
       />
     </div>
   );
 };
 
-const NewDepartmentForm = ({ onClose }) => {
-  const [departmentName, setDepartmentName] = useState("");
-  const [description, setDescription] = useState("");
+const NewDepartmentForm = ({
+  onClose,
+  department,
+  isEditing,
+  onUpdate,
+  onCreate,
+}) => {
+  const [departmentName, setDepartmentName] = useState(department?.name || "");
+  const [description, setDescription] = useState(department?.description || "");
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = () => {
     setIsLoading(true);
-    departmentService
-      .create({
-        name: departmentName,
-        description: description,
-      })
-      .then(() => {
-        customToast("success", "The department is created successfully");
+
+    let body = {
+      name: departmentName,
+      description: description,
+    };
+
+    if (isEditing && departmentName === department?.name) {
+      delete body.name;
+    }
+
+    const action = isEditing
+      ? departmentService.update(department.id, body)
+      : departmentService.create(body);
+
+    action
+      .then((res) => {
+        customToast(
+          "success",
+          isEditing
+            ? "Department updated successfully"
+            : "Department created successfully"
+        );
+        isEditing ? onUpdate(res.data) : onCreate(res.data);
         onClose();
       })
-      .catch(() => {
-        customToast("error", "Failed to create department");
+      .catch((err) => {
+        const msg = err?.response?.data?.message || "Something went wrong";
+        customToast("error", msg);
       })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -161,7 +209,11 @@ const NewDepartmentForm = ({ onClose }) => {
         onChange={(e) => setDescription(e.target.value)}
       />
       <button onClick={onSubmit} disabled={isLoading}>
-        {isLoading ? "Creating..." : "Create Department"}
+        {isLoading
+          ? "Saving..."
+          : isEditing
+          ? "Update Department"
+          : "Create Department"}
       </button>
     </div>
   );

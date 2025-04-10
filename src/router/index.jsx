@@ -30,6 +30,7 @@ import PDashboard from "../pages/Professors Pages/Dashboard";
 import MyCourses from "../pages/Professors Pages/MyCourses";
 import EconomicsPage from "../pages/Economics";
 import QuizPage from "../pages/Quiz";
+import GroupDetail from "@/pages/Academic Affairs/GroupId/index";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -77,6 +78,8 @@ const Router = () => {
           <Route path="academic-affairs-dashboard" element={<AADashboard />} />
           <Route path="professors" element={<Professors />} />
           <Route path="professors/:professorId" element={<ProfessorInfo />} />
+          <Route path="/groups/:id" element={<GroupDetail />} />
+
           {/* <Route path="courses-list" element={<ACourses />} /> */}
           <Route path="departments" element={<Departments />} />
           <Route path="students" element={<Students />} />

@@ -1,49 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import styles from "./Students.module.scss";
 import { useStudents } from "@/services/student.service";
 import CTable from "@/components/CTable";
 import CModal from "@/components/CModal";
-import { Button } from "@chakra-ui/react";
-import imgprofile from "../../../assets/images/sultan.png";
-import { SearchIcon } from "../../../assets/icons/headerIcons";
 import SearchBar from "@/components/SearchBar/index";
+import { useGroups } from "@/services/group.service"; // Import the group service to fetch groups
+import { studentService } from "@/services/student.service"; // Import your student service
 
 const COLUMNS = [
   {
     title: "Firstname",
     key: "firstname",
-    render: (record) => record?.firstname,
+    render: (record) => record?.firstName || "-",
   },
   {
     title: "Lastname",
     key: "lastname",
-    render: (record) => record?.lastname,
+    render: (record) => record?.lastName || "-",
   },
   {
     title: "Email",
     key: "email",
-    render: (record) => record?.email,
+    render: (record) => record?.email || "-",
   },
   {
     title: "Group",
     key: "group",
-    render: (record) => record?.group || "N/A",
+    render: (record) => record?.group?.name || "-", // Display group name
   },
   {
     title: "Phone",
     key: "phone",
-    render: (record) => record?.phone,
+    render: (record) => record?.phoneNumber || "-",
   },
   {
     title: "Student ID",
     key: "studentId",
-    render: (record) => record?.studentId,
+    render: (record) => record?.studentId || "-",
   },
 ];
 
 const Students = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const { data, isLoading } = useStudents({
     params: {
       page: 1,
@@ -69,6 +67,7 @@ const Students = () => {
 
       <CTable columns={COLUMNS} data={data?.data?.data} loading={isLoading} />
 
+      {/* Modal to create a new student */}
       <CModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -89,26 +88,48 @@ const NewStudentForm = ({ onClose }) => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  const [group, setGroup] = useState("");
+  const [group, setGroup] = useState(""); // State for selected group
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
   const [studentId, setStudentId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const generatePassword = () => {
-    const randomPassword = Math.random().toString(36).slice(-8); // generates a random 8-character password
-    setPassword(randomPassword);
-  };
+  const { data: groupsData } = useGroups({
+    params: { page: 1, limit: 50 },
+  });
 
-  const onSubmit = () => {
+  const groups = useMemo(() => groupsData?.data?.data ?? [], [groupsData]);
+
+  const onSubmit = async () => {
     setIsLoading(true);
 
-    setTimeout(() => {
-      onClose();
-      alert("New student added successfully!");
+    const studentData = {
+      firstName: firstname,
+      lastName: lastname,
+      email,
+      phoneNumber: phone,
+      studentId,
+      groupId: group,
+      address,
+    };
+
+    console.log("Submitting student data:", studentData);
+
+    try {
+      const response = await studentService.create(studentData);
+
+      if (response.status === 201) {
+        onClose();
+        alert("New student added successfully!");
+      } else {
+        alert("Error adding student.");
+      }
+    } catch (error) {
+      console.error("Error creating student:", error);
+      alert("Failed to add student. Please try again.");
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
   };
 
   return (
@@ -136,11 +157,14 @@ const NewStudentForm = ({ onClose }) => {
         />
       </div>
       <div className={styles.inputGroup}>
-        <input
-          placeholder="Group (Optional)"
-          value={group}
-          onChange={(e) => setGroup(e.target.value)}
-        />
+        <select value={group} onChange={(e) => setGroup(e.target.value)}>
+          <option value="">Select Group</option>
+          {groups.map((group) => (
+            <option key={group.id} value={group.id}>
+              {group.name}
+            </option>
+          ))}
+        </select>
       </div>
       <div className={styles.inputGroup}>
         <input
@@ -162,16 +186,6 @@ const NewStudentForm = ({ onClose }) => {
           value={studentId}
           onChange={(e) => setStudentId(e.target.value)}
         />
-      </div>
-      <div className={styles.inputGroup}>
-        <input
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="button" onClick={generatePassword}>
-          Generate Password
-        </button>
       </div>
       <div className={styles.modalFooter}>
         <button onClick={onSubmit} disabled={isLoading}>
