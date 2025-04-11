@@ -4,8 +4,8 @@ import { useStudents } from "@/services/student.service";
 import CTable from "@/components/CTable";
 import CModal from "@/components/CModal";
 import SearchBar from "@/components/SearchBar/index";
-import { useGroups } from "@/services/group.service"; // Import the group service to fetch groups
-import { studentService } from "@/services/student.service"; // Import your student service
+import { useGroups } from "@/services/group.service";
+import { studentService } from "@/services/student.service";
 
 const COLUMNS = [
   {
@@ -26,7 +26,7 @@ const COLUMNS = [
   {
     title: "Group",
     key: "group",
-    render: (record) => record?.group?.name || "-", // Display group name
+    render: (record) => record?.group?.name || "-",
   },
   {
     title: "Phone",
@@ -50,12 +50,12 @@ const Students = () => {
   });
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.headerRow}>
+    <div className={styles?.container}>
+      <div className={styles?.header}>
+        <div className={styles?.headerRow}>
           <h1>Students</h1>
           <button
-            className={styles.addButton}
+            className={styles?.addButton}
             onClick={() => setIsModalOpen(true)}
           >
             + Add student
@@ -67,7 +67,6 @@ const Students = () => {
 
       <CTable columns={COLUMNS} data={data?.data?.data} loading={isLoading} />
 
-      {/* Modal to create a new student */}
       <CModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -88,7 +87,7 @@ const NewStudentForm = ({ onClose }) => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  const [group, setGroup] = useState(""); // State for selected group
+  const [group, setGroup] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [studentId, setStudentId] = useState("");
@@ -113,19 +112,17 @@ const NewStudentForm = ({ onClose }) => {
       address,
     };
 
-    console.log("Submitting student data:", studentData);
-
     try {
-      const response = await studentService.create(studentData);
+      const response = await studentService?.create?.(studentData);
 
-      if (response.status === 201) {
-        onClose();
+      if (response?.status === 201) {
+        onClose?.();
         alert("New student added successfully!");
       } else {
         alert("Error adding student.");
       }
     } catch (error) {
-      console.error("Error creating student:", error);
+      console?.error("Error creating student:", error);
       alert("Failed to add student. Please try again.");
     } finally {
       setIsLoading(false);
@@ -133,61 +130,61 @@ const NewStudentForm = ({ onClose }) => {
   };
 
   return (
-    <div className={styles.form}>
-      <div className={styles.inputGroup}>
+    <div className={styles?.form}>
+      <div className={styles?.inputGroup}>
         <input
           placeholder="First Name"
           value={firstname}
-          onChange={(e) => setFirstname(e.target.value)}
+          onChange={(e) => setFirstname(e?.target?.value)}
         />
       </div>
-      <div className={styles.inputGroup}>
+      <div className={styles?.inputGroup}>
         <input
           placeholder="Last Name"
           value={lastname}
-          onChange={(e) => setLastname(e.target.value)}
+          onChange={(e) => setLastname(e?.target?.value)}
         />
       </div>
-      <div className={styles.inputGroup}>
+      <div className={styles?.inputGroup}>
         <input
           placeholder="Email"
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e?.target?.value)}
         />
       </div>
-      <div className={styles.inputGroup}>
-        <select value={group} onChange={(e) => setGroup(e.target.value)}>
+      <div className={styles?.inputGroup}>
+        <select value={group} onChange={(e) => setGroup(e?.target?.value)}>
           <option value="">Select Group</option>
-          {groups.map((group) => (
-            <option key={group.id} value={group.id}>
-              {group.name}
+          {groups?.map((group) => (
+            <option key={group?.id} value={group?.id}>
+              {group?.name}
             </option>
           ))}
         </select>
       </div>
-      <div className={styles.inputGroup}>
+      <div className={styles?.inputGroup}>
         <input
           placeholder="Address (Optional)"
           value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          onChange={(e) => setAddress(e?.target?.value)}
         />
       </div>
-      <div className={styles.inputGroup}>
+      <div className={styles?.inputGroup}>
         <input
           placeholder="Phone"
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => setPhone(e?.target?.value)}
         />
       </div>
-      <div className={styles.inputGroup}>
+      <div className={styles?.inputGroup}>
         <input
           placeholder="Student ID"
           value={studentId}
-          onChange={(e) => setStudentId(e.target.value)}
+          onChange={(e) => setStudentId(e?.target?.value)}
         />
       </div>
-      <div className={styles.modalFooter}>
+      <div className={styles?.modalFooter}>
         <button onClick={onSubmit} disabled={isLoading}>
           {isLoading ? "Adding..." : "Add Student"}
         </button>

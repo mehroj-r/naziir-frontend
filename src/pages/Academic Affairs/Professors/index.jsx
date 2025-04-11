@@ -19,7 +19,11 @@ const COLUMNS = [
     key: "lastName",
     render: (record) => record?.lastName ?? "-",
   },
-  { title: "Email", key: "email", render: (record) => record?.email ?? "-" },
+  {
+    title: "Email",
+    key: "email",
+    render: (record) => record?.email ?? "-",
+  },
   {
     title: "Employee ID",
     key: "employeeId",
@@ -38,15 +42,32 @@ const Professors = () => {
   const { data, isLoading, refetch } = useProfessors({
     params: { page: 1, limit: 50 },
   });
-  
-  const professors = useMemo(() => data?.data?.data ?? [], [data]);
+
+  const { data: departmentsData } = useDepartments({
+    params: { page: 1, limit: 100 },
+  });
+
+  const departmentMap = useMemo(() => {
+    const map = {};
+    (departmentsData?.data?.data ?? []).forEach((dept) => {
+      map[dept.id] = dept.name;
+    });
+    return map;
+  }, [departmentsData]);
+
+  const professors = useMemo(() => {
+    return (data?.data?.data ?? []).map((prof) => ({
+      ...prof,
+      departmentName: departmentMap[prof.departmentId] ?? "-",
+    }));
+  }, [data, departmentMap]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
+    <div className={styles?.container}>
+      <div className={styles?.header}>
         <h1>Professors</h1>
         <button
-          className={styles.addButton}
+          className={styles?.addButton}
           onClick={() => setIsModalOpen(true)}
         >
           + New Professor
@@ -65,7 +86,7 @@ const Professors = () => {
           <NewProfessorForm
             onClose={() => {
               setIsModalOpen(false);
-              refetch();
+              refetch?.();
             }}
           />
         }
@@ -84,17 +105,17 @@ const NewProfessorForm = ({ onClose }) => {
 
   const { data } = useDepartments({ params: { page: 1, limit: 100 } });
   const departments = useMemo(() => data?.data?.data ?? [], [data]);
-  const userData = useSelector((state) => state.user);
+  const userData = useSelector((state) => state?.user);
 
   const onSubmit = () => {
     if (!firstName || !lastName || !email || !employeeId || !departmentId) {
-      customToast("error", "All fields must be filled");
+      customToast?.("error", "All fields must be filled");
       return;
-    } else if(!userData?.data?.organization) return;
+    } else if (!userData?.data?.organization) return;
 
     setIsLoading(true);
     professorService
-      .create({
+      ?.create?.({
         firstName,
         lastName,
         email,
@@ -102,48 +123,48 @@ const NewProfessorForm = ({ onClose }) => {
         departmentId,
         organizationId: userData?.data?.organization,
       })
-      .then(() => {
-        customToast("success", "Professor created successfully");
-        onClose();
+      ?.then?.(() => {
+        customToast?.("success", "Professor created successfully");
+        onClose?.();
       })
-      .catch(() => {
-        customToast("error", "Failed to create professor");
+      ?.catch?.(() => {
+        customToast?.("error", "Failed to create professor");
       })
-      .finally(() => {
+      ?.finally?.(() => {
         setIsLoading(false);
       });
   };
 
   return (
-    <div className={styles.form}>
+    <div className={styles?.form}>
       <input
         placeholder="First Name"
         value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
+        onChange={(e) => setFirstName(e?.target?.value)}
       />
       <input
         placeholder="Last Name"
         value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
+        onChange={(e) => setLastName(e?.target?.value)}
       />
       <input
         placeholder="Email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => setEmail(e?.target?.value)}
       />
       <input
         placeholder="Employee ID"
         value={employeeId}
-        onChange={(e) => setEmployeeId(e.target.value)}
+        onChange={(e) => setEmployeeId(e?.target?.value)}
       />
       <select
         value={departmentId}
-        onChange={(e) => setDepartmentId(e.target.value)}
+        onChange={(e) => setDepartmentId(e?.target?.value)}
       >
         <option value="">Select Department</option>
-        {departments.map((dept) => (
-          <option key={dept.id} value={dept.id}>
-            {dept.name}
+        {departments?.map?.((dept) => (
+          <option key={dept?.id} value={dept?.id}>
+            {dept?.name}
           </option>
         ))}
       </select>

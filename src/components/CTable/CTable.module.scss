@@ -25,6 +25,11 @@
     border-bottom: none;
   }
 
+  tbody tr:hover {
+    background-color: #e8edf5;
+    transition: background-color 0.2s ease;
+  }
+
   .status {
     background: rgb(164, 239, 154);
     color: black;

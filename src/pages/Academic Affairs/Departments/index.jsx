@@ -22,37 +22,37 @@ const Departments = () => {
   const [departments, setDepartments] = useState([]);
 
   const { data, isLoading, refetch } = useDepartments({
-    params: { page: 1, limit: 20 },
+    params: { page: 1, limit: 50 },
   });
 
   useMemo(() => {
     if (data?.data?.data) {
-      setDepartments(data.data.data);
+      setDepartments(data?.data?.data);
     }
   }, [data]);
 
   const onModalClose = () => {
-    setIsEditing(false)
-    setCurrentDepartment(null)
-    setIsModalOpen(false)
-  }
+    setIsEditing(false);
+    setCurrentDepartment(null);
+    setIsModalOpen(false);
+  };
 
   const handleDelete = () => {
     if (!idForDelete) return;
     setIsDeleting(true);
     departmentService
-      .delete(idForDelete)
-      .then(() => {
+      ?.delete?.(idForDelete)
+      ?.then?.(() => {
         setDepartments((prev) =>
-          prev.filter((item) => item.id !== idForDelete)
+          prev?.filter?.((item) => item?.id !== idForDelete)
         );
-        customToast("success", "Department deleted");
+        customToast?.("success", "Department deleted");
       })
-      .catch((err) => {
+      ?.catch?.((err) => {
         console.log("err", err);
-        customToast("error", "Failed to delete department");
+        customToast?.("error", "Failed to delete department");
       })
-      .finally(() => {
+      ?.finally?.(() => {
         setIdForDelete("");
         setIsDeleting(false);
       });
@@ -62,7 +62,7 @@ const Departments = () => {
     {
       title: "Department",
       key: "name",
-      render: (record) => record?.name,
+      render: (record) => record?.name ?? "-",
     },
     {
       title: "Professor",
@@ -111,11 +111,11 @@ const Departments = () => {
   ];
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
+    <div className={styles?.container}>
+      <div className={styles?.header}>
         <h1>Departments</h1>
         <button
-          className={styles.addButton}
+          className={styles?.addButton}
           onClick={() => setIsModalOpen(true)}
         >
           + New Department
@@ -134,8 +134,8 @@ const Departments = () => {
             isEditing={isEditing}
             onUpdate={(updated) =>
               setDepartments((prev) =>
-                prev.map((d) =>
-                  d.id === updated.id ? { ...d, ...updated } : d
+                prev?.map?.((d) =>
+                  d?.id === updated?.id ? { ...d, ...updated } : d
                 )
               )
             }
@@ -160,8 +160,8 @@ const NewDepartmentForm = ({
   onUpdate,
   onCreate,
 }) => {
-  const [departmentName, setDepartmentName] = useState(department?.name || "");
-  const [description, setDescription] = useState(department?.description || "");
+  const [departmentName, setDepartmentName] = useState(department?.name ?? "");
+  const [description, setDescription] = useState(department?.description ?? "");
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = () => {
@@ -177,38 +177,38 @@ const NewDepartmentForm = ({
     }
 
     const action = isEditing
-      ? departmentService.update(department?.id, body)
-      : departmentService.create(body);
+      ? departmentService?.update?.(department?.id, body)
+      : departmentService?.create?.(body);
 
     action
-      .then((res) => {
-        customToast(
+      ?.then?.((res) => {
+        customToast?.(
           "success",
           isEditing
             ? "Department updated successfully"
             : "Department created successfully"
         );
-        isEditing ? onUpdate(res.data) : onCreate(res.data);
-        onClose();
+        isEditing ? onUpdate?.(res?.data) : onCreate?.(res?.data);
+        onClose?.();
       })
-      .catch((err) => {
-        const msg = err?.response?.data?.message || "Something went wrong";
-        customToast("error", msg);
+      ?.catch?.((err) => {
+        const msg = err?.response?.data?.message ?? "Something went wrong";
+        customToast?.("error", msg);
       })
-      .finally(() => setIsLoading(false));
+      ?.finally?.(() => setIsLoading(false));
   };
 
   return (
-    <div className={styles.form}>
+    <div className={styles?.form}>
       <input
         placeholder="Department name"
         value={departmentName}
-        onChange={(e) => setDepartmentName(e.target.value)}
+        onChange={(e) => setDepartmentName(e?.target?.value)}
       />
       <textarea
         placeholder="Department description"
         value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        onChange={(e) => setDescription(e?.target?.value)}
       />
       <button onClick={onSubmit} disabled={isLoading}>
         {isLoading

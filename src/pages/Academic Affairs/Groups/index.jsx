@@ -30,8 +30,14 @@ const Groups = () => {
     setIsDeleting(true);
     groupService
       .delete(idForDelete)
-      .then(() => refetch())
-      .catch((err) => console.log("err", err))
+      .then(() => {
+        customToast("success", "Group deleted successfully");
+        refetch();
+      })
+      .catch((err) => {
+        console.log("Delete error:", err?.response?.data ?? err);
+        customToast("error", "Failed to delete group");
+      })
       .finally(() => {
         setIdForDelete("");
         setIsDeleting(false);
@@ -52,12 +58,12 @@ const Groups = () => {
     {
       title: "Year",
       key: "year",
-      render: (record) => `Class of ${record?.year}` ?? "-",
+      render: (record) => `Class of ${record?.year ?? "—"}`,
     },
     {
       title: "Students",
       key: "students",
-      render: (record) => record?.numOfStudents ?? "-",
+      render: (record) => record?.numOfStudents ?? "0",
     },
     {
       title: "",
@@ -76,7 +82,7 @@ const Groups = () => {
             {
               title: "Delete",
               icon: <DeleteIcon />,
-              onClick: () => setIdForDelete(record?.id),
+              onClick: () => setIdForDelete(record?.id ?? ""),
             },
           ]}
         />
@@ -100,7 +106,13 @@ const Groups = () => {
       </div>
 
       <SearchBar placeholder="Search for groups" />
-      <CTable onRowClick={(record) => navigate(`/groups/${record?.id}`)} columns={COLUMNS} data={groups} loading={isLoading} />
+      <CTable
+        onRowClick={(record) => navigate(`/groups/${record?.id ?? ""}`)}
+        columns={COLUMNS}
+        data={groups}
+        loading={isLoading}
+      />
+
       <CModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -116,6 +128,7 @@ const Groups = () => {
           />
         }
       />
+
       <ConfirmModal
         isOpen={Boolean(idForDelete)}
         onClose={() => setIdForDelete("")}
@@ -127,13 +140,13 @@ const Groups = () => {
 };
 
 const NewGroupForm = ({ defaultValues, onClose }) => {
-  const [name, setName] = useState(defaultValues?.name || "");
+  const [name, setName] = useState(defaultValues?.name ?? "");
   const [description, setDescription] = useState(
-    defaultValues?.description || ""
+    defaultValues?.description ?? ""
   );
-  const [year, setYear] = useState(defaultValues?.year || "");
+  const [year, setYear] = useState(defaultValues?.year ?? "");
   const [departmentId, setDepartmentId] = useState(
-    defaultValues?.departmentId || ""
+    defaultValues?.departmentId ?? ""
   );
   const [isLoading, setIsLoading] = useState(false);
 
@@ -143,10 +156,10 @@ const NewGroupForm = ({ defaultValues, onClose }) => {
 
   useEffect(() => {
     if (defaultValues) {
-      setName(defaultValues.name || "");
-      setDescription(defaultValues.description || "");
-      setYear(defaultValues.year || "");
-      setDepartmentId(defaultValues.departmentId || "");
+      setName(defaultValues.name ?? "");
+      setDescription(defaultValues.description ?? "");
+      setYear(defaultValues.year ?? "");
+      setDepartmentId(defaultValues.departmentId ?? "");
     }
   }, [defaultValues]);
 
@@ -162,13 +175,13 @@ const NewGroupForm = ({ defaultValues, onClose }) => {
       if (year !== defaultValues.year) body.year = year;
 
       groupService
-        .update(defaultValues.id, body)
+        .update(defaultValues?.id ?? "", body)
         .then(() => {
           customToast("success", "Group updated successfully");
           onClose();
         })
         .catch((err) => {
-          console.log(err?.response?.data || err);
+          console.log("Update error:", err?.response?.data ?? err);
           customToast("error", "Failed to update group");
         })
         .finally(() => setIsLoading(false));
@@ -186,15 +199,13 @@ const NewGroupForm = ({ defaultValues, onClose }) => {
       groupService
         .create(body)
         .then(() => {
-          customToast("success", "The group is created successfully");
+          customToast("success", "Group created successfully");
           onClose();
         })
         .catch(() => {
           customToast("error", "Failed to create group");
         })
-        .finally(() => {
-          setIsLoading(false);
-        });
+        .finally(() => setIsLoading(false));
     }
   };
 
@@ -225,8 +236,8 @@ const NewGroupForm = ({ defaultValues, onClose }) => {
         >
           <option value="">Select Department</option>
           {departments.map((dept) => (
-            <option key={dept.id} value={dept.id}>
-              {dept.name}
+            <option key={dept?.id} value={dept?.id}>
+              {dept?.name ?? "Unnamed"}
             </option>
           ))}
         </select>

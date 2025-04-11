@@ -12,3 +12,15 @@ export const useCourses = ({ params, props }) =>
     queryFn: () => courseService.getAll(params),
     ...props,
   });
+
+const assignProfessor = async (courseId, professorId) => {
+  try {
+    // Assuming you have an API that handles course updates
+    await httpRequest.put(`/courses/${courseId}`, {
+      professors: [...existingProfessors, professorId], // Add professor ID
+    });
+    customToast("success", "Professor assigned successfully!");
+  } catch (error) {
+    customToast("error", "Failed to assign professor.");
+  }
+};
