@@ -3,7 +3,11 @@ import httpRequest from "./httpRequest";
 
 export const courseService = {
   create: async (body) => await httpRequest.post("/courses", body),
+
   getAll: async (params) => await httpRequest.get("/courses", { params }),
+
+  assignProfessor: async (courseId, body) =>
+    await httpRequest.patch(`/courses/${courseId}/professors`, body),
 };
 
 export const useCourses = ({ params, props }) =>
@@ -12,15 +16,3 @@ export const useCourses = ({ params, props }) =>
     queryFn: () => courseService.getAll(params),
     ...props,
   });
-
-const assignProfessor = async (courseId, professorId) => {
-  try {
-    // Assuming you have an API that handles course updates
-    await httpRequest.put(`/courses/${courseId}`, {
-      professors: [...existingProfessors, professorId], // Add professor ID
-    });
-    customToast("success", "Professor assigned successfully!");
-  } catch (error) {
-    customToast("error", "Failed to assign professor.");
-  }
-};

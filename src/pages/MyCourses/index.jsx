@@ -1,44 +1,22 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import styles from "./MyCourses.module.scss";
 import CTable from "@/components/CTable";
-import { useCourses } from "@/services/course.service";
+import { useCourses, courseService } from "@/services/course.service";
 import CModal from "@/components/CModal";
-import { Button } from "@chakra-ui/react";
+import { Button, Select } from "@chakra-ui/react";
 import { customToast } from "../../utils/toastify";
-import { courseService } from "@/services/course.service";
 import SearchBar from "@/components/SearchBar/index";
-
-const COLUMNS = [
-  {
-    title: "Course",
-    key: "course",
-    render: (record) => record?.courseName ?? "-",
-  },
-  {
-    title: "Professor",
-    key: "professor",
-    render: (record) => "???",
-  },
-  {
-    title: "Students",
-    key: "students",
-    render: (record) => "???",
-  },
-  {
-    title: "Started",
-    key: "startYear",
-    render: (record) => record?.startYear ?? "-",
-  },
-  {
-    title: "Ended",
-    key: "endYear",
-    render: (record) => "???",
-  },
-];
+import { useProfessors } from "@/services/professors.service";
 
 const Courses = () => {
   const currentYear = new Date().getFullYear();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+
+  const [selectedCourseId, setSelectedCourseId] = useState("");
+  const [selectedProfessorId, setSelectedProfessorId] = useState("");
+  const [assignmentRole, setAssignmentRole] = useState("LEAD");
+
   const [courseCode, setCourseCode] = useState("");
   const [courseName, setCourseName] = useState("");
   const [academicTerm, setAcademicTerm] = useState("");
@@ -48,9 +26,53 @@ const Courses = () => {
   const [academicYear, setAcademicYear] = useState(currentYear.toString());
   const [organizationId] = useState("3f69ffb4-2e25-4041-9520-c61ea6937650");
 
-  const { data, isLoading } = useCourses({
+  const { data, isLoading, refetch } = useCourses({
     params: { page: 1, limit: 10, academicYear },
   });
+
+  const { data: professorsData } = useProfessors({ params: {} });
+
+  const COLUMNS = [
+    {
+      title: "Course",
+      key: "course",
+      render: (record) => record?.courseName ?? "-",
+    },
+    {
+      title: "Professor",
+      key: "professor",
+      render: (record) => {
+        if (!record?.professors || !Array.isArray(record.professors))
+          return "-";
+
+        return record.professors
+          .map((id) => {
+            const professor = professorsData?.data?.data?.find(
+              (p) => p.id === id
+            );
+            return professor
+              ? `${professor.firstName} ${professor.lastName}`
+              : id;
+          })
+          .join(", ");
+      },
+    },
+    {
+      title: "Students",
+      key: "students",
+      render: (record) => "???",
+    },
+    {
+      title: "Started",
+      key: "startYear",
+      render: (record) => record?.startYear ?? "-",
+    },
+    {
+      title: "Ended",
+      key: "endYear",
+      render: (record) => "???",
+    },
+  ];
 
   const isFormValid = () => {
     return (
@@ -82,8 +104,34 @@ const Courses = () => {
       await courseService.create(courseData);
       customToast("success", "Course created successfully!");
       setIsModalOpen(false);
+      refetch();
     } catch (error) {
       customToast("error", "Failed to create the course!");
+    }
+  };
+
+  const onAssignProfessor = async () => {
+    if (!selectedCourseId || !selectedProfessorId) {
+      customToast("error", "Select a course and professor!");
+      return;
+    }
+
+    try {
+      const payload = {
+        assignments: [
+          {
+            professorId: selectedProfessorId,
+            assignmentRole,
+          },
+        ],
+      };
+
+      await courseService.assignProfessor(selectedCourseId, payload);
+      customToast("success", "Professor assigned successfully!");
+      setIsAssignModalOpen(false);
+      refetch();
+    } catch (error) {
+      customToast("error", "Failed to assign professor!");
     }
   };
 
@@ -91,12 +139,20 @@ const Courses = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>Courses</h2>
-        <button
-          className={styles.addCourseButton}
-          onClick={() => setIsModalOpen(true)}
-        >
-          + New Course
-        </button>
+        <div className={styles.actions}>
+          <button
+            className={styles.addCourseButton}
+            onClick={() => setIsModalOpen(true)}
+          >
+            + New Course
+          </button>
+          <button
+            className={styles.addCourseButton}
+            onClick={() => setIsAssignModalOpen(true)}
+          >
+            + Assign Professor
+          </button>
+        </div>
       </div>
 
       <SearchBar placeholder="Search for Courses" />
@@ -108,94 +164,103 @@ const Courses = () => {
         onClose={() => setIsModalOpen(false)}
         title="New Course"
         body={
-          <CourseModalForm
-            courseCode={courseCode}
-            courseName={courseName}
-            academicTerm={academicTerm}
-            description={description}
-            credits={credits}
-            courseType={courseType}
-            academicYear={academicYear}
-            setCourseCode={setCourseCode}
-            setCourseName={setCourseName}
-            setAcademicTerm={setAcademicTerm}
-            setDescription={setDescription}
-            setCredits={setCredits}
-            setCourseType={setCourseType}
-            setAcademicYear={setAcademicYear}
-            onSubmit={onSubmit}
-            isFormValid={isFormValid}
-          />
+          <div className={styles.form}>
+            <input
+              type="text"
+              placeholder="Course Code"
+              value={courseCode}
+              onChange={(e) => setCourseCode(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Course Name"
+              value={courseName}
+              onChange={(e) => setCourseName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Academic Term (e.g., FALL)"
+              value={academicTerm}
+              onChange={(e) => setAcademicTerm(e.target.value)}
+            />
+            <textarea
+              placeholder="Course Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Credits"
+              value={credits}
+              onChange={(e) => setCredits(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Course Type (e.g., LECTURE)"
+              value={courseType}
+              onChange={(e) => setCourseType(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Academic Year (e.g., 2025)"
+              value={academicYear}
+              onChange={(e) => setAcademicYear(e.target.value)}
+            />
+            <Button
+              className={styles.myButton}
+              onClick={onSubmit}
+              disabled={!isFormValid()}
+            >
+              Create Course
+            </Button>
+          </div>
+        }
+      />
+
+      <CModal
+        isOpen={isAssignModalOpen}
+        onClose={() => setIsAssignModalOpen(false)}
+        title="Assign Professor to Course"
+        body={
+          <div className={styles.form}>
+            <Select
+              placeholder="Select Course"
+              onChange={(e) => setSelectedCourseId(e.target.value)}
+            >
+              {data?.data?.data?.map((course) => (
+                <option key={course.id} value={course.id}>
+                  {course.courseName}
+                </option>
+              ))}
+            </Select>
+
+            <Select
+              placeholder="Select Professor"
+              onChange={(e) => setSelectedProfessorId(e.target.value)}
+            >
+              {Array.isArray(professorsData?.data?.data) &&
+                professorsData.data.data.map((prof) => (
+                  <option key={prof.id} value={prof.id}>
+                    {prof.firstName} {prof.lastName}
+                  </option>
+                ))}
+            </Select>
+
+            <Select
+              placeholder="Select Role"
+              value={assignmentRole}
+              onChange={(e) => setAssignmentRole(e.target.value)}
+            >
+              <option value="LEAD">LEAD</option>
+              <option value="ASSISTANT">ASSISTANT</option>
+            </Select>
+
+            <Button onClick={onAssignProfessor}>Assign Professor</Button>
+          </div>
         }
       />
     </div>
   );
 };
-
-const CourseModalForm = ({
-  courseCode,
-  courseName,
-  academicTerm,
-  description,
-  credits,
-  courseType,
-  academicYear,
-  setCourseCode,
-  setCourseName,
-  setAcademicTerm,
-  setDescription,
-  setCredits,
-  setCourseType,
-  setAcademicYear,
-  onSubmit,
-  isFormValid,
-}) => (
-  <div className={styles.form}>
-    <input
-      type="text"
-      placeholder="Course Code"
-      value={courseCode}
-      onChange={(e) => setCourseCode(e.target.value)}
-    />
-    <input
-      type="text"
-      placeholder="Course Name"
-      value={courseName}
-      onChange={(e) => setCourseName(e.target.value)}
-    />
-    <input
-      type="text"
-      placeholder="Academic Term (e.g., FALL)"
-      value={academicTerm}
-      onChange={(e) => setAcademicTerm(e.target.value)}
-    />
-    <textarea
-      placeholder="Course Description"
-      value={description}
-      onChange={(e) => setDescription(e.target.value)}
-    />
-    <input
-      type="number"
-      placeholder="Credits"
-      value={credits}
-      onChange={(e) => setCredits(e.target.value)}
-    />
-    <input
-      type="text"
-      placeholder="Course Type (e.g., LECTURE)"
-      value={courseType}
-      onChange={(e) => setCourseType(e.target.value)}
-    />
-    <input
-      type="text"
-      placeholder="Academic Year (e.g., 2025)"
-      value={academicYear}
-      onChange={(e) => setAcademicYear(e.target.value)}
-    />
-    <Button onClick={onSubmit} disabled={!isFormValid()}>
-      Create Course
-    </Button>
-  </div>
-);
 
 export default Courses;
