@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { SearchIcon } from "../../../assets/icons/headerIcons";
 import styles from "./Departments.module.scss";
 import {
   useDepartments,

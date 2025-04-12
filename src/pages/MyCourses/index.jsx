@@ -3,20 +3,28 @@ import styles from "./MyCourses.module.scss";
 import CTable from "@/components/CTable";
 import { useCourses, courseService } from "@/services/course.service";
 import CModal from "@/components/CModal";
-import { Button, Select } from "@chakra-ui/react";
+import { Button, Input, Select, Textarea } from "@chakra-ui/react";
 import { customToast } from "../../utils/toastify";
 import SearchBar from "@/components/SearchBar/index";
 import { useProfessors } from "@/services/professors.service";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import ActionMenu from "@/components/ActionMenu";
+import ConfirmModal from "@/components/CModal/ConfirmModal";
 
 const Courses = () => {
   const currentYear = new Date().getFullYear();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const [idForDelete, setIdForDelete] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const [selectedCourseId, setSelectedCourseId] = useState("");
   const [selectedProfessorId, setSelectedProfessorId] = useState("");
   const [assignmentRole, setAssignmentRole] = useState("LEAD");
 
+  const [editCourseId, setEditCourseId] = useState(null);
   const [courseCode, setCourseCode] = useState("");
   const [courseName, setCourseName] = useState("");
   const [academicTerm, setAcademicTerm] = useState("");
@@ -31,6 +39,22 @@ const Courses = () => {
   });
 
   const { data: professorsData } = useProfessors({ params: {} });
+
+  const openEditModal = (course) => {
+    setEditCourseId(course.id);
+    setCourseCode(course.courseCode);
+    setCourseName(course.courseName);
+    setAcademicTerm(course.academicTerm);
+    setDescription(course.description);
+    setCredits(course.credits);
+    setCourseType(course.courseType);
+    setAcademicYear(course.academicYear);
+    setIsEditModalOpen(true);
+  };
+
+  const openDeleteModal = (courseId) => {
+    setIdForDelete(courseId);
+  };
 
   const COLUMNS = [
     {
@@ -72,6 +96,25 @@ const Courses = () => {
       key: "endYear",
       render: (record) => "???",
     },
+    {
+      key: "actions",
+      render: (record) => (
+        <ActionMenu
+          actions={[
+            {
+              title: "Edit",
+              icon: <EditIcon />,
+              onClick: () => openEditModal(record),
+            },
+            {
+              title: "Delete",
+              icon: <DeleteIcon />,
+              onClick: () => openDeleteModal(record.id),
+            },
+          ]}
+        />
+      ),
+    },
   ];
 
   const isFormValid = () => {
@@ -107,6 +150,44 @@ const Courses = () => {
       refetch();
     } catch (error) {
       customToast("error", "Failed to create the course!");
+    }
+  };
+
+  const onUpdateCourse = async () => {
+    if (!editCourseId) return;
+
+    try {
+      const updatedCourse = {
+        courseCode,
+        courseName,
+        academicTerm,
+        description,
+        credits,
+        courseType,
+        academicYear,
+      };
+
+      await courseService.update(editCourseId, updatedCourse);
+      customToast("success", "Course updated successfully!");
+      setIsEditModalOpen(false);
+      refetch();
+    } catch (error) {
+      customToast("error", "Failed to update course!");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!idForDelete) return;
+
+    setIsDeleting(true);
+    try {
+      await courseService.delete(idForDelete);
+      customToast("success", "Course deleted successfully!");
+      setIdForDelete("");
+      refetch();
+    } catch (error) {
+      customToast("error", "Failed to delete course!");
+      setIsDeleting(false);
     }
   };
 
@@ -165,42 +246,42 @@ const Courses = () => {
         title="New Course"
         body={
           <div className={styles.form}>
-            <input
+            <Input
               type="text"
               placeholder="Course Code"
               value={courseCode}
               onChange={(e) => setCourseCode(e.target.value)}
             />
-            <input
+            <Input
               type="text"
               placeholder="Course Name"
               value={courseName}
               onChange={(e) => setCourseName(e.target.value)}
             />
-            <input
+            <Input
               type="text"
               placeholder="Academic Term (e.g., FALL)"
               value={academicTerm}
               onChange={(e) => setAcademicTerm(e.target.value)}
             />
-            <textarea
+            <Textarea
               placeholder="Course Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <input
+            <Input
               type="number"
               placeholder="Credits"
               value={credits}
               onChange={(e) => setCredits(e.target.value)}
             />
-            <input
+            <Input
               type="text"
               placeholder="Course Type (e.g., LECTURE)"
               value={courseType}
               onChange={(e) => setCourseType(e.target.value)}
             />
-            <input
+            <Input
               type="text"
               placeholder="Academic Year (e.g., 2025)"
               value={academicYear}
@@ -258,6 +339,59 @@ const Courses = () => {
             <Button onClick={onAssignProfessor}>Assign Professor</Button>
           </div>
         }
+      />
+
+      <CModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        title="Edit Course"
+        body={
+          <div className={styles.form}>
+            <Input
+              type="text"
+              placeholder="Course Code"
+              value={courseCode}
+              onChange={(e) => setCourseCode(e.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Course Name"
+              value={courseName}
+              onChange={(e) => setCourseName(e.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Academic Term"
+              value={academicTerm}
+              onChange={(e) => setAcademicTerm(e.target.value)}
+            />
+            <Textarea
+              placeholder="Course Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <Input
+              type="number"
+              placeholder="Credits"
+              value={credits}
+              onChange={(e) => setCredits(e.target.value)}
+            />
+            <Input
+              type="text"
+              placeholder="Course Type"
+              value={courseType}
+              onChange={(e) => setCourseType(e.target.value)}
+            />
+            <Button onClick={onUpdateCourse}>Update Course</Button>
+          </div>
+        }
+      />
+
+      <ConfirmModal
+        isOpen={Boolean(idForDelete)}
+        onClose={() => setIdForDelete("")}
+        onConfirm={handleDelete}
+        isLoading={isDeleting}
       />
     </div>
   );

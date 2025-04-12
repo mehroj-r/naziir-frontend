@@ -8,6 +8,8 @@ export const courseService = {
 
   assignProfessor: async (courseId, body) =>
     await httpRequest.patch(`/courses/${courseId}/professors`, body),
+  update: async (id, body) => await httpRequest.patch(`/courses/${id}`, body),
+  delete: async (id) => await httpRequest.delete(`/courses/${id}`),
 };
 
 export const useCourses = ({ params, props }) =>
