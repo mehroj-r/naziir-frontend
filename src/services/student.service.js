@@ -8,7 +8,7 @@ export const studentService = {
   delete: async (id) => await httpRequest.delete(`/students/${id}`),
 };
 
-export const useStudents = ({ params, props }) =>
+export const useStudents= ({ params, props }) =>
   useQuery({
     queryKey: ["GET_ALL_STUDENTS", params],
     queryFn: () => studentService.getAll(params),

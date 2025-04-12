@@ -174,7 +174,7 @@ const NewStudentForm = ({ defaultValues, onClose }) => {
     }
   }, [defaultValues]);
 
-  const onSubmit = (e) => {
+  const onSubmit = (e)=> {
     e.preventDefault();
     setIsLoading(true);
 
