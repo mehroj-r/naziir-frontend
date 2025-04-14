@@ -3,6 +3,7 @@ import styles from "./GroupDetail.module.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { groupService } from "@/services/group.service";
 import { customToast } from "@/utils/toastify";
+import ConfirmModal from "@/components/CModal/ConfirmModal";
 
 const GroupDetail = () => {
   const { id } = useParams();
@@ -10,10 +11,13 @@ const GroupDetail = () => {
   const [group, setGroup] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   useEffect(() => {
     groupService
       .getById(id)
-      .then((res) => setGroup(res.data))
+      .then((res) => setGroup(res?.data))
       .catch(() => {
         customToast("error", "Failed to load group");
         navigate("/groups");
@@ -22,12 +26,16 @@ const GroupDetail = () => {
   }, [id, navigate]);
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     try {
       await groupService.delete(id);
       customToast("success", "Group deleted");
       navigate("/groups");
     } catch {
       customToast("error", "Failed to delete group");
+    } finally {
+      setIsDeleting(false);
+      setIsDeleteModalOpen(false);
     }
   };
 
@@ -35,33 +43,36 @@ const GroupDetail = () => {
   if (!group) return <div className={styles.container}>Group not found</div>;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
+    <div className={styles?.container}>
+      <div className={styles?.header}>
         <h1>{group?.name}</h1>
-        <button className={styles.deleteButton} onClick={handleDelete}>
+        <button
+          className={styles?.deleteButton}
+          onClick={() => setIsDeleteModalOpen(true)}
+        >
           Delete
         </button>
       </div>
 
-      <div className={styles.info}>
+      <div className={styles?.info}>
         <div>
           <span>Department</span>
-          <p>{group.departmentName}</p>
+          <p>{group?.departmentName ?? "-"}</p>
         </div>
         <div>
           <span>Year</span>
-          <p>{group.year}</p>
+          <p>{group?.year ?? "-"}</p>
         </div>
         <div>
           <span>Status</span>
-          <p>{group.active ? "Active" : "Inactive"}</p>
+          <p>{group?.active ? "Active" : "Inactive"}</p>
         </div>
       </div>
 
-      <div className={styles.list}>
+      <div className={styles?.list}>
         <h2>Assigned Students</h2>
-        {group.students?.length === 0 ? (
-          <p className={styles.empty}>No students assigned to this group.</p>
+        {group?.students?.length === 0 ? (
+          <p className={styles?.empty}>No students assigned to this group.</p>
         ) : (
           <table>
             <thead>
@@ -73,18 +84,25 @@ const GroupDetail = () => {
               </tr>
             </thead>
             <tbody>
-              {group.students.map((student) => (
-                <tr key={student.id}>
-                  <td>{student.firstName} </td>
-                  <td>{student.lastName}</td>
-                  <td>{student.studentId}</td>
-                  <td>{student.email}</td>
+              {group?.students?.map((student) => (
+                <tr key={student?.id}>
+                  <td>{student?.firstName ?? "-"}</td>
+                  <td>{student?.lastName ?? "-"}</td>
+                  <td>{student?.studentId ?? "-"}</td>
+                  <td>{student?.email ?? "-"}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDelete}
+        isLoading={isDeleting}
+      />
     </div>
   );
 };
