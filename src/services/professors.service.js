@@ -25,6 +25,7 @@ export const professorService = {
 
   update: async (id, body) => await httpRequest.put(`/professors/${id}`, body),
   delete: async (id) => await httpRequest.delete(`/professors/${id}`),
+  getById: async (id) => await httpRequest.get(`/professors/${id}`),
 };
 
 export const useProfessors = ({ params, props }) =>

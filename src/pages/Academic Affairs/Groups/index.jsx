@@ -63,7 +63,7 @@ const Groups = () => {
     {
       title: "Students",
       key: "students",
-      render: (record) => record?.numOfStudents ?? "0",
+      render: (record) => record?.studentCount ?? "0",
     },
     {
       title: "",

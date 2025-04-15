@@ -10,12 +10,14 @@ import { useSelector } from "react-redux";
 import ActionMenu from "@/components/ActionMenu";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ConfirmModal from "@/components/CModal/ConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 const Professors = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editProfessor, setEditProfessor] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [idForDelete, setIdForDelete] = useState("");
+  const navigate = useNavigate();
 
   const { data, isLoading, refetch } = useProfessors({
     params: { page: 1, limit: 50 },
@@ -126,7 +128,12 @@ const Professors = () => {
 
       <SearchBar placeholder="Search for Professors" />
 
-      <CTable columns={COLUMNS} data={professors} loading={isLoading} />
+      <CTable
+        columns={COLUMNS}
+        data={professors}
+        loading={isLoading}
+        onRowClick={(record) => navigate(`/professors/${record.id ?? ""}`)}
+      />
 
       <CModal
         isOpen={isModalOpen}
