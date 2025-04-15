@@ -57,21 +57,21 @@ const StudentDetail = () => {
           <p>
             <strong>Student ID:</strong> {student.studentId}
           </p>
+          {student.group ? (
+            <p>
+              <p>
+                <strong>Group Name:</strong>
+                {groupMap[student.group.id] ?? "Unknown Group"}
+              </p>
+              <p>
+                <strong>Description: </strong>
+                {student.group.description}
+              </p>
+            </p>
+          ) : (
+            <p>No groups assigned.</p>
+          )}
         </div>
-      </div>
-
-      <div className={styles.groups}>
-        <h3>Assigned Groups</h3>
-        {student.group ? (
-          <ul>
-            <li>
-              <p>Group Name: {groupMap[student.group.id] ?? "Unknown Group"}</p>
-              <p>Description: {student.group.description}</p>
-            </li>
-          </ul>
-        ) : (
-          <p>No groups assigned.</p>
-        )}
       </div>
     </div>
   );

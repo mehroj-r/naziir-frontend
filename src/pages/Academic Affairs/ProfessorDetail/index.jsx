@@ -75,9 +75,8 @@ const ProfessorDetail = () => {
           </p>
         </div>
       </div>
-
+      <h2>Assigned Courses</h2>
       <div className={styles.courses}>
-        <h3>Assigned Courses</h3>
         {professor.courses && professor.courses.length > 0 ? (
           <ul>
             {professor.courses.map((course, index) => (
