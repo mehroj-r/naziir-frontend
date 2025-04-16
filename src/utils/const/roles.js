@@ -8,3 +8,10 @@ export const ROLE_PAGES = {
     'groups'
   ]
 }
+
+export const ROLES = {
+  STUDENT: "STUDENT",
+  ACADEMIC_AFFAIRS: "ACADEMIC_AFFAIRS",
+  PROFESSOR: "PROFESSOR",
+  MANAGER: "MANAGER",
+}

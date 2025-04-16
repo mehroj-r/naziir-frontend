@@ -1,66 +1,90 @@
-import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import newuuLogo from "../../assets/images/newuuLogo.png";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Image,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Image, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import { userActions } from "@/store/slices/userSlice";
 import { customToast } from "@/utils/toastify";
+import { authService } from "@/services/auth.service";
+import { useState } from "react";
 
 export default function Header() {
-  const navigate = useNavigate();
   const userData = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  const [openMenu, setOpenMenu] = useState(false)
+
+  const handleMenuClick = (e) => {
+    e.stopPropagation()
+    setOpenMenu(old => !old)
+  }
+
+  const handleActionClick = (e, action) => {
+    e.stopPropagation()
+    action?.onClick()
+  }
+
   const logout = () => {
-    if(!window.confirm("You want to log out?")){
+    if (!window.confirm("You want to log out?")) {
       return;
     }
-    dispatch(userActions.logout());
-    customToast("success", "You have logged out successfully");
+    authService.logout().then(() => {
+      customToast("success", "You have logged out successfully");
+    }).catch((err) => {
+      console.log("logout err:", err) // log
+    }).finally(() => {
+      dispatch(userActions.logout());
+    })
   };
 
-  return (
-    <Box color='black' w='100vw' bg='white'>
-        <Flex px="5%" justifyContent='space-between'>
-          <Flex alignItems='center' gap={6}>
-            <Image objectFit='contain' h='50px' src={logo} alt="Naziir-logo" />
-            <Image objectFit='contain' h='60px' src={newuuLogo} alt="NewUU-logo" />
-          </Flex>
-          <Flex alignItems='center' gap={4}>
-            <Text fontSize='18px'>{userData?.data?.firstName} {userData?.data?.lastName}</Text>
-            <Box onClick={logout} border='1px solid black' p={2} rounded='50%' >
-              Log out
-            </Box>
-            {/* <MenuRoot>
-              <MenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                  {userData?.image ? (
-                    <Image
-                      w='40px'
-                      src={userData?.image}
-                      alt="profile image"
-                    />
-                  ) : (
-                    <AvatarIcon />
-                  )}
-                </Button>
-              </MenuTrigger>
+  const actions = [
+    {
+      title: "Profile",
+      onClick: () => {}
+    },
+    {
+      title: "Log out",
+      onClick: logout
+    }
+  ]
 
-              <MenuContent>
-                <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
-                <MenuItem onClick={() => navigate("/settings")}>Settings</MenuItem>
-                <MenuItem onClick={logout}>Sign Out</MenuItem>
-              </MenuContent>
-            </MenuRoot> */}
-          </Flex>
+  return (
+    <Box color="black" w="100vw" bg="white">
+      <Flex px="5%" justifyContent="space-between">
+        <Flex alignItems="center" gap={6}>
+          <Image objectFit="contain" h="50px" src={logo} alt="Naziir-logo" />
+          <Image
+            objectFit="contain"
+            h="60px"
+            src={newuuLogo}
+            alt="NewUU-logo"
+          />
         </Flex>
+        <Flex alignItems="center" gap={4}>
+          <Text fontSize="18px">
+            {userData?.data?.firstName} {userData?.data?.lastName}
+          </Text>
+          <Menu>
+            <MenuButton
+              border="2px solid #081545"
+              rounded="50%"
+              h='50px'
+              w='50px'
+              onClick={handleMenuClick}
+              cursor='pointer'
+              fontSize={12}
+            >
+              photo
+            </MenuButton>
+            <MenuList _open={openMenu}>
+              {actions?.map((action, index) => (
+                <MenuItem key={index} onClick={(e) => handleActionClick(e, action)} icon={action?.icon}>
+                  {action?.title}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+        </Flex>
+      </Flex>
     </Box>
   );
 }

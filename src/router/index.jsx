@@ -31,6 +31,7 @@ import MyCourses from "../pages/Professors Pages/MyCourses";
 import EconomicsPage from "../pages/Economics";
 import QuizPage from "../pages/Quiz";
 import GroupDetail from "@/pages/Academic Affairs/GroupId/index";
+import CreateQuizPage from "@/pages/CreateQuizPage";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -64,6 +65,7 @@ const Router = () => {
           <Route path="add-course" element={<AddCourse />} />
           <Route path="statistics" element={<Statistics />} />
           <Route path="quizzes" element={<QuizzesPage />} />
+          <Route path="quizzes/create" element={<CreateQuizPage />} />
           <Route path="quizzes/:quizId" element={<QuizInfo />} />
           <Route path="not-found" element={<NotFoundPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
@@ -85,7 +87,7 @@ const Router = () => {
           <Route path="students" element={<Students />} />
           <Route path="groups" element={<Groups />} />
           <Route path="departments/create" element={<NewDepartment />} />
-          <Route path="professors-pages" element={<PDashboard />} />
+          <Route path="professors/dashboard" element={<PDashboard />} />
           <Route path="my-courses" element={<MyCourses />} />
         </Route>
       </Routes>

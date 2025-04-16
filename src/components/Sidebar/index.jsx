@@ -101,6 +101,43 @@ const managers = [
   },
 ].map(item => ({ ...item, id: item.navigateTo }))
 
+const professors = [
+  {
+    title: "Dashboard",
+    icon: (color) => <HomeIcon color={color} />,
+    navigateTo: "/professors/dashboard",
+  },
+  {
+    title: "Courses",
+    icon: (color) => <CourseIcon color={color} />,
+    navigateTo: "/courses",
+  },
+  {
+    title: "My Quizzes",
+    icon: (color) => <StudentlistIcon color={color} />,
+    navigateTo: "/quizzes",
+  },
+  {
+    title: "Assistants",
+    icon: (color) => <StudentlistIcon color={color} />,
+    navigateTo: "/assistants",
+  },
+].map(item => ({ ...item, id: item.navigateTo }))
+
+const roles = [
+  { value: "", label: "Select role" },
+  { value: "STUDENT", label: "Student" },
+  { value: "ACADEMIC_AFFAIRS", label: "Academic Affairs" },
+  { value: "PROFESSOR", label: "Professor" },
+  { value: "MANAGER", label: "Manager" },
+];
+
+const SIDEBAR_ITEMS = {
+  STUDENT: [],
+  ACADEMIC_AFFAIRS: managers,
+  PROFESSOR: professors,
+  MANAGER: managers
+}
 export default function Sidebar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -110,7 +147,7 @@ export default function Sidebar() {
   return (
     <Box bg='#081545' h='full' w='full' p={4} rounded='8px'>
       <Flex flexDirection='column' gap={2} cursor='pointer'>
-        {managers.map((item) => (
+        {SIDEBAR_ITEMS?.[role]?.map((item) => (
           <Flex
             key={item.id}
             px={9}

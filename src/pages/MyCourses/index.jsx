@@ -10,6 +10,8 @@ import { useProfessors } from "@/services/professors.service";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ActionMenu from "@/components/ActionMenu";
 import ConfirmModal from "@/components/CModal/ConfirmModal";
+import { ROLES } from "@/utils/const/roles";
+import { useSelector } from "react-redux";
 
 const Courses = () => {
   const currentYear = new Date().getFullYear();
@@ -33,12 +35,18 @@ const Courses = () => {
   const [courseType, setCourseType] = useState("");
   const [academicYear, setAcademicYear] = useState(currentYear.toString());
   const [organizationId] = useState("3f69ffb4-2e25-4041-9520-c61ea6937650");
+  const { role } = useSelector((state) => state.user);
 
   const { data, isLoading, refetch } = useCourses({
     params: { page: 1, limit: 10, academicYear },
   });
 
-  const { data: professorsData } = useProfessors({ params: {} });
+  const { data: professorsData } = useProfessors({ 
+    params: {},
+    props: {
+      enabled: role === ROLES.MANAGER
+    }
+  });
 
   const openEditModal = (course) => {
     setEditCourseId(course.id);
@@ -221,18 +229,22 @@ const Courses = () => {
       <div className={styles.header}>
         <h2 className={styles.title}>Courses</h2>
         <div className={styles.actions}>
-          <button
-            className={styles.addCourseButton}
-            onClick={() => setIsModalOpen(true)}
-          >
-            + New Course
-          </button>
-          <button
-            className={styles.addCourseButton}
-            onClick={() => setIsAssignModalOpen(true)}
-          >
-            + Assign Professor
-          </button>
+          {(role === ROLES.ACADEMIC_AFFAIRS || role === ROLES.MANAGER) && (
+            <>
+              <button
+                className={styles.addCourseButton}
+                onClick={() => setIsModalOpen(true)}
+              >
+                + New Course
+              </button>
+              <button
+                className={styles.addCourseButton}
+                onClick={() => setIsAssignModalOpen(true)}
+              >
+                + Assign Professor
+              </button>
+            </>
+          )}
         </div>
       </div>
 
