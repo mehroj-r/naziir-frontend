@@ -63,7 +63,7 @@ const Groups = () => {
     {
       title: "Students",
       key: "students",
-      render: (record) => record?.numOfStudents ?? "0",
+      render: (record) => record?.studentCount ?? "0",
     },
     {
       title: "",
@@ -140,14 +140,10 @@ const Groups = () => {
 };
 
 const NewGroupForm = ({ defaultValues, onClose }) => {
-  const [name, setName] = useState(defaultValues?.name ?? "");
-  const [description, setDescription] = useState(
-    defaultValues?.description ?? ""
-  );
-  const [year, setYear] = useState(defaultValues?.year ?? "");
-  const [departmentId, setDepartmentId] = useState(
-    defaultValues?.departmentId ?? ""
-  );
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [year, setYear] = useState("");
+  const [departmentId, setDepartmentId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const userData = useSelector((state) => state.user);
@@ -165,15 +161,14 @@ const NewGroupForm = ({ defaultValues, onClose }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
     if (defaultValues) {
       const body = {};
       if (name !== defaultValues.name) body.name = name;
-      if (description !== defaultValues.description)
-        body.description = description;
+      if (description !== defaultValues.description) body.description = description;
       if (year !== defaultValues.year) body.year = year;
 
+      setIsLoading(true);
       groupService
         .update(defaultValues?.id ?? "", body)
         .then(() => {
@@ -186,16 +181,19 @@ const NewGroupForm = ({ defaultValues, onClose }) => {
         })
         .finally(() => setIsLoading(false));
     } else {
-      if (!userData?.data?.organization) return;
+      if (!userData?.organizationId) {
+        customToast("Failed to get organization id. Please try log in again")
+      }
 
       const body = {
         name,
         description,
         year,
         departmentId,
-        organizationId: userData?.data?.organization,
+        organizationId: userData?.organizationId,
       };
 
+      setIsLoading(true);
       groupService
         .create(body)
         .then(() => {

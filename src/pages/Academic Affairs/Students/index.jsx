@@ -9,13 +9,15 @@ import SearchBar from "@/components/SearchBar/index";
 import { customToast } from "@/utils/toastify";
 import ActionMenu from "@/components/ActionMenu";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
+import CSelect from "@/components/CSelect";
 
 const Students = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editStudent, setEditStudent] = useState(null);
   const [idForDelete, setIdForDelete] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
-
+  const navigate = useNavigate();
   const { data, isLoading, refetch } = useStudents({
     params: {
       page: 1,
@@ -118,7 +120,12 @@ const Students = () => {
 
       <SearchBar placeholder="Search for Students" />
 
-      <CTable columns={COLUMNS} data={students} loading={isLoading} />
+      <CTable
+        columns={COLUMNS}
+        data={students}
+        loading={isLoading}
+        onRowClick={(record) => navigate(`/students/${record.id ?? ""}`)}
+      />
 
       <CModal
         isOpen={isModalOpen}
@@ -174,7 +181,7 @@ const NewStudentForm = ({ defaultValues, onClose }) => {
     }
   }, [defaultValues]);
 
-  const onSubmit = (e)=> {
+  const onSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -244,19 +251,11 @@ const NewStudentForm = ({ defaultValues, onClose }) => {
         onChange={(e) => setStudentId(e.target.value)}
         required
       />
-      <select
-        value={groupId}
-        onChange={(e) => setGroupId(e.target.value)}
-        required
-      >
-        <option value="">Select Group</option>
-        {groups.map((group) => (
-          <option key={group.id} value={group.id}>
-            {group.name}
-          </option>
-        ))}
-      </select>
-
+      <CSelect
+        placeholder="Group"
+        options={groups?.map(group => ({ value: group?.id, label: group?.name }))}
+        onChange={(val) => setGroupId(val?.value)}
+      />
       <button type="submit" disabled={isLoading}>
         {isLoading
           ? defaultValues

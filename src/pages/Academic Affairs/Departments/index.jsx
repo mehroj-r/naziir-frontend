@@ -66,22 +66,17 @@ const Departments = () => {
     {
       title: "Professor",
       key: "professor",
-      render: (record) => record?.professor ?? "-",
+      render: (record) => record?.professorCount ?? "-",
     },
     {
       title: "Students",
       key: "students",
-      render: (record) => record?.numOfStudents ?? "-",
+      render: (record) => record?.studentCount ?? "-",
     },
     {
       title: "Year",
       key: "year",
       render: (record) => (record?.year ? `Class of ${record?.year}` : "-"),
-    },
-    {
-      title: "Head of Department",
-      key: "head",
-      render: (record) => record?.head ?? "-",
     },
     {
       title: "",

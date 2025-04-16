@@ -32,6 +32,8 @@ import EconomicsPage from "../pages/Economics";
 import QuizPage from "../pages/Quiz";
 import GroupDetail from "@/pages/Academic Affairs/GroupId/index";
 import CreateQuizPage from "@/pages/CreateQuizPage";
+import ProfessorDetail from "@/pages/Academic Affairs/ProfessorDetail/index";
+import StudentDetail from "@/pages/Academic Affairs/StudentDetail/index";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -77,10 +79,12 @@ const Router = () => {
             path="students/:studentId/results"
             element={<StudentResults />}
           />
+          <Route path="/professors/:id" element={<ProfessorDetail />} />
           <Route path="academic-affairs-dashboard" element={<AADashboard />} />
           <Route path="professors" element={<Professors />} />
           <Route path="professors/:professorId" element={<ProfessorInfo />} />
           <Route path="/groups/:id" element={<GroupDetail />} />
+          <Route path="/students/:id" element={<StudentDetail />} />
 
           {/* <Route path="courses-list" element={<ACourses />} /> */}
           <Route path="departments" element={<Departments />} />

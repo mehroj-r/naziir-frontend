@@ -10,12 +10,14 @@ import { useSelector } from "react-redux";
 import ActionMenu from "@/components/ActionMenu";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ConfirmModal from "@/components/CModal/ConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 const Professors = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editProfessor, setEditProfessor] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [idForDelete, setIdForDelete] = useState("");
+  const navigate = useNavigate();
 
   const { data, isLoading, refetch } = useProfessors({
     params: { page: 1, limit: 50 },
@@ -126,7 +128,12 @@ const Professors = () => {
 
       <SearchBar placeholder="Search for Professors" />
 
-      <CTable columns={COLUMNS} data={professors} loading={isLoading} />
+      <CTable
+        columns={COLUMNS}
+        data={professors}
+        loading={isLoading}
+        onRowClick={(record) => navigate(`/professors/${record.id ?? ""}`)}
+      />
 
       <CModal
         isOpen={isModalOpen}
@@ -180,7 +187,7 @@ const NewProfessorForm = ({ onClose, defaultValues }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    
 
     if (defaultValues) {
       const body = {
@@ -190,7 +197,7 @@ const NewProfessorForm = ({ onClose, defaultValues }) => {
         employeeId,
         departmentId,
       };
-
+      setIsLoading(true);
       professorService
         .update(defaultValues?.id, body)
         .then(() => {
@@ -202,7 +209,7 @@ const NewProfessorForm = ({ onClose, defaultValues }) => {
         })
         .finally(() => setIsLoading(false));
     } else {
-      if (!userData?.data?.organization) return;
+      if (!userData?.organizationId) return;
 
       const body = {
         firstName,
@@ -210,9 +217,9 @@ const NewProfessorForm = ({ onClose, defaultValues }) => {
         email,
         employeeId,
         departmentId,
-        organizationId: userData?.data?.organization,
+        organizationId: userData?.organizationId,
       };
-
+      setIsLoading(true);
       professorService
         .create(body)
         .then(() => {

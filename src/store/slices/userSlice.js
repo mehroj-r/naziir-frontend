@@ -6,6 +6,7 @@ const initialState = {
   data: null,
   token: "",
   userId: "",
+  organizationId: ""
 };
 
 export const { actions: userActions, reducer: userReducers } = createSlice({
@@ -20,6 +21,7 @@ export const { actions: userActions, reducer: userReducers } = createSlice({
       state.isAuth = true;
       state.role = payload.role;
       state.userId = payload.userId;
+      state.organizationId = payload.organizationId
     },
     logout: (state) => {
       state.isAuth = false;

@@ -72,6 +72,7 @@ export default function LoginPage() {
             token: res?.data?.token,
             role: role,
             userId: res?.data?.userId,
+            organizationId: organization
           }));
         }
       })
