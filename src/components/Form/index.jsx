@@ -9,7 +9,7 @@ export default class CustomForm extends Component {
   }
 
   static Item(props) {
-    return <FormItem {...props} />;
+    return <FormItem style={{ height: '64px' }} {...props} />;
   }
 
   static FieldArrayItem(props) {

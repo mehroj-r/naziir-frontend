@@ -1,11 +1,10 @@
 import Card from "@/components/Card";
 import CAsyncSelect from "@/components/CAsyncSelect";
 import CDatePicker from "@/components/CDatePicker";
-import CSelect from "@/components/CSelect";
 import Form from '@/components/Form';
 import { courseService } from "@/services/course.service";
 import { groupsService } from "@/services/groups.service";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex, HStack } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { useCallback } from "react";
 
@@ -15,7 +14,7 @@ export default function CreateQuizPage() {
     startTime: null,
     endTime: null,
     groups: null,
-
+    
   }
 
   const onSubmit = () => {
@@ -57,39 +56,46 @@ export default function CreateQuizPage() {
   
 
   return(
-    <Box border='1px solid red' p={4}>
+    <Box p={4}>
       <Card >
-        <CDatePicker />
-        <Form.Item formik={formik} name='groups' label='Groups'>
-          <CAsyncSelect
-            id="groups"
-            name="groups"
-            defaultOptions
-            cacheOptions
-            isMulti
-            isSearchable
-            isClearable
-            value={values.groups}
-            loadOptions={loadGroups}
-            placeholder="Select group(s)"
-            onChange={(val) => setFieldValue("groups", val)}
-          />
-        </Form.Item>
-        <Form.Item formik={formik} name='course' label='Course'>
-          <CAsyncSelect
-            id="course"
-            name="course"
-            defaultOptions
-            cacheOptions
-            isMulti
-            isSearchable
-            isClearable
-            value={values.course}
-            loadOptions={loadCourse}
-            placeholder="Select group(s)"
-            onChange={(val) => setFieldValue("course", val)}
-          />
-        </Form.Item>
+        <Flex gap={4} justifyContent='space-between' >
+          <Form.Item formik={formik} name='startTime' label='Start Time'>
+            <CDatePicker />
+          </Form.Item>
+          <Form.Item formik={formik} name='startTime' label='End Time'>
+            <CDatePicker />
+          </Form.Item>
+          <Form.Item formik={formik} name='groups' label='Groups'>
+            <CAsyncSelect
+              id="groups"
+              name="groups"
+              defaultOptions
+              cacheOptions
+              isMulti
+              isSearchable
+              isClearable
+              value={values.groups}
+              loadOptions={loadGroups}
+              placeholder="Select group(s)"
+              onChange={(val) => setFieldValue("groups", val)}
+            />
+          </Form.Item>
+          <Form.Item formik={formik} name='course' label='Course'>
+            <CAsyncSelect
+              id="course"
+              name="course"
+              defaultOptions
+              cacheOptions
+              isMulti
+              isSearchable
+              isClearable
+              value={values.course}
+              loadOptions={loadCourse}
+              placeholder="Select group(s)"
+              onChange={(val) => setFieldValue("course", val)}
+            />
+          </Form.Item>
+        </Flex>
       </Card>
     </Box>
   )
