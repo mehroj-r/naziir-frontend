@@ -8,7 +8,7 @@ import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ActionMenu from "@/components/ActionMenu";
 import ConfirmModal from "@/components/CModal/ConfirmModal";
 import CModal from "@/components/CModal";
-import { Input } from "@chakra-ui/react";
+import { Input, Button } from "@chakra-ui/react";
 import { customToast } from "@/utils/toastify";
 
 const PastQuizzes = () => {
@@ -18,7 +18,7 @@ const PastQuizzes = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, refetch } = useQuizzes({
+  const { data, isLoading, refetch } = useQuizzes({
     params: { quizStatus: "PAST" },
   });
 
@@ -120,6 +120,39 @@ const PastQuizzes = () => {
     },
   ];
 
+  const modalBody = (
+    <>
+      <label>Start Time</label>
+      <Input
+        type="datetime-local"
+        value={editQuiz?.startTime?.slice(0, 16) ?? ""}
+        onChange={(e) =>
+          setEditQuiz((prev) => ({ ...prev, startTime: e.target.value }))
+        }
+        mb={4}
+      />
+      <label>End Time</label>
+      <Input
+        type="datetime-local"
+        value={editQuiz?.endTime?.slice(0, 16) ?? ""}
+        onChange={(e) =>
+          setEditQuiz((prev) => ({ ...prev, endTime: e.target.value }))
+        }
+      />
+    </>
+  );
+
+  const modalFooter = (
+    <>
+      <Button variant="ghost" onClick={() => setEditQuiz(null)}>
+        Cancel
+      </Button>
+      <Button colorScheme="blue" onClick={handleUpdate} isLoading={isUpdating}>
+        Save
+      </Button>
+    </>
+  );
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -146,41 +179,8 @@ const PastQuizzes = () => {
         isOpen={!!editQuiz}
         onClose={() => setEditQuiz(null)}
         title="Edit Quiz Time"
-        body={
-          <>
-            <label>Start Time</label>
-            <Input
-              type="datetime-local"
-              value={editQuiz?.startTime?.slice(0, 16) ?? ""}
-              onChange={(e) =>
-                setEditQuiz((prev) => ({ ...prev, startTime: e.target.value }))
-              }
-              mb={4}
-            />
-            <label>End Time</label>
-            <Input
-              type="datetime-local"
-              value={editQuiz?.endTime?.slice(0, 16) ?? ""}
-              onChange={(e) =>
-                setEditQuiz((prev) => ({ ...prev, endTime: e.target.value }))
-              }
-            />
-          </>
-        }
-        footer={
-          <>
-            <button className="btn cancel" onClick={() => setEditQuiz(null)}>
-              Cancel
-            </button>
-            <button
-              className="btn save"
-              onClick={handleUpdate}
-              disabled={isUpdating}
-            >
-              {isUpdating ? "Saving..." : "Save"}
-            </button>
-          </>
-        }
+        body={modalBody}
+        footer={modalFooter}
       />
     </div>
   );

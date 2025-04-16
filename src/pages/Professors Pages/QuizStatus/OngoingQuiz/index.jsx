@@ -18,7 +18,7 @@ const OngoingQuizzes = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, refetch } = useQuizzes({
+  const { data, isLoading, refetch } = useQuizzes({
     params: { quizStatus: "ONGOING" },
   });
 
@@ -87,6 +87,11 @@ const OngoingQuizzes = () => {
       render: (record) => record?.startTime ?? "-",
     },
     {
+      title: "End Time",
+      key: "endTime",
+      render: (record) => record?.endTime ?? "-",
+    },
+    {
       title: "Status",
       key: "status",
       render: (record) => record?.status ?? "-",
@@ -114,7 +119,7 @@ const OngoingQuizzes = () => {
   ];
 
   const modalBody = (
-    <div>
+    <>
       <label>Start Time</label>
       <Input
         type="datetime-local"
@@ -132,7 +137,7 @@ const OngoingQuizzes = () => {
           setEditQuiz((prev) => ({ ...prev, endTime: e.target.value }))
         }
       />
-    </div>
+    </>
   );
 
   const modalFooter = (
