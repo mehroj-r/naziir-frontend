@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   GradeQuizzesIcon,
   NewquizzesIcon,
@@ -12,18 +13,18 @@ const sampleData = {
   quickAccess: [
     {
       title: "Ongoing quizzes",
-      subtitle: "On group NSE05",
       icon: <Ongoingquizzes />,
+      route: "/ongoing-quizzes",
     },
     {
       title: "Upcoming quizzes",
-      subtitle: "Feb 20, 11:00 / NSE 05",
       icon: <Upcomingquizzes />,
+      route: "/upcoming-quizzes",
     },
     {
       title: "Past quizzes",
-      subtitle: "Jan 11, 11:00 / NSE 05",
       icon: <Pastquizzes />,
+      route: "/past-quizzes",
     },
   ],
   messages: [
@@ -46,9 +47,9 @@ const PDashboard = () => {
   const [data, setData] = useState(sampleData);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [showAllMessages, setShowAllMessages] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulate real-time updates for calendar
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     }, 60000);
@@ -108,14 +109,19 @@ const PDashboard = () => {
 
       <h2>Quick access</h2>
       <div className={styles.quickAccess}>
-        {data.quickAccess.map((item, index) => (
-          <div key={index} className={styles.card}>
+        {data?.quickAccess?.map((item, index) => (
+          <div
+            key={index}
+            className={styles.card}
+            onClick={() => navigate(item.route)}
+            style={{ cursor: "pointer" }}
+          >
             <div className={styles.icon}>{item.icon}</div>
             <h3>{item.title}</h3>
-            <p>{item.subtitle}</p>
           </div>
         ))}
       </div>
+
       <div className={styles.messagecalendar}>
         <div className={styles.messagesSection}>
           <div className={styles.messagesHeader}>
