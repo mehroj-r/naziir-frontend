@@ -32,6 +32,9 @@ import EconomicsPage from "../pages/Economics";
 import QuizPage from "../pages/Quiz";
 import GroupDetail from "@/pages/Academic Affairs/GroupId/index";
 import CreateQuizPage from "@/pages/CreateQuizPage";
+import OngoingQuizzes from "@/pages/Professors Pages/QuizStatus/OngoingQuiz/index";
+import PastQuizzes from "@/pages/Professors Pages/QuizStatus/PastQuiz/index";
+import UpcomingQuizzes from "@/pages/Professors Pages/QuizStatus/UpcomingQuiz/index";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -89,6 +92,9 @@ const Router = () => {
           <Route path="departments/create" element={<NewDepartment />} />
           <Route path="professors/dashboard" element={<PDashboard />} />
           <Route path="my-courses" element={<MyCourses />} />
+          <Route path="/ongoing-quizzes" element={<OngoingQuizzes />} />
+          <Route path="/past-quizzes" element={<PastQuizzes />} />
+          <Route path="/upcoming-quizzes" element={<UpcomingQuizzes />} />
         </Route>
       </Routes>
     );
