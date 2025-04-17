@@ -10,6 +10,7 @@ export const quizService = {
       throw new Error("Failed to fetch quizzes: " + error.message);
     }
   },
+  create: async (body) => await httpRequest.post('/quizzes', body),
 
   update: async (id, payload) => {
     try {
