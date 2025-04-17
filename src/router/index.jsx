@@ -34,6 +34,9 @@ import GroupDetail from "@/pages/Academic Affairs/GroupId/index";
 import CreateQuizPage from "@/pages/CreateQuizPage";
 import ProfessorDetail from "@/pages/Academic Affairs/ProfessorDetail/index";
 import StudentDetail from "@/pages/Academic Affairs/StudentDetail/index";
+import OngoingQuizzes from "@/pages/Professors Pages/QuizStatus/OngoingQuiz/index";
+import PastQuizzes from "@/pages/Professors Pages/QuizStatus/PastQuiz/index";
+import UpcomingQuizzes from "@/pages/Professors Pages/QuizStatus/UpcomingQuiz/index";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -93,10 +96,17 @@ const Router = () => {
           <Route path="departments/create" element={<NewDepartment />} />
           <Route path="professors/dashboard" element={<PDashboard />} />
           <Route path="my-courses" element={<MyCourses />} />
+          <Route path="/ongoing-quizzes" element={<OngoingQuizzes />} />
+          <Route path="/past-quizzes" element={<PastQuizzes />} />
+          <Route path="/upcoming-quizzes" element={<UpcomingQuizzes />} />
         </Route>
       </Routes>
     );
   }
 };
+
+// quizzes/ongoing
+// quizzes/past
+// quizzes/upcoming
 
 export default Router;

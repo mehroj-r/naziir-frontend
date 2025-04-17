@@ -118,6 +118,11 @@ const professors = [
     navigateTo: "/quizzes",
   },
   {
+    title: "Create quiz",
+    icon: (color) => <StudentlistIcon color={color} />,
+    navigateTo: "/quizzes/create",
+  },
+  {
     title: "Assistants",
     icon: (color) => <StudentlistIcon color={color} />,
     navigateTo: "/assistants",
