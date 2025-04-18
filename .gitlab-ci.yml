@@ -1,20 +1,29 @@
+image: node:18-alpine
+
 stages:
   - build
   - deploy
 
-# Build Frontend Application
+variables:
+  NPM_CONFIG_LOGLEVEL: warn
+  NPM_CONFIG_PROGRESS: false
+
+cache:
+  key: ${CI_JOB_NAME}
+  paths:
+    - node_modules/
+
 build_frontend:
   stage: build
   script:
-    - npm install
+    - npm ci
     - npm run build
   artifacts:
     paths:
-      - ./dist
+      - build
   only:
     - main
 
-# Deploy Frontend Application
 deploy_frontend:
   stage: deploy
   dependencies:
@@ -26,6 +35,6 @@ deploy_frontend:
     - chmod 700 ~/.ssh
     - ssh-keyscan -p $SSH_PORT $DEPLOY_HOST >> ~/.ssh/known_hosts
   script:
-    - rsync -avz --delete -e "ssh -p $SSH_PORT" ./dist $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/
+    - rsync -avz --delete -e "ssh -p $SSH_PORT" ./build $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/
   only:
     - main
