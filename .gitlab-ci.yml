@@ -2,28 +2,19 @@ stages:
   - build
   - deploy
 
-variables:
-  NPM_CONFIG_LOGLEVEL: warn
-  NPM_CONFIG_PROGRESS: false
-
-cache:
-  key: ${CI_JOB_NAME}
-  paths:
-    - node_modules/
-
+# Build Frontend Application
 build_frontend:
   stage: build
   script:
-    - npm ci
+    - npm install
     - npm run build
   artifacts:
     paths:
       - ./dist
   only:
     - main
-  tags:
-    - on-premise
 
+# Deploy Frontend Application
 deploy_frontend:
   stage: deploy
   dependencies:
@@ -38,5 +29,3 @@ deploy_frontend:
     - rsync -avz --delete -e "ssh -p $SSH_PORT" ./dist $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/
   only:
     - main
-  tags:
-    - on-premise
