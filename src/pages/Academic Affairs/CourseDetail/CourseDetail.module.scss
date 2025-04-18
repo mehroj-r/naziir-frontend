@@ -1,0 +1,163 @@
+.coursePage {
+  padding: 1rem 3rem 3rem 3rem;
+  font-family: "Inter", sans-serif;
+  background-color: #fff;
+  color: #1a1a1a;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    .delete {
+      background-color: #c3415e;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .assignGroup {
+      margin: 2rem 0;
+      margin-right: 20px;
+      display: flex;
+      gap: 0.7rem;
+
+      select {
+        padding: 0.5rem 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+
+      button {
+        background-color: #0a0e3f;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.2rem;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  width: fit-content;
+  gap: 3rem;
+  margin-bottom: 2rem;
+
+  p {
+    margin: 0.6rem 0;
+    font-size: 14px;
+
+    strong {
+      display: inline-block;
+      width: 170px;
+      font-weight: 700;
+      font-size: 18px;
+      color: #2c2c2c;
+    }
+  }
+}
+
+.noGroups {
+  font-size: 14px;
+  margin-top: 1rem;
+  color: #666;
+}
+
+.groupTable {
+  width: 100%;
+  margin-top: 1.5rem;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    padding: 1rem;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #fff;
+  }
+
+  td {
+    padding: 1rem;
+    font-size: 14px;
+  }
+
+  tr {
+    background-color: #f5faff;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    display: table-row;
+  }
+
+  tr + tr {
+    margin-top: 1rem;
+  }
+
+  button {
+    background-color: #0a0e3f;
+    color: white;
+    border: none;
+    padding: 0.4rem 1.2rem;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}
+
+.professorList {
+  margin-top: 3rem;
+
+  h3 {
+    margin-bottom: 1rem;
+    font-size: 18px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f4f4f4;
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+
+  button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.3rem 1rem;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}

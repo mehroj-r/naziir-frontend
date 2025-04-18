@@ -10,6 +10,15 @@ export const courseService = {
     await httpRequest.patch(`/courses/${courseId}/professors`, body),
   update: async (id, body) => await httpRequest.put(`/courses/${id}`, body),
   delete: async (id) => await httpRequest.delete(`/courses/${id}`),
+  getById: async (id) => await httpRequest.get(`/courses/${id}`),
+  removeProfessor: async (courseId, professorId) =>
+    await httpRequest.patch(`/courses/${courseId}/professors/remove`, {
+      ids: [professorId],
+    }),
+  assignGroup: async (courseId, groupId) =>
+    await httpRequest.post(`/courses/${courseId}/groups`, {
+      groupIds: [groupId],
+    }),
 };
 
 export const useCourses = ({ params, props }) =>

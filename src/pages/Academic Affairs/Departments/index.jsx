@@ -74,9 +74,9 @@ const Departments = () => {
       render: (record) => record?.studentCount ?? "-",
     },
     {
-      title: "Year",
-      key: "year",
-      render: (record) => (record?.year ? `Class of ${record?.year}` : "-"),
+      title: "Describtion",
+      key: "Describtion",
+      render: (record) => (record?.description),
     },
     {
       title: "",
