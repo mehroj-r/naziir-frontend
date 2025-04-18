@@ -37,6 +37,7 @@ import StudentDetail from "@/pages/Academic Affairs/StudentDetail/index";
 import OngoingQuizzes from "@/pages/Professors Pages/QuizStatus/OngoingQuiz/index";
 import PastQuizzes from "@/pages/Professors Pages/QuizStatus/PastQuiz/index";
 import UpcomingQuizzes from "@/pages/Professors Pages/QuizStatus/UpcomingQuiz/index";
+import CourseIdPage from "@/pages/Academic Affairs/CourseDetail/index";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -88,7 +89,7 @@ const Router = () => {
           <Route path="professors/:professorId" element={<ProfessorInfo />} />
           <Route path="/groups/:id" element={<GroupDetail />} />
           <Route path="/students/:id" element={<StudentDetail />} />
-
+          <Route path="/courses/:id" element={<CourseIdPage />} />
           {/* <Route path="courses-list" element={<ACourses />} /> */}
           <Route path="departments" element={<Departments />} />
           <Route path="students" element={<Students />} />

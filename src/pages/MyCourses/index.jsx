@@ -12,6 +12,7 @@ import ActionMenu from "@/components/ActionMenu";
 import ConfirmModal from "@/components/CModal/ConfirmModal";
 import { ROLES } from "@/utils/const/roles";
 import { useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Courses = () => {
   const currentYear = new Date().getFullYear();
@@ -36,16 +37,16 @@ const Courses = () => {
   const [academicYear, setAcademicYear] = useState(currentYear.toString());
   const [organizationId] = useState("3f69ffb4-2e25-4041-9520-c61ea6937650");
   const { role } = useSelector((state) => state.user);
-
+  const navigate = useNavigate();
   const { data, isLoading, refetch } = useCourses({
     params: { page: 1, limit: 10, academicYear },
   });
 
-  const { data: professorsData } = useProfessors({ 
+  const { data: professorsData } = useProfessors({
     params: {},
     props: {
-      enabled: role === ROLES.MANAGER
-    }
+      enabled: role === ROLES.MANAGER,
+    },
   });
 
   const openEditModal = (course) => {
@@ -65,6 +66,11 @@ const Courses = () => {
   };
 
   const COLUMNS = [
+    {
+      title: "Code",
+      key: "Code",
+      render: (record) => record?.courseCode ?? "-",
+    },
     {
       title: "Course",
       key: "course",
@@ -90,20 +96,11 @@ const Courses = () => {
       },
     },
     {
-      title: "Students",
-      key: "students",
-      render: (record) => "???",
+      title: "Term",
+      key: "Term",
+      render: (record) => record?.academicTerm ?? "-",
     },
-    {
-      title: "Started",
-      key: "startYear",
-      render: (record) => record?.startYear ?? "-",
-    },
-    {
-      title: "Ended",
-      key: "endYear",
-      render: (record) => "???",
-    },
+
     {
       key: "actions",
       render: (record) => (
@@ -250,7 +247,12 @@ const Courses = () => {
 
       <SearchBar placeholder="Search for Courses" />
 
-      <CTable columns={COLUMNS} data={data?.data?.data} loading={isLoading} />
+      <CTable
+        columns={COLUMNS}
+        data={data?.data?.data}
+        loading={isLoading}
+        onRowClick={(record) => navigate(`/courses/${record?.id ?? ""}`)}
+      />
 
       <CModal
         isOpen={isModalOpen}
