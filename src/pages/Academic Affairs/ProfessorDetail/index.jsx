@@ -24,7 +24,8 @@ const ProfessorDetail = () => {
   });
   const { data: coursesData } = useCourses({ params: { page: 1, limit: 100 } });
 
-  const departmentMap = useMemo(() => { // using find array method is better
+  const departmentMap = useMemo(() => {
+    // using find array method is better
     const map = {};
     (departmentsData?.data?.data ?? []).forEach((dept) => {
       map[dept.id] = dept.name;
@@ -67,23 +68,19 @@ const ProfessorDetail = () => {
             <strong>Employee ID:</strong> {professor.employeeId}
           </p>
           <p>
-            <strong>Department:</strong>{" "}
-            {professor?.departmentName	 ?? "-"}
+            <strong>Department:</strong> {professor?.departmentName ?? "-"}
           </p>
         </div>
       </div>
-      <h2>Assigned Courses</h2>
+
       <div className={styles.courses}>
+        <h2>Assigned Courses</h2>
         {professor?.courses && professor?.courses?.length > 0 ? (
           <ul>
             {professor?.courses.map((course, index) => (
               <li key={index}>
-                <p>
-                  Course Name:{" "}
-                  {course?.courseName ?? "Unknown Course"}
-                </p>
+                <p>Course Name: {course?.courseName ?? "Unknown Course"}</p>
                 <p>Role: {course.assignmentRole}</p>
-                <button className={styles.removeButton}>Remove</button>
               </li>
             ))}
           </ul>
