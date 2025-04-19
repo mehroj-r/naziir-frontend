@@ -38,9 +38,16 @@ const Courses = () => {
   const [organizationId] = useState("3f69ffb4-2e25-4041-9520-c61ea6937650");
   const { role } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+
   const { data, isLoading, refetch } = useCourses({
-    params: { page: 1, limit: 10, academicYear },
+    params: { page: 1, limit: 10, academicYear, searchTerm },
   });
+
+  const handleSearch = (val) => {
+    setSearchTerm(val);
+    refetch();
+  };
 
   const { data: professorsData } = useProfessors({
     params: {},
@@ -245,7 +252,7 @@ const Courses = () => {
         </div>
       </div>
 
-      <SearchBar placeholder="Search for Courses" />
+      <SearchBar placeholder="Search for Courses" onChange={handleSearch} />
 
       <CTable
         columns={COLUMNS}

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import styles from "./Students.module.scss";
 import { useStudents, studentService } from "@/services/student.service";
 import { useGroups } from "@/services/group.service";
@@ -12,18 +12,34 @@ import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import CSelect from "@/components/CSelect";
 
+const debounce = (func, delay) => {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};
+
 const Students = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editStudent, setEditStudent] = useState(null);
   const [idForDelete, setIdForDelete] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  const { data, isLoading, refetch } = useStudents({
-    params: {
+
+  const params = useMemo(
+    () => ({
       page: 1,
       limit: 10,
-    },
-  });
+      searchTerm,
+    }),
+    [searchTerm]
+  );
+
+  const { data, isLoading, refetch } = useStudents({ params });
 
   const students = useMemo(() => data?.data?.data ?? [], [data]);
 
@@ -44,6 +60,14 @@ const Students = () => {
         setIsDeleting(false);
       });
   };
+
+  const handleSearch = useCallback(
+    debounce((val) => {
+      setSearchTerm(val);
+      refetch();
+    }, 300),
+    [refetch]
+  );
 
   const COLUMNS = [
     {
@@ -118,7 +142,7 @@ const Students = () => {
         </div>
       </div>
 
-      <SearchBar placeholder="Search for Students" />
+      <SearchBar placeholder="Search for Students" onChange={handleSearch} />
 
       <CTable
         columns={COLUMNS}
@@ -253,8 +277,12 @@ const NewStudentForm = ({ defaultValues, onClose }) => {
       />
       <CSelect
         placeholder="Group"
-        options={groups?.map(group => ({ value: group?.id, label: group?.name }))}
+        options={groups?.map((group) => ({
+          value: group?.id,
+          label: group?.name,
+        }))}
         onChange={(val) => setGroupId(val?.value)}
+        value={groups?.find((g) => g.id === groupId)?.name ?? ""}
       />
       <button type="submit" disabled={isLoading}>
         {isLoading
