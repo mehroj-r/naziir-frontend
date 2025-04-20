@@ -11,6 +11,7 @@ import SearchBar from "@/components/SearchBar/index";
 import ActionMenu from "@/components/ActionMenu";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ConfirmModal from "@/components/CModal/ConfirmModal";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Departments = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +20,7 @@ const Departments = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [idForDelete, setIdForDelete] = useState("");
   const [departments, setDepartments] = useState([]);
-
+  const navigate = useNavigate();
   const { data, isLoading, refetch } = useDepartments({
     params: { page: 1, limit: 50 },
   });
@@ -76,7 +77,7 @@ const Departments = () => {
     {
       title: "Describtion",
       key: "Describtion",
-      render: (record) => (record?.description),
+      render: (record) => record?.description,
     },
     {
       title: "",
@@ -116,7 +117,12 @@ const Departments = () => {
         </button>
       </div>
       <SearchBar placeholder="Search for Departments" />
-      <CTable columns={columns} data={departments} loading={isLoading} />
+      <CTable
+        columns={columns}
+        data={departments}
+        loading={isLoading}
+        onRowClick={(record) => navigate(`/departments/${record?.id ?? ""}`)}
+      />
       <CModal
         isOpen={isModalOpen}
         onClose={onModalClose}

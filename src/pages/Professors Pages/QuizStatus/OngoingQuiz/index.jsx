@@ -19,7 +19,7 @@ const OngoingQuizzes = () => {
   const navigate = useNavigate();
 
   const { data, isLoading, refetch } = useQuizzes({
-    params: { quizStatus: "ONGOING" },
+    params: { quizStatus: "ONGOING", page: 1, limit: 50 },
   });
 
   const quizzes = useMemo(
@@ -160,10 +160,15 @@ const OngoingQuizzes = () => {
       <SearchBar placeholder="Search for quizzes" />
 
       <CTable
-        onRowClick={(record) => navigate(`/quizzes/${record?.id ?? ""}`)}
         columns={COLUMNS}
         data={quizzes}
         loading={isLoading}
+        onRowClick={({ id }) => {
+          console.log("Row clicked with ID:", id);
+          if (id) {
+            navigate(`/quizzes/${id}`);
+          }
+        }}
       />
 
       <ConfirmModal

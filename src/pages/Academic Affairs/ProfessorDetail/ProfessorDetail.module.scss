@@ -1,82 +1,79 @@
 .professorDetail {
-  padding: 20px 40px;
+  padding: 40px 60px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  min-height: 100vh;
 
   h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #333;
   }
-}
 
-.profile {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 30px;
-  margin-left: 100px;
-}
+  .profile {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
 
-.image {
-  flex-shrink: 0;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .image {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #e0e0e0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-.image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
 
-.info {
-  flex-grow: 1;
-}
+  .info {
+    flex: 1;
 
-.info p {
-  margin: 10px 0;
-  font-size: 1.1rem;
-}
+    p {
+      margin: 12px 0;
+      font-size: 1.05rem;
+      color: #444;
 
-.courses {
-  display: flex;
-  flex-direction: row;
-  margin-top: 20px;
-  
-}
+      strong {
+        color: #1a237e;
+        margin-right: 6px;
+      }
+    }
+  }
 
-.courses h3 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-}
+  .courses {
+    margin-top: 20px;
 
-.courses ul {
-  list-style-type: none;
-  display: flex;
-  gap: 15px;
-  padding: 0;
-}
+    h2 {
+      font-size: 24px;
+    }
 
-.courses li {
-  margin-bottom: 15px;
-  background-color: #f9f9f9;
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-}
+    ul {
+      list-style-type: none;
+      padding: 0;
+      display: flex;
+      gap: 20px;
 
-.removeButton {
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.removeButton:hover {
-  background-color: #d32f2f;
+      li {
+        margin-bottom: 12px;
+        background-color: #ffffff;
+        padding: 18px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
 }

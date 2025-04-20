@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import styles from "./Groups.module.scss";
 import CTable from "@/components/CTable";
 import CModal from "@/components/CModal";
@@ -12,16 +12,34 @@ import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ConfirmModal from "@/components/CModal/ConfirmModal";
 import { useNavigate } from "react-router-dom";
 
+const debounce = (func, delay) => {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};
+
 const Groups = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [idForDelete, setIdForDelete] = useState("");
   const [editGroup, setEditGroup] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-  const { data, isLoading, refetch } = useGroups({
-    params: { page: 1, limit: 50 },
-  });
+  const params = useMemo(
+    () => ({
+      page: 1,
+      limit: 50,
+      searchTerm,
+    }),
+    [searchTerm]
+  );
+
+  const { data, isLoading, refetch } = useGroups({ params });
 
   const groups = useMemo(() => data?.data?.data ?? [], [data]);
 
@@ -43,6 +61,14 @@ const Groups = () => {
         setIsDeleting(false);
       });
   };
+
+  const handleSearch = useCallback(
+    debounce((val) => {
+      setSearchTerm(val);
+      refetch();
+    }, 300),
+    [refetch]
+  );
 
   const COLUMNS = [
     {
@@ -105,7 +131,7 @@ const Groups = () => {
         </button>
       </div>
 
-      <SearchBar placeholder="Search for groups" />
+      <SearchBar placeholder="Search for groups" onChange={handleSearch} />
       <CTable
         onRowClick={(record) => navigate(`/groups/${record?.id ?? ""}`)}
         columns={COLUMNS}
@@ -165,7 +191,8 @@ const NewGroupForm = ({ defaultValues, onClose }) => {
     if (defaultValues) {
       const body = {};
       if (name !== defaultValues.name) body.name = name;
-      if (description !== defaultValues.description) body.description = description;
+      if (description !== defaultValues.description)
+        body.description = description;
       if (year !== defaultValues.year) body.year = year;
 
       setIsLoading(true);
@@ -182,7 +209,7 @@ const NewGroupForm = ({ defaultValues, onClose }) => {
         .finally(() => setIsLoading(false));
     } else {
       if (!userData?.organizationId) {
-        customToast("Failed to get organization id. Please try log in again")
+        customToast("Failed to get organization id. Please try log in again");
       }
 
       const body = {

@@ -38,6 +38,9 @@ import OngoingQuizzes from "@/pages/Professors Pages/QuizStatus/OngoingQuiz/inde
 import PastQuizzes from "@/pages/Professors Pages/QuizStatus/PastQuiz/index";
 import UpcomingQuizzes from "@/pages/Professors Pages/QuizStatus/UpcomingQuiz/index";
 import CourseIdPage from "@/pages/Academic Affairs/CourseDetail/index";
+import DepartmentIdPage from "@/pages/Academic Affairs/DepartmentDetail/index";
+import QuizDetail from "@/pages/Professors Pages/QuizStatus/Quizid/index";
+import QuizId from "@/pages/Professors Pages/QuizStatus/Quizid/index";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -72,7 +75,7 @@ const Router = () => {
           <Route path="statistics" element={<Statistics />} />
           <Route path="quizzes" element={<QuizzesPage />} />
           <Route path="quizzes/create" element={<CreateQuizPage />} />
-          <Route path="quizzes/:quizId" element={<QuizInfo />} />
+          {/*<Route path="quizzes/:quizId" element={<QuizInfo />} /> */}
           <Route path="not-found" element={<NotFoundPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
           <Route path="/notifications/:id" element={<NotificationsDetail />} />
@@ -90,7 +93,9 @@ const Router = () => {
           <Route path="/groups/:id" element={<GroupDetail />} />
           <Route path="/students/:id" element={<StudentDetail />} />
           <Route path="/courses/:id" element={<CourseIdPage />} />
+          <Route path="/departments/:id" element={<DepartmentIdPage />} />
           {/* <Route path="courses-list" element={<ACourses />} /> */}
+          <Route path="/quizzes/:quizId" element={<QuizId />} />
           <Route path="departments" element={<Departments />} />
           <Route path="students" element={<Students />} />
           <Route path="groups" element={<Groups />} />
