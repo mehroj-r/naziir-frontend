@@ -13,7 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { quizService } from "../../../../services/quizService";
-import styles from "./QuizId.module.scss";
+import styles from "./Quizid.module.scss";
 
 const defaultQuestion = {
   content: "",
