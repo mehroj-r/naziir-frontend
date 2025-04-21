@@ -19,7 +19,7 @@ const PastQuizzes = () => {
   const navigate = useNavigate();
 
   const { data, isLoading, refetch } = useQuizzes({
-    params: { quizStatus: "PAST" },
+    params: { status: "CLOSED" },
   });
 
   const quizzes = useMemo(() => {

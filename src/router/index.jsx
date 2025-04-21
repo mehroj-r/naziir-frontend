@@ -41,6 +41,8 @@ import CourseIdPage from "@/pages/Academic Affairs/CourseDetail/index";
 import DepartmentIdPage from "@/pages/Academic Affairs/DepartmentDetail/index";
 import QuizDetail from "@/pages/Professors Pages/QuizStatus/Quizid/index";
 import QuizId from "@/pages/Professors Pages/QuizStatus/Quizid/index";
+import StudentQuiz from "@/pages/Startquiz/index";
+import QuizAttempt from "@/pages/Startquiz/QuizAttempt/index";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -88,6 +90,7 @@ const Router = () => {
           />
           <Route path="/professors/:id" element={<ProfessorDetail />} />
           <Route path="academic-affairs-dashboard" element={<AADashboard />} />
+          <Route path="students-dashboard" element={<Dashboard />} />
           <Route path="professors" element={<Professors />} />
           <Route path="professors/:professorId" element={<ProfessorInfo />} />
           <Route path="/groups/:id" element={<GroupDetail />} />
@@ -105,6 +108,11 @@ const Router = () => {
           <Route path="/ongoing-quizzes" element={<OngoingQuizzes />} />
           <Route path="/past-quizzes" element={<PastQuizzes />} />
           <Route path="/upcoming-quizzes" element={<UpcomingQuizzes />} />
+
+          <Route
+            path="/student/quizzes/:quizId/attempt"
+            element={<QuizAttempt />}
+          />
         </Route>
       </Routes>
     );

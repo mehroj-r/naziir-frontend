@@ -63,10 +63,12 @@ export const quizService = {
       throw new Error("Failed to fetch questions: " + error.message);
     }
   },
-  updateQuestion: async (questionId, payload) => {
+
+
+  updateQuestion: async (qestionId, payload) => {
     try {
       const response = await httpRequest.put(
-        `/questions/${questionId}`,
+        `/questions/${qestionId}`,
         payload
       );
       return response.data;
@@ -75,12 +77,49 @@ export const quizService = {
     }
   },
 
-  deleteQuestion: async (questionId) => {
+  deleteQuestion: async (qestionId) => {
     try {
-      await httpRequest.delete(`/questions/${questionId}`);
+      await httpRequest.delete(`/questions/${qestionId}`);
     } catch (error) {
       throw new Error("Failed to delete question: " + error.message);
     }
+  },
+
+
+
+  getById: async (id) => {
+    try {
+      const response = await httpRequest.get(`/quizzes/${id}`, {
+        params: { includeVersions: true },
+      });
+      console.log("Quiz fetched", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Failed to fetch quiz:", error.message);
+      throw new Error("Failed to fetch quiz: " + error.message);
+    }
+  },
+
+  startAttempt: async (quizId) => {
+    const response = await httpRequest.post(
+      `/student/quizzes/attempts/start/${quizId}`
+    );
+    return response.data;
+  },
+
+  submitResponses: async (quizId, responses) => {
+    const response = await httpRequest.post(
+      `/student/quizzes/attempts/${quizId}/responses`,
+      { responses }
+    );
+    return response.data;
+  },
+
+  finishAttempt: async (quizId) => {
+    const response = await httpRequest.post(
+      `/student/quizzes/attempts/${quizId}/finish`
+    );
+    return response.data;
   },
 };
 

@@ -1,0 +1,31 @@
+.quizAttempt {
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+.questionBox {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background-color: #f9fafb;
+}
+
+.input {
+  margin-top: 10px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .quizAttempt {
+    padding: 20px;
+  }
+
+  .questionBox {
+    padding: 15px;
+  }
+}

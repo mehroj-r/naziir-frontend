@@ -63,7 +63,9 @@ const items = [
   {
     id: 8,
     title: "Professors-pages",
-    icon: (color) => {console.log(color)},
+    icon: (color) => {
+      console.log(color);
+    },
     navigateTo: "/professors-pages",
   },
 ];
@@ -99,7 +101,7 @@ const managers = [
     icon: (color) => <Departmentlisticon color={color} />,
     navigateTo: "/departments",
   },
-].map(item => ({ ...item, id: item.navigateTo }))
+].map((item) => ({ ...item, id: item.navigateTo }));
 
 const professors = [
   {
@@ -127,7 +129,25 @@ const professors = [
     icon: (color) => <StudentlistIcon color={color} />,
     navigateTo: "/assistants",
   },
-].map(item => ({ ...item, id: item.navigateTo }))
+].map((item) => ({ ...item, id: item.navigateTo }));
+
+const students = [
+  {
+    title: "Dashboard",
+    icon: (color) => <HomeIcon color={color} />,
+    navigateTo: /*"students-dashboard"*/ "/professors/dashboard",
+  },
+  {
+    title: "Courses",
+    icon: (color) => <CourseIcon color={color} />,
+    navigateTo: "/courses",
+  },
+  {
+    title: "My Quizzes",
+    icon: (color) => <StudentlistIcon color={color} />,
+    navigateTo: "/quizzes",
+  },
+].map((item) => ({ ...item, id: item.navigateTo }));
 
 const roles = [
   { value: "", label: "Select role" },
@@ -138,36 +158,40 @@ const roles = [
 ];
 
 const SIDEBAR_ITEMS = {
-  STUDENT: [],
+  STUDENT: students,
   ACADEMIC_AFFAIRS: managers,
   PROFESSOR: professors,
-  MANAGER: managers
-}
+  MANAGER: managers,
+};
 export default function Sidebar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { role } = useSelector((state) => state.user);
-  const isActive = (path) => pathname === path
+  const isActive = (path) => pathname === path;
 
   return (
-    <Box bg='#081545' h='full' w='full' p={4} rounded='8px'>
-      <Flex flexDirection='column' gap={2} cursor='pointer'>
+    <Box bg="#081545" h="full" w="full" p={4} rounded="8px">
+      <Flex flexDirection="column" gap={2} cursor="pointer">
         {SIDEBAR_ITEMS?.[role]?.map((item) => (
           <Flex
             key={item.id}
             px={9}
             py={4}
             gap={4}
-            h='40px'
-            rounded='12px'
-            alignItems='center'
-            transition='0.3s'
-            color={isActive(item.navigateTo) ? 'black' : 'white'}
-            bg={isActive(item.navigateTo) ? 'white' : 'transparent'}
+            h="40px"
+            rounded="12px"
+            alignItems="center"
+            transition="0.3s"
+            color={isActive(item.navigateTo) ? "black" : "white"}
+            bg={isActive(item.navigateTo) ? "white" : "transparent"}
             onClick={() => navigate(item.navigateTo)}
-            _hover={{ bg: isActive(item.navigateTo) ? 'whiteAlpha.950' : 'whiteAlpha.500' }}
+            _hover={{
+              bg: isActive(item.navigateTo)
+                ? "whiteAlpha.950"
+                : "whiteAlpha.500",
+            }}
           >
-            {item.icon(isActive(item.navigateTo) ? 'black' : 'white')}
+            {item.icon(isActive(item.navigateTo) ? "black" : "white")}
             <span>{item.title}</span>
           </Flex>
         ))}
