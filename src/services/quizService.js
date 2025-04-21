@@ -64,7 +64,6 @@ export const quizService = {
     }
   },
 
-
   updateQuestion: async (qestionId, payload) => {
     try {
       const response = await httpRequest.put(
@@ -84,8 +83,6 @@ export const quizService = {
       throw new Error("Failed to delete question: " + error.message);
     }
   },
-
-
 
   getById: async (id) => {
     try {
@@ -110,16 +107,33 @@ export const quizService = {
   submitResponses: async (quizId, responses) => {
     const response = await httpRequest.post(
       `/student/quizzes/attempts/${quizId}/responses`,
-      { responses }
+      responses
     );
     return response.data;
   },
 
   finishAttempt: async (quizId) => {
-    const response = await httpRequest.post(
-      `/student/quizzes/attempts/${quizId}/finish`
-    );
-    return response.data;
+    try {
+      const response = await httpRequest.post(
+        `/student/quizzes/attempts/${quizId}/finish`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error finishing the quiz attempt", error);
+      throw error;
+    }
+  },
+
+  getResult: async (quizId) => {
+    try {
+      const response = await httpRequest.get(
+        `/student/quizzes/attempts/${quizId}/result`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching quiz result:", error);
+      throw error;
+    }
   },
 };
 
