@@ -89,28 +89,6 @@ const Dashboard = () => {
           <div className={styles.emptyCard}></div>
         </div>
       </div>
-
-      <div className={styles.section}>
-        <div
-          className={styles.dashboardCard}
-          onClick={() => navigate("/create-quiz")}
-        >
-          <Image
-            src="/src/assets/images/startquiz.png"
-            className={styles.cardImage}
-          />
-          <Text className={styles.cardTitle}>Create a New Quiz</Text>
-          <Text className={styles.cardDescription}>
-            With various question types and formatting options, design visually
-            appealing quizzes
-          </Text>
-          <Button colorScheme="teal">Create Quiz</Button>
-        </div>
-        <div className={styles.secondcard}>
-          <div className={styles.createquizzstats}></div>
-          <div className={styles.emptyCard}></div>
-        </div>
-      </div>
     </div>
   );
 };

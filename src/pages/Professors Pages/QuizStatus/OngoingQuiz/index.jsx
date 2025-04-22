@@ -19,7 +19,7 @@ const OngoingQuizzes = () => {
   const navigate = useNavigate();
 
   const { data, isLoading, refetch } = useQuizzes({
-    params: { quizStatus: "ONGOING", page: 1, limit: 50 },
+    params: { status: "OPEN", page: 1, limit: 50 },
   });
 
   const quizzes = useMemo(

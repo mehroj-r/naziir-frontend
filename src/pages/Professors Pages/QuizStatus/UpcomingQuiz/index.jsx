@@ -19,7 +19,7 @@ const UpcomingQuizzes = () => {
   const navigate = useNavigate();
 
   const { data, isLoading, isError, refetch } = useQuizzes({
-    params: { quizStatus: "UPCOMING" },
+    params: { status: "SCHEDULED" },
   });
 
   const quizzes = useMemo(
