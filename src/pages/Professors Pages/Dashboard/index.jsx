@@ -8,6 +8,7 @@ import {
   Upcomingquizzes,
 } from "../../../assets/icons/professorsDashboardIcons";
 import styles from "./Dashboard.module.scss";
+import { useSelector } from "react-redux";
 
 const sampleData = {
   quickAccess: [
@@ -48,6 +49,9 @@ const PDashboard = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [showAllMessages, setShowAllMessages] = useState(false);
   const navigate = useNavigate();
+  const userData = useSelector((state) => state.user);
+  
+  const isUserProfessor = userData.role === 'PROFESSOR'
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -96,15 +100,17 @@ const PDashboard = () => {
   return (
     <div className={styles.dashboard}>
       <div className={styles.header}>
-        <h1>Hello, professor Juraev</h1>
-        <div className={styles.headerActions}>
-          <button>
-            <GradeQuizzesIcon /> Grade Quizzes
-          </button>
-          <button>
-            <NewquizzesIcon /> New Quiz
-          </button>
-        </div>
+        <h1>{!isUserProfessor ? "Students Profile" : "Professors Profile"}</h1>
+        {isUserProfessor && (
+          <div className={styles.headerActions}>
+            <button>
+              <GradeQuizzesIcon /> Grade Quizzes
+            </button>
+            <button>
+              <NewquizzesIcon /> New Quiz
+            </button>
+          </div>
+        )}
       </div>
 
       <h2>Quick access</h2>
@@ -122,46 +128,48 @@ const PDashboard = () => {
         ))}
       </div>
 
-      <div className={styles.messagecalendar}>
-        <div className={styles.messagesSection}>
-          <div className={styles.messagesHeader}>
-            <h2>Important messages:</h2>
-            <a
-              href="#"
-              className={styles.seeAll}
-              onClick={handleToggleMessages}
-            >
-              {showAllMessages ? "Show less ⬇" : "See all ➡"}
-            </a>
-          </div>
-          {visibleMessages.map((message, index) => (
-            <div key={index} className={styles.messageCard}>
-              <h4>{message.title}</h4>
-              <p>{message.content}</p>
+      {isUserProfessor && (
+        <div className={styles.messagecalendar}>
+          <div className={styles.messagesSection}>
+            <div className={styles.messagesHeader}>
+              <h2>Important messages:</h2>
+              <a
+                href="#"
+                className={styles.seeAll}
+                onClick={handleToggleMessages}
+              >
+                {showAllMessages ? "Show less ⬇" : "See all ➡"}
+              </a>
             </div>
-          ))}
+            {visibleMessages.map((message, index) => (
+              <div key={index} className={styles.messageCard}>
+                <h4>{message.title}</h4>
+                <p>{message.content}</p>
+              </div>
+            ))}
+          </div>
+          <div className={styles.calendar}>
+            <h2>
+              {currentDate.toLocaleString("default", { month: "long" })}{" "}
+              {currentDate.getFullYear()}
+            </h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Su</th>
+                  <th>M</th>
+                  <th>T</th>
+                  <th>W</th>
+                  <th>T</th>
+                  <th>F</th>
+                  <th>Sa</th>
+                </tr>
+              </thead>
+              <tbody>{generateCalendar()}</tbody>
+            </table>
+          </div>
         </div>
-        <div className={styles.calendar}>
-          <h2>
-            {currentDate.toLocaleString("default", { month: "long" })}{" "}
-            {currentDate.getFullYear()}
-          </h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Su</th>
-                <th>M</th>
-                <th>T</th>
-                <th>W</th>
-                <th>T</th>
-                <th>F</th>
-                <th>Sa</th>
-              </tr>
-            </thead>
-            <tbody>{generateCalendar()}</tbody>
-          </table>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

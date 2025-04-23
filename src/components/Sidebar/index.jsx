@@ -107,7 +107,7 @@ const professors = [
   {
     title: "Dashboard",
     icon: (color) => <HomeIcon color={color} />,
-    navigateTo: "/professors/dashboard",
+    navigateTo: "/",
   },
   {
     title: "Courses",
@@ -135,7 +135,7 @@ const students = [
   {
     title: "Dashboard",
     icon: (color) => <HomeIcon color={color} />,
-    navigateTo: /*"students-dashboard"*/ "/professors/dashboard",
+    navigateTo: "/",
   },
   {
     title: "Courses",

@@ -1,12 +1,18 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { studentService } from "../../../services/student.service";
 import { useGroups } from "../../../services/group.service";
 import styles from "./StudentDetail.module.scss";
+import ImageUpload from "@/components/ImageUpload";
+import { Box } from "@chakra-ui/react";
 
 const StudentDetail = () => {
   const { id } = useParams();
+  const [image, setImage] = useState({
+    url: '',
+    previewURL: ''
+  })
 
   const {
     data: student,
@@ -35,12 +41,22 @@ const StudentDetail = () => {
     <div className={styles.studentDetail}>
       <h2>Student Detail</h2>
       <div className={styles.profile}>
-        <div className={styles.image}>
-          <img
-            src={student?.profileImage}
-            alt={`${student.firstName} ${student.lastName}`}
+        <Box w='150px' h='150px' border='1px solid gray' rounded='50%'>
+          <ImageUpload
+            preview={image?.previewURL}
+            onUpload={(url, previewURL) =>
+              setFormData((prev) => ({
+                ...prev,
+                url: url,
+                previewURL: previewURL,
+              }))
+            }
+            onRemove={() => setImage({
+              url: "",
+              previewURL: "",
+            })}
           />
-        </div>
+        </Box>
         <div className={styles.info}>
           <p>
             <strong>First Name:</strong> {student.firstName}

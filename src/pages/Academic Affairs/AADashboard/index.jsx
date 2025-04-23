@@ -10,6 +10,7 @@ import {
   StudentlistIcon,
 } from "../../../assets/icons/aaDashboardIcons";
 import SearchBar from "../../../components/SearchBar";
+import { useSelector } from "react-redux";
 
 const cards = [
   {
@@ -51,11 +52,12 @@ const cards = [
 
 const AADashboard = () => {
   const navigate = useNavigate();
+  const userData = useSelector((state) => state.user);
 
   return (
     <div className={styles.dashboard}>
       <div className={styles.titles}>
-        <h1 className={styles.title}>Academic Affairs</h1>
+        <h1 className={styles.title}>{userData.role === 'ACADEMIC_AFFAIRS' ? "Academic Affairs dashboard" : "Manager dashboard"}</h1>
         <h2 className={styles.subTitle}>Quick access</h2>
         <SearchBar />
       </div>

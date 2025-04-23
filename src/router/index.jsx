@@ -49,11 +49,7 @@ const Router = () => {
   const userData = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const logout = () => {
-    // should be deleted
-    dispatch(userActions.logout());
-    customToast("success", "You have logged out successfully");
-  };
+  console.log(" userData:", userData) // log
 
   if (!isAuth) {
     return (
@@ -66,7 +62,156 @@ const Router = () => {
         </Route>
       </Routes>
     );
-  } else {
+  } else if(userData.role === 'MANAGER') {
+    return (
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<AADashboard />} />
+          <Route path="not-found" element={<NotFoundPage />} />
+
+          <Route path="groups" element={<Groups />} />
+          <Route path="/groups/:id" element={<GroupDetail />} />
+
+          <Route path="students" element={<Students />} />
+          <Route path="/students/:id" element={<StudentDetail />} />
+
+          <Route path="courses" element={<CoursesPage />} />
+          <Route path="/courses/:id" element={<CourseIdPage />} />
+
+          <Route path="departments" element={<Departments />} />
+          <Route path="/departments/:id" element={<DepartmentIdPage />} />
+
+          <Route path="professors" element={<Professors />} />
+          <Route path="/professors/:id" element={<ProfessorDetail />} />
+
+          {/* <Route path="create-quiz" element={<CreateQuiz />} /> */}
+          {/* <Route path="add-course" element={<AddCourse />} /> */}
+          {/* <Route path="statistics" element={<Statistics />} /> */}
+          {/* <Route path="quizzes" element={<QuizzesPage />} /> */}
+          {/* <Route path="quizzes/create" element={<CreateQuizPage />} /> */}
+          {/*<Route path="quizzes/:quizId" element={<QuizInfo />} /> */}
+          {/* <Route path="notifications" element={<NotificationsPage />} /> */}
+          {/* <Route path="/notifications/:id" element={<NotificationsDetail />} /> */}
+          {/* <Route path="courses/economics" element={<EconomicsPage />} /> */}
+          {/* <Route path="courses/quiz" element={<QuizPage />} /> */}
+          {/* <Route path="students/:studentId/results" element={<StudentResults />}/> */}
+          {/* <Route path="academic-affairs-dashboard" element={<AADashboard />} /> */}
+          {/* <Route path="students-dashboard" element={<Dashboard />} /> */}
+          {/* <Route path="professors/:professorId" element={<ProfessorInfo />} /> */}
+          {/* <Route path="courses-list" element={<ACourses />} /> */}
+          {/* <Route path="/quizzes/:quizId" element={<QuizId />} /> */}
+          {/* <Route path="departments/create" element={<NewDepartment />} /> */}
+          {/* <Route path="professors/dashboard" element={<PDashboard />} /> */}
+          {/* <Route path="my-courses" element={<MyCourses />} /> */}
+          {/* <Route path="/ongoing-quizzes" element={<OngoingQuizzes />} />
+          <Route path="/past-quizzes" element={<PastQuizzes />} />
+          <Route path="/upcoming-quizzes" element={<UpcomingQuizzes />} /> */}
+          {/* <Route path="/student/quizzes/:quizId/attempt" element={<QuizAttempt />} /> */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Route>
+      </Routes>
+    );
+  } else if(userData.role === 'PROFESSOR'){
+    return (
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<PDashboard />} />
+          <Route path="create-quiz" element={<CreateQuiz />} />
+          <Route path="courses" element={<CoursesPage />} />
+          <Route path="add-course" element={<AddCourse />} />
+          <Route path="statistics" element={<Statistics />} />
+          <Route path="quizzes" element={<QuizzesPage />} />
+          <Route path="quizzes/create" element={<CreateQuizPage />} />
+          {/*<Route path="quizzes/:quizId" element={<QuizInfo />} /> */}
+          <Route path="not-found" element={<NotFoundPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="/notifications/:id" element={<NotificationsDetail />} />
+          <Route path="courses/economics" element={<EconomicsPage />} />
+          <Route path="courses/quiz" element={<QuizPage />} />
+          <Route path="*" element={<Navigate to="/" />} />
+          <Route
+            path="students/:studentId/results"
+            element={<StudentResults />}
+          />
+          <Route path="/professors/:id" element={<ProfessorDetail />} />
+          <Route path="academic-affairs-dashboard" element={<AADashboard />} />
+          <Route path="students-dashboard" element={<Dashboard />} />
+          <Route path="professors" element={<Professors />} />
+          <Route path="professors/:professorId" element={<ProfessorInfo />} />
+          <Route path="/groups/:id" element={<GroupDetail />} />
+          <Route path="/students/:id" element={<StudentDetail />} />
+          <Route path="/courses/:id" element={<CourseIdPage />} />
+          <Route path="/departments/:id" element={<DepartmentIdPage />} />
+          {/* <Route path="courses-list" element={<ACourses />} /> */}
+          <Route path="/quizzes/:quizId" element={<QuizId />} />
+          <Route path="departments" element={<Departments />} />
+          <Route path="students" element={<Students />} />
+          <Route path="groups" element={<Groups />} />
+          <Route path="departments/create" element={<NewDepartment />} />
+          {/* <Route path="professors/dashboard" element={<PDashboard />} /> */}
+          <Route path="my-courses" element={<MyCourses />} />
+          <Route path="/ongoing-quizzes" element={<OngoingQuizzes />} />
+          <Route path="/past-quizzes" element={<PastQuizzes />} />
+          <Route path="/upcoming-quizzes" element={<UpcomingQuizzes />} />
+
+          <Route
+            path="/student/quizzes/:quizId/attempt"
+            element={<QuizAttempt />}
+          />
+        </Route>
+      </Routes>
+    );
+  } else if(userData.role === 'STUDENT'){
+    return (
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<PDashboard />} />
+          <Route path="create-quiz" element={<CreateQuiz />} />
+          <Route path="courses" element={<CoursesPage />} />
+          <Route path="add-course" element={<AddCourse />} />
+          <Route path="statistics" element={<Statistics />} />
+          <Route path="quizzes" element={<QuizzesPage />} />
+          <Route path="quizzes/create" element={<CreateQuizPage />} />
+          {/*<Route path="quizzes/:quizId" element={<QuizInfo />} /> */}
+          <Route path="not-found" element={<NotFoundPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="/notifications/:id" element={<NotificationsDetail />} />
+          <Route path="courses/economics" element={<EconomicsPage />} />
+          <Route path="courses/quiz" element={<QuizPage />} />
+          <Route path="*" element={<Navigate to="/" />} />
+          <Route
+            path="students/:studentId/results"
+            element={<StudentResults />}
+          />
+          <Route path="/professors/:id" element={<ProfessorDetail />} />
+          <Route path="academic-affairs-dashboard" element={<AADashboard />} />
+          <Route path="students-dashboard" element={<Dashboard />} />
+          <Route path="professors" element={<Professors />} />
+          <Route path="professors/:professorId" element={<ProfessorInfo />} />
+          <Route path="/groups/:id" element={<GroupDetail />} />
+          <Route path="/students/:id" element={<StudentDetail />} />
+          <Route path="/courses/:id" element={<CourseIdPage />} />
+          <Route path="/departments/:id" element={<DepartmentIdPage />} />
+          {/* <Route path="courses-list" element={<ACourses />} /> */}
+          <Route path="/quizzes/:quizId" element={<QuizId />} />
+          <Route path="departments" element={<Departments />} />
+          <Route path="students" element={<Students />} />
+          <Route path="groups" element={<Groups />} />
+          <Route path="departments/create" element={<NewDepartment />} />
+          {/* <Route path="professors/dashboard" element={<PDashboard />} /> */}
+          <Route path="my-courses" element={<MyCourses />} />
+          <Route path="/ongoing-quizzes" element={<OngoingQuizzes />} />
+          <Route path="/past-quizzes" element={<PastQuizzes />} />
+          <Route path="/upcoming-quizzes" element={<UpcomingQuizzes />} />
+
+          <Route
+            path="/student/quizzes/:quizId/attempt"
+            element={<QuizAttempt />}
+          />
+        </Route>
+      </Routes>
+    );
+  } else if(userData.role === 'ACADEMIC_AFFAIRS'){
     return (
       <Routes>
         <Route path="/" element={<MainLayout />}>
@@ -118,6 +263,8 @@ const Router = () => {
     );
   }
 };
+
+
 
 // quizzes/ongoing
 // quizzes/past
