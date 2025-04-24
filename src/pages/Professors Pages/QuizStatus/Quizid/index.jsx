@@ -29,6 +29,7 @@ const defaultQuestion = {
 };
 
 const normalizeFetchedQuestion = (q) => ({
+  id: q.id,
   content: q.content || "",
   explanation: q.explanation || "",
   points: q.points || "",
@@ -47,6 +48,7 @@ const QuizId = () => {
   const [quiz, setQuiz] = useState(null);
   const [existingQuestions, setExistingQuestions] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [originalQuestions, setOriginalQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState({
     ...defaultQuestion,
   });
@@ -57,6 +59,7 @@ const QuizId = () => {
       setQuiz(res);
       const normalized = res.questions?.map(normalizeFetchedQuestion) || [];
       setExistingQuestions(normalized);
+      setOriginalQuestions(normalized);
     } catch (err) {
       toast({
         title: "Failed to load quiz.",
@@ -66,13 +69,36 @@ const QuizId = () => {
       });
     }
   };
+  const hasQuestionChanged = (original, updated) => {
+    return JSON.stringify(original) !== JSON.stringify(updated);
+  };
 
   useEffect(() => {
     fetchQuiz();
   }, [quizId]);
 
+  const handleOpenModal = (field, value) => {
+    setIsModalOpen(true);
+    setCurrentQuestion({ ...defaultQuestion });
+    console.log("setIsModalOpen(true) is working");
+  };
+
   const handleFieldChange = (field, value) => {
-    setCurrentQuestion((prev) => ({ ...prev, [field]: value }));
+    setCurrentQuestion((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+  const handleFieldChange2 = (index, field, value) => {
+    setExistingQuestions((prevQuestions) => {
+      const updated = [...prevQuestions];
+      updated[index] = {
+        ...updated[index],
+        [field]: value,
+        isEditing: true,
+      };
+      return updated;
+    });
   };
 
   const handleSaveQuestion = async () => {
@@ -117,6 +143,80 @@ const QuizId = () => {
     }
   };
 
+  const handleDeleteQuestion = async (questionId) => {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this question?"
+    );
+    if (!confirm) return;
+    try {
+      await quizService.deleteQuestion(questionId);
+      toast({
+        title: "Question deleted successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      fetchQuiz();
+    } catch (error) {
+      toast({
+        title: "Failed to delete question.",
+        description: error.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleUpdateQuestion = async (question) => {
+    const original = originalQuestions.find((q) => q.id === question.id);
+    const payload = {
+      content: question.content,
+      questionType: question.questionType,
+      mediaIds: question.mediaIds,
+      explanation: question.explanation,
+      points: question.points,
+    };
+
+    if (!hasQuestionChanged(original, question)) {
+      toast({
+        title: "No changes detected.",
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (question.questionType === "MULTIPLE_CHOICE") {
+      payload.options = question.options;
+    } else if (question.questionType === "TRUE_FALSE") {
+      payload.correctAnswer = question.correctAnswer === "true";
+    } else {
+      payload.expectedAnswer = question.expectedAnswer;
+      if (question.hint) payload.hint = question.hint;
+    }
+
+    try {
+      await quizService.updateQuestion(question.id, payload);
+      toast({
+        title: "Question updated successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      fetchQuiz();
+    } catch (error) {
+      toast({
+        title: "Failed to update question.",
+        description: error.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
   const renderQuestionDetails = (q, idx) => (
     <Box key={idx} className={styles.questionCard}>
       <div className={styles.newModalBody}>
@@ -125,7 +225,7 @@ const QuizId = () => {
             value={q.questionType}
             className={styles.dropdown}
             onChange={(e) =>
-              handleFieldChange(idx, "questionType", e.target.value)
+              handleFieldChange2(idx, "questionType", e.target.value)
             }
           >
             <option value="SHORT_ANSWER">Short Answer</option>
@@ -141,7 +241,7 @@ const QuizId = () => {
                 const file = e.target.files[0];
                 if (file) {
                   const fakeMediaId = file.name + "_" + Date.now();
-                  handleFieldChange(idx, "mediaIds", [fakeMediaId]);
+                  handleFieldChange2(idx, "mediaIds", [fakeMediaId]);
                 }
               }}
             />
@@ -152,6 +252,7 @@ const QuizId = () => {
             colorScheme="red"
             variant="ghost"
             className={styles.deleteBtn}
+            onClick={() => handleDeleteQuestion(q.id)}
           >
             Delete question
           </Button>
@@ -161,7 +262,7 @@ const QuizId = () => {
           <FormLabel>Question *</FormLabel>
           <Textarea
             value={q.content}
-            onChange={(e) => handleFieldChange(idx, "content", e.target.value)}
+            onChange={(e) => handleFieldChange2(idx, "content", e.target.value)}
             placeholder="What does the economy study?"
           />
         </div>
@@ -171,7 +272,7 @@ const QuizId = () => {
           <Textarea
             value={q.explanation}
             onChange={(e) =>
-              handleFieldChange(idx, "explanation", e.target.value)
+              handleFieldChange2(idx, "explanation", e.target.value)
             }
             placeholder="Description"
           />
@@ -184,7 +285,7 @@ const QuizId = () => {
               <Textarea
                 value={q.expectedAnswer}
                 onChange={(e) =>
-                  handleFieldChange(idx, "expectedAnswer", e.target.value)
+                  handleFieldChange2(idx, "expectedAnswer", e.target.value)
                 }
                 placeholder="Expected Answer"
               />
@@ -194,7 +295,9 @@ const QuizId = () => {
               <FormLabel>Hint</FormLabel>
               <Textarea
                 value={q.hint}
-                onChange={(e) => handleFieldChange(idx, "hint", e.target.value)}
+                onChange={(e) =>
+                  handleFieldChange2(idx, "hint", e.target.value)
+                }
                 placeholder="Hint (optional)"
               />
             </div>
@@ -207,7 +310,7 @@ const QuizId = () => {
             <Select
               value={q.correctAnswer}
               onChange={(e) =>
-                handleFieldChange(idx, "correctAnswer", e.target.value)
+                handleFieldChange2(idx, "correctAnswer", e.target.value)
               }
             >
               <option value="">Select answer</option>
@@ -235,14 +338,14 @@ const QuizId = () => {
                       ...updated[i],
                       content: e.target.value,
                     };
-                    handleFieldChange(idx, "options", updated);
+                    handleFieldChange2(idx, "options", updated);
                   }}
                 />
                 <Button
                   colorScheme="red"
                   onClick={() => {
                     const updated = q.options.filter((_, index) => index !== i);
-                    handleFieldChange(idx, "options", updated);
+                    handleFieldChange2(idx, "options", updated);
                   }}
                 >
                   Remove
@@ -258,7 +361,7 @@ const QuizId = () => {
               onClick={() => {
                 const updated = [...(q.options || [])];
                 updated.push({ content: "", isCorrect: false });
-                handleFieldChange(idx, "options", updated);
+                handleFieldChange2(idx, "options", updated);
               }}
             >
               Add Option
@@ -274,7 +377,7 @@ const QuizId = () => {
                   ...opt,
                   isCorrect: i === correctIndex,
                 }));
-                handleFieldChange(idx, "options", updated);
+                handleFieldChange2(idx, "options", updated);
               }}
             >
               {(q.options || []).map((_, i) => (
@@ -291,11 +394,17 @@ const QuizId = () => {
           <Input
             type="number"
             value={q.points}
-            onChange={(e) => handleFieldChange(idx, "points", e.target.value)}
+            onChange={(e) => handleFieldChange2(idx, "points", e.target.value)}
             placeholder="Input Field"
           />
         </div>
+        {hasQuestionChanged(originalQuestions[idx], q) && (
+          <Button colorScheme="green" onClick={() => handleUpdateQuestion(q)}>
+            Update
+          </Button>
+        )}
       </div>
+      <Box display="flex" justifyContent="flex-end" gap="12px" mt={2}></Box>
       <Divider mt={4} mb={2} />
     </Box>
   );
@@ -338,7 +447,7 @@ const QuizId = () => {
         <Textarea
           value={currentQuestion.content}
           onChange={(e) => handleFieldChange("content", e.target.value)}
-          placeholder="What does the economy study?"
+          placeholder="Question"
         />
       </div>
 
@@ -480,7 +589,7 @@ const QuizId = () => {
         <Heading size="lg" mb={4}>
           Quiz: {quiz?.title}
         </Heading>
-        <Button onClick={() => setIsModalOpen(true)} mt={4} colorScheme="blue">
+        <Button onClick={handleOpenModal} mt={4} colorScheme="blue">
           Add New Question
         </Button>
       </div>
