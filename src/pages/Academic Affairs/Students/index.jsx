@@ -201,7 +201,12 @@ const NewStudentForm = ({ defaultValues, onClose }) => {
       setEmail(defaultValues.email ?? "");
       setPhoneNumber(defaultValues.phoneNumber ?? "");
       setStudentId(defaultValues.studentId ?? "");
-      setGroupId(defaultValues?.group?.id ?? "");
+      if(defaultValues?.group?.id && defaultValues?.group?.name){
+        setGroupId({
+          label: defaultValues?.group?.name,
+          value: defaultValues?.group?.id
+        });
+      }
     }
   }, [defaultValues]);
 
@@ -215,7 +220,7 @@ const NewStudentForm = ({ defaultValues, onClose }) => {
       email,
       phoneNumber,
       studentId,
-      groupId,
+      groupId: groupId?.value
     };
 
     const request = defaultValues
@@ -281,8 +286,8 @@ const NewStudentForm = ({ defaultValues, onClose }) => {
           value: group?.id,
           label: group?.name,
         }))}
-        onChange={(val) => setGroupId(val?.value)}
-        value={groups?.find((g) => g.id === groupId)?.name ?? ""}
+        onChange={(val) => setGroupId(val)} // { value: '', label: '' }
+        value={groupId}
       />
       <button type="submit" disabled={isLoading}>
         {isLoading
