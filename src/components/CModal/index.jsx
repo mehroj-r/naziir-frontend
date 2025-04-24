@@ -6,21 +6,24 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 
-export default function CModal({ isOpen, onClose, title, body, footer}) {
+export default function CModal({
+  isOpen,
+  onClose,
+  title,
+  body,
+  footer,
+  size = "md",
+}) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} size={size}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
-          {body}
-        </ModalBody>
-        <ModalFooter>
-          {footer}
-        </ModalFooter>
+        <ModalBody>{body}</ModalBody>
+        <ModalFooter>{footer}</ModalFooter>
       </ModalContent>
     </Modal>
   );

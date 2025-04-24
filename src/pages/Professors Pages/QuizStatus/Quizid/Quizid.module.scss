@@ -1,147 +1,153 @@
 .quizIdPage {
-    padding: 2rem;
+  max-height: 90vh;
+  padding: 20px 30px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+
+  .heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    Button {
+      margin-top: -20px;
+    }
+  }
+
+  .questionList {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 16px 20px;
+  }
+
+  h2,
+  h1,
+  h3 {
+    font-weight: 600;
+    color: #2d3748;
+  }
+
+  .questionCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+
+
+    select,
+    input,
+    textarea {
+      border-radius: 8px;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    textarea {
+      min-height: 50px;
+    }
+  }
+
+  .questionCard + .questionCard {
+    margin-top: 1.5rem;
+  }
+
+  .answerOptions {
+    margin-top: 0.5rem;
+
+    input {
+      margin-bottom: 0.5rem;
+    }
+
+    .correctSelect {
+      margin-top: 1rem;
+    }
+  }
+}
+.newModalBody {
+  border: 1px dashed #a3c5f5;
+  padding: 20px;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 720px;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 45px;
+  Select {
+    display: flex;
     background-color: #f9f9f9;
-    
-    h2,
-    h1,
-    h3 {
-      font-weight: 600;
-      color: #2d3748;
-    }
-  
-    .questionCard {
-      background-color: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      transition: all 0.3s ease;
-  
-      &:hover {
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-      }
-  
-      select,
-      input,
-      textarea {
-        border-radius: 8px;
-        font-size: 14px;
-        width: 100%;
-        margin-bottom: 1rem;
-      }
-  
-      textarea {
-        min-height: 80px;
-      }
-    }
-  
-    .questionCard + .questionCard {
-      margin-top: 1.5rem;
-    }
-  
-    .answerOptions {
-      margin-top: 0.5rem;
-  
-      input {
-        margin-bottom: 0.5rem;
-      }
-  
-      .correctSelect {
-        margin-top: 1rem;
-      }
-    }
-  
-    .actions {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 2rem;
-  
-      button {
-        font-weight: 500;
-        border-radius: 8px;
-        padding: 0.75rem 1.5rem;
-      }
-    }
-  
-    .infoBox {
-      background: #edf2f7;
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-    }
-  
-    .formSection {
-      margin-bottom: 2rem;
-    }
-  
-    .questionForm {
-      margin-top: 2rem;
-      
-      .inputField {
-        margin-bottom: 1rem;
-      }
-  
-      .inputField input,
-      .inputField select,
-      .inputField textarea {
-        border-radius: 8px;
-        font-size: 14px;
-        padding: 0.75rem;
-        width: 100%;
-      }
-  
-      .inputField textarea {
-        min-height: 80px;
-      }
-  
-      .inputField label {
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-    }
-  
-    .questionPreview {
-      .previewTitle {
-        font-size: 16px;
-        font-weight: 500;
-        color: #2d3748;
-        margin-bottom: 1rem;
-      }
-  
-      .previewContent {
-        font-size: 14px;
-        color: #4a5568;
-      }
-  
-      .previewOptions {
-        font-size: 14px;
-        color: #4a5568;
-        margin-top: 0.5rem;
-  
-        ul {
-          list-style-type: none;
-          padding-left: 0;
-  
-          li {
-            margin-bottom: 0.5rem;
-          }
-        }
-      }
+    max-width: 200px;
+    option {
+      max-width: 200px;
     }
   }
-  
-  @media (max-width: 992px) {
-    .quizIdPage {
-      padding: 1rem;
-    }
-  
-    .questionCard {
-      padding: 1rem;
-    }
-  
-    .formSection {
-      margin-bottom: 1.5rem;
+
+  .uploadLabel {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #2b6cb0;
+    border: 1px solid #f9f9f9;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+    width: 500px;
+    background-color: #f7fafc;
+    transition: 0.2s ease;
+    margin-right: 30px;
+
+    &:hover {
+      background-color: #ebf8ff;
     }
   }
-  
+
+  .deleteBtn {
+    color: #e53e3e;
+    font-weight: 600;
+    padding: 10px;
+    width: 350px;
+  }
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  Textarea {
+    padding: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+    resize: vertical;
+    min-height: 50px;
+  }
+
+  input {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 992px) {
+  .quizIdPage {
+    padding: 1rem;
+  }
+
+  .questionCard {
+    padding: 1rem;
+  }
+
+  .formSection {
+    margin-bottom: 1.5rem;
+  }
+}
