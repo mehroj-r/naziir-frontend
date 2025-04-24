@@ -3,23 +3,34 @@ import styles from "./OngoingQuiz.module.scss";
 import CTable from "@/components/CTable";
 import { useQuizzes, quizService } from "@/services/quizService";
 import SearchBar from "@/components/SearchBar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ActionMenu from "@/components/ActionMenu";
 import ConfirmModal from "@/components/CModal/ConfirmModal";
 import CModal from "@/components/CModal";
 import { Input, Button } from "@chakra-ui/react";
 import { customToast } from "@/utils/toastify";
+import { QUIZ_STATUSES } from "@/utils/const/quiz";
 
 const OngoingQuizzes = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [idForDelete, setIdForDelete] = useState("");
   const [editQuiz, setEditQuiz] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
+  
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const status = searchParams.get("status") || "OPEN";
 
   const { data, isLoading, refetch } = useQuizzes({
-    params: { status: "OPEN", page: 1, limit: 50 },
+    params: { 
+      status: status, 
+      page: 1, 
+      limit: 50
+    },
+    props: {
+      enabled: QUIZ_STATUSES.includes(status)
+    }
   });
 
   const quizzes = useMemo(

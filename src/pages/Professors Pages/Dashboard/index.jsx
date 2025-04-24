@@ -15,17 +15,17 @@ const sampleData = {
     {
       title: "Ongoing quizzes",
       icon: <Ongoingquizzes />,
-      route: "/ongoing-quizzes",
+      route: "/quizzes?status=OPEN",
     },
     {
       title: "Upcoming quizzes",
       icon: <Upcomingquizzes />,
-      route: "/upcoming-quizzes",
+      route: "/quizzes?status=SCHEDULED",
     },
     {
       title: "Past quizzes",
       icon: <Pastquizzes />,
-      route: "/past-quizzes",
+      route: "/quizzes?status=CLOSED",
     },
   ],
   messages: [

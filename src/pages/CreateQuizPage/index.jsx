@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 const BORDER_COLOR = "#081545";
 
@@ -41,6 +42,7 @@ const INITIAL_VALUES = {
 };
 
 export default function CreateQuizPage() {
+  const navigate = useNavigate();
 
   const onSubmit = (values) => {
     function fmt(date) {
@@ -67,7 +69,12 @@ export default function CreateQuizPage() {
 
     quizService
       .create(body)
-      .then(() => customToast("success", "Quiz created successfully"))
+      .then((res) => {
+        if(res?.data?.id){
+          customToast("success", "Quiz created successfully")
+          navigate(`/quizzes/${res.data.id}`);
+        }
+      })
       .catch((err) => console.log("create quiz err:", err));
   };
 

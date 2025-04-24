@@ -19,3 +19,10 @@ export const REVEAL_MODE_OPTIONS = REVEAL_MODES.map(item => ({
   label: item,
   value: item
 }))
+
+export const QUIZ_STATUSES = [
+  "DRAFT",
+  "OPEN",
+  "SCHEDULED",
+  "CLOSED"
+]

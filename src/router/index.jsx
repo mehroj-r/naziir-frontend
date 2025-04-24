@@ -120,7 +120,7 @@ const Router = () => {
           <Route path="courses" element={<CoursesPage />} />
           <Route path="add-course" element={<AddCourse />} />
           <Route path="statistics" element={<Statistics />} />
-          <Route path="quizzes" element={<QuizzesPage />} />
+          <Route path="quizzes" element={<OngoingQuizzes />} />
           <Route path="quizzes/create" element={<CreateQuizPage />} />
           {/*<Route path="quizzes/:quizId" element={<QuizInfo />} /> */}
           <Route path="not-found" element={<NotFoundPage />} />

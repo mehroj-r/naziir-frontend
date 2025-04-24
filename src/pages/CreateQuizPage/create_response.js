@@ -1,0 +1,22 @@
+const res_data = {
+  id: "50d43fd7-d7ac-4879-a9ca-2d16d875befc",
+  title: "Quiz apr 25",
+  courseId: "cb77f734-59e2-446c-8c84-363f684b34e1",
+  groupIds: [
+    "63c47bbc-37fd-4cd9-b82d-6595309d03eb",
+    "e67a4171-f149-4bf1-8116-cd77f5473996",
+    "eedd3edb-6367-44a7-8919-974ac80a828b",
+    "0ef6f633-3aff-4e2b-907d-f8e97df2420c",
+    "8fcccf04-c491-4f9a-b254-696b701be5d9",
+    "48ddb494-abbf-4adc-89af-5151382b1120",
+  ],
+  startTime: "2025-04-25T00:00:00",
+  endTime: "2025-06-01T00:00:00",
+  shuffle: false,
+  numberOfVersions: 1,
+  description: "desc",
+  status: "DRAFT",
+  quizType: "LAB",
+  revealMode: "GRADING_COMPLETE",
+  overallScore: "100",
+};
