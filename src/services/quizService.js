@@ -135,6 +135,35 @@ export const quizService = {
       throw error;
     }
   },
+
+  gradeQuestion: async (data) => {
+    console.log("Grade function called with data:", data); // Log here as well
+
+    try {
+      console.log("Grading data:", data); // This should print the data
+
+      const response = await httpRequest.post(
+        "/professor/grading/question/override",
+        data
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Grading failed:", error.response?.data || error.message);
+      throw new Error("Grading failed: " + error.message);
+    }
+  },
+
+  getQuizGradingReport: async (quizId) => {
+    try {
+      const response = await httpRequest.get(
+        `/professor/grading/quiz/${quizId}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching grading report:", error.message);
+      throw new Error("Failed to fetch grading report: " + error.message);
+    }
+  },
 };
 
 export const useQuizzes = ({ params, props }) =>
