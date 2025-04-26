@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import styles from "./OngoingQuiz.module.scss";
 import CTable from "@/components/CTable";
 import { useQuizzes, quizService } from "@/services/quizService";
@@ -8,15 +8,17 @@ import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import ActionMenu from "@/components/ActionMenu";
 import ConfirmModal from "@/components/CModal/ConfirmModal";
 import CModal from "@/components/CModal";
-import { Input, Button } from "@chakra-ui/react";
+import { Input, Button, Flex } from "@chakra-ui/react";
 import { customToast } from "@/utils/toastify";
-import { QUIZ_STATUSES } from "@/utils/const/quiz";
+import { QUIZ_STATUS_OPTIONS, QUIZ_STATUSES } from "@/utils/const/quiz";
+import CSelect from "@/components/CSelect";
 
 const OngoingQuizzes = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [idForDelete, setIdForDelete] = useState("");
   const [editQuiz, setEditQuiz] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [statusOption, setStatusOption] = useState(QUIZ_STATUS_OPTIONS[1]);
   
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -24,12 +26,12 @@ const OngoingQuizzes = () => {
 
   const { data, isLoading, refetch } = useQuizzes({
     params: { 
-      status: status, 
+      status: statusOption?.value, 
       page: 1, 
       limit: 50
     },
     props: {
-      enabled: QUIZ_STATUSES.includes(status)
+      enabled: !!statusOption?.value
     }
   });
 
@@ -95,12 +97,12 @@ const OngoingQuizzes = () => {
     {
       title: "Start Time",
       key: "startTime",
-      render: (record) => record?.startTime ?? "-",
+      render: (record) => `${record?.startTime?.slice(0, 10)},  ${record?.startTime?.slice(11, 16)}` ?? "-", 
     },
     {
       title: "End Time",
       key: "endTime",
-      render: (record) => record?.endTime ?? "-",
+      render: (record) => `${record?.endTime?.slice(0, 10)},  ${record?.endTime?.slice(11, 16)}` ?? "-",
     },
     {
       title: "Status",
@@ -162,13 +164,29 @@ const OngoingQuizzes = () => {
     </>
   );
 
+  useEffect(() => {
+    const optionFromParams = QUIZ_STATUS_OPTIONS.find(item => item?.value === status)
+    if(optionFromParams){
+      setStatusOption(optionFromParams)
+    }
+  },[status])
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>Ongoing Quizzes</h1>
       </div>
 
-      <SearchBar placeholder="Search for quizzes" />
+      <Flex alignItems='center' gap={4}>
+        <SearchBar placeholder="Search for quizzes" />
+        <CSelect 
+          options={QUIZ_STATUS_OPTIONS}
+          value={statusOption}
+          onChange={(val) => setStatusOption(val)}
+          isClearable
+          placeholder="Filter by status"
+        />
+      </Flex>
 
       <CTable
         columns={COLUMNS}

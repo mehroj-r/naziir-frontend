@@ -26,3 +26,22 @@ export const QUIZ_STATUSES = [
   "SCHEDULED",
   "CLOSED"
 ]
+
+export const QUIZ_STATUS_OPTIONS = [
+  {
+    label: "Draft",
+    value: "DRAFT",
+  },
+  {
+    label: "Ongoing",
+    value: "OPEN",
+  },
+  {
+    label: "Upcoming",
+    value: "SCHEDULED",
+  },
+  {
+    label: "Past",
+    value: "CLOSED"
+  },
+]

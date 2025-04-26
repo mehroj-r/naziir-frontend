@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Center, Heading, Spinner } from "@chakra-ui/react";
 import styles from "./CTable.module.scss";
 
 export default function CTable({
@@ -8,7 +8,21 @@ export default function CTable({
   onRowClick = null,
 }) {
   if (loading) {
-    return <>Loading...</>;
+    return (
+      <Center height="65vh">
+        <Spinner size="xl" color="blue.500" />
+      </Center>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <Center height="65vh" border='1px solid lightgray' rounded={8}>
+        <Heading color="gray.500">
+          No data to display
+        </Heading>
+      </Center>
+    );
   }
 
   return (

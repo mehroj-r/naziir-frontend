@@ -10,6 +10,7 @@ import {
   Heading,
   Divider,
   useToast,
+  HStack,
 } from "@chakra-ui/react";
 import { quizService } from "../../../../services/quizService";
 import styles from "./Quizid.module.scss";
@@ -51,6 +52,7 @@ const QuizId = () => {
   const [currentQuestion, setCurrentQuestion] = useState({
     ...defaultQuestion,
   });
+  const [isPublishing, setIsPublishing] = useState(false)
 
   const fetchQuiz = async () => {
     try {
@@ -408,6 +410,34 @@ const QuizId = () => {
     </Box>
   );
 
+  const publishQuiz = () => {
+    setIsPublishing(true)
+    quizService.generateVersions(quizId)
+      .then(res => {
+        quizService.getVersions(quizId)
+          .then(res => {
+            quizService.distributeVersions(quizId)
+              .then(res => {
+                toast({
+                  title: "The quiz has been published",
+                  status: "success",
+                  duration: 2000,
+                  isClosable: true,
+                })
+              })
+              .finally(() => {
+                setIsPublishing(false)
+              })
+          })
+          .catch(err => {
+            setIsPublishing(false)
+          })
+      })
+      .catch(err => {
+        setIsPublishing(false)
+      })
+  }
+
   const modalBody = (
     <div className={styles.newModalBody}>
       <div className={styles.topBar}>
@@ -588,9 +618,14 @@ const QuizId = () => {
         <Heading size="lg" mb={4}>
           Quiz: {quiz?.title}
         </Heading>
-        <Button onClick={handleOpenModal} mt={4} colorScheme="blue">
-          Add New Question
-        </Button>
+        <HStack>
+          <Button onClick={handleOpenModal} mt={4} colorScheme="blue">
+            Add New Question
+          </Button>
+          <Button onClick={publishQuiz} mt={4} isLoading={isPublishing} colorScheme="blue">
+            Publish
+          </Button>
+        </HStack>
       </div>
       <div className={styles.questionList}>
         {existingQuestions.length > 0 && (

@@ -25,6 +25,9 @@ export const quizService = {
   },
 
   create: async (body) => await httpRequest.post("/quizzes", body),
+  generateVersions: async (id) => await httpRequest.post(`quizzes/${id}/generate-versions`),
+  getVersions: async (id) => await httpRequest.get(`quizzes/${id}/versions`),
+  distributeVersions: async (id) => await httpRequest.post(`quizzes/${id}/distribute`),
 
   update: async (id, payload) => {
     try {
