@@ -43,13 +43,14 @@ import QuizDetail from "@/pages/Professors Pages/QuizStatus/Quizid/index";
 import QuizId from "@/pages/Professors Pages/QuizStatus/Quizid/index";
 import StudentQuiz from "@/pages/Startquiz/index";
 import QuizAttempt from "@/pages/Startquiz/QuizAttempt/index";
+import GradeQuiz from "@/pages/Professors Pages/QuizGrading/index";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
   const userData = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  console.log(" userData:", userData) // log
+  console.log(" userData:", userData); // log
 
   if (!isAuth) {
     return (
@@ -62,7 +63,7 @@ const Router = () => {
         </Route>
       </Routes>
     );
-  } else if(userData.role === 'MANAGER') {
+  } else if (userData.role === "MANAGER") {
     return (
       <Routes>
         <Route path="/" element={<MainLayout />}>
@@ -111,7 +112,7 @@ const Router = () => {
         </Route>
       </Routes>
     );
-  } else if(userData.role === 'PROFESSOR'){
+  } else if (userData.role === "PROFESSOR") {
     return (
       <Routes>
         <Route path="/" element={<MainLayout />}>
@@ -153,6 +154,7 @@ const Router = () => {
           <Route path="/ongoing-quizzes" element={<OngoingQuizzes />} />
           <Route path="/past-quizzes" element={<PastQuizzes />} />
           <Route path="/upcoming-quizzes" element={<UpcomingQuizzes />} />
+          <Route path="/professor/grading/quiz/:id" element={<GradeQuiz />} />
 
           <Route
             path="/student/quizzes/:quizId/attempt"
@@ -161,7 +163,7 @@ const Router = () => {
         </Route>
       </Routes>
     );
-  } else if(userData.role === 'STUDENT'){
+  } else if (userData.role === "STUDENT") {
     return (
       <Routes>
         <Route path="/" element={<MainLayout />}>
@@ -211,7 +213,7 @@ const Router = () => {
         </Route>
       </Routes>
     );
-  } else if(userData.role === 'ACADEMIC_AFFAIRS'){
+  } else if (userData.role === "ACADEMIC_AFFAIRS") {
     return (
       <Routes>
         <Route path="/" element={<MainLayout />}>
@@ -263,8 +265,6 @@ const Router = () => {
     );
   }
 };
-
-
 
 // quizzes/ongoing
 // quizzes/past
