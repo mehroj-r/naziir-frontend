@@ -28,6 +28,7 @@ export const quizService = {
   generateVersions: async (id) => await httpRequest.post(`quizzes/${id}/generate-versions`),
   getVersions: async (id) => await httpRequest.get(`quizzes/${id}/versions`),
   distributeVersions: async (id) => await httpRequest.post(`quizzes/${id}/distribute`),
+  updateQuizStatus: async (id, newStatus) => await httpRequest.put(`/quizzes/${id}/status?newStatus=${newStatus}`),
 
   update: async (id, payload) => {
     try {

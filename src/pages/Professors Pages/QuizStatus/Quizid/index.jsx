@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -53,6 +53,8 @@ const QuizId = () => {
     ...defaultQuestion,
   });
   const [isPublishing, setIsPublishing] = useState(false)
+
+  const navigate = useNavigate()
 
   const fetchQuiz = async () => {
     try {
@@ -414,9 +416,9 @@ const QuizId = () => {
     setIsPublishing(true)
     quizService.generateVersions(quizId)
       .then(res => {
-        quizService.getVersions(quizId)
+        quizService.distributeVersions(quizId)
           .then(res => {
-            quizService.distributeVersions(quizId)
+            quizService.updateQuizStatus(quizId, "SCHEDULED")
               .then(res => {
                 toast({
                   title: "The quiz has been published",
@@ -424,6 +426,7 @@ const QuizId = () => {
                   duration: 2000,
                   isClosable: true,
                 })
+                navigate('/quizzes')
               })
               .finally(() => {
                 setIsPublishing(false)
@@ -432,7 +435,7 @@ const QuizId = () => {
           .catch(err => {
             setIsPublishing(false)
           })
-      })
+        })
       .catch(err => {
         setIsPublishing(false)
       })
