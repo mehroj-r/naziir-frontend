@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { quizService } from "@/services/quizService";
 import styles from "./QuizAttempt.module.scss";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -24,6 +25,7 @@ const QuizAttempt = () => {
   const [result, setResult] = useState(null);
   const [resultError, setResultError] = useState(null);
   const toast = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -83,6 +85,7 @@ const QuizAttempt = () => {
           status: "success",
           isClosable: true,
         });
+        navigate(`/student/quizzes/attempts/${quizId}/result`);
       } else {
         // Move to the next question
         setCurrentIndex((prev) => {
@@ -133,23 +136,17 @@ const QuizAttempt = () => {
     <Box className={styles.quizAttempt}>
       <Box className={styles.content}>
         {!started ? (
-          <Button colorScheme="teal" onClick={startQuiz}>
-            Start Quiz
-          </Button>
-        ) : result ? (
-          <Box className={styles.result}>
-            <Text className={styles.resultTitle}>Quiz Result</Text>
-            <Text>Your score: {result.score}</Text>
-
-            <Button onClick={() => setStarted(false)} colorScheme="blue">
-              Start New Quiz
+          <Box className={styles.startSection}>
+            <Button colorScheme="teal" onClick={startQuiz} mr="4">
+              Start Quiz
             </Button>
-          </Box>
-        ) : resultError ? (
-          <Box className={styles.resultError}>
-            <Text>{resultError}</Text>
-            <Button onClick={() => setStarted(false)} colorScheme="blue">
-              Try Again Later
+            <Button
+              colorScheme="blue"
+              onClick={() =>
+                navigate(`/student/quizzes/attempts/${quizId}/result`)
+              }
+            >
+              Show Results
             </Button>
           </Box>
         ) : (

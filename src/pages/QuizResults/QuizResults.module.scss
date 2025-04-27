@@ -1,0 +1,429 @@
+.quizResult {
+  padding: 0px 102px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    .title {
+      font-weight: 600;
+    }
+  }
+
+  .profileSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    .profileInfo {
+      display: flex;
+      align-items: center;
+
+      .profilePic {
+        min-width: 220px;
+        min-height: 220px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 20px;
+        border: 1px solid black;
+      }
+
+      .profileDetails {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        .text {
+            min-width:400px ;
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 5px;
+          border-bottom: 1px solid #d0f5e0;
+          strong {
+            font-weight: 600;
+          }
+
+          p,
+          span,
+          div {
+            font-size: 1rem;
+            color: #555;
+          }
+        }
+      }
+    }
+
+    .scoreBox {
+      min-width: 120px;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+
+      .scorePercent {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #4caf50;
+      }
+
+      .scoreFraction {
+        font-size: 1.4rem;
+        color: #555;
+        margin-top: 5px;
+      }
+    }
+  }
+
+  .summaryCards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+
+    .card {
+      flex: 1;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+
+      .cardNumbers {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+        padding: 0px 5px;
+
+        .cardMain {
+          font-size: 1.4rem;
+          font-weight: bold;
+          color: #333;
+        }
+      }
+      div {
+        .cardTitle {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #777;
+        }
+      }
+    }
+  }
+
+  .questionsSection {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .questionCard {
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: #f9f9f9;
+      transition: 0.3s;
+
+      &.correct {
+        border-color: #4caf50;
+      }
+
+      &.wrong {
+        border-color: #f44336;
+      }
+
+      &.skipped {
+        border-color: #ff9800;
+      }
+
+      .questionType {
+        font-size: 1rem;
+        color: #777;
+        font-weight: 600;
+      }
+
+      .questionResult {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #555;
+      }
+
+      .questionContent {
+        margin-top: 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .questionText {
+        margin-top: 6px;
+        font-size: 1.2rem;
+        color: #444;
+      }
+
+      .options {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .option {
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          border-radius: 8px;
+          background: #f1f1f1;
+
+          input[type="radio"] {
+            margin-right: 10px;
+          }
+
+          &.correctOption {
+            background-color: #d0f5e0;
+          }
+
+          &.wrongOption {
+            background-color: #fddede;
+          }
+        }
+      }
+
+      .shortAnswer {
+        margin-top: 16px;
+        font-size: 1.1rem;
+        font-style: italic;
+        color: #666;
+      }
+
+      .point {
+        margin-top: 16px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #333;
+      }
+    }
+  }
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+  }
+
+  // Media Queries for larger screen sizes
+  @media (min-width: 1200px) {
+    padding: 80px 120px;
+
+    .header {
+      .title {
+        font-size: 2.5rem;
+      }
+    }
+
+    .profileSection {
+      .profileInfo {
+        .profilePic {
+          width: 100px;
+          height: 100px;
+        }
+
+        .profileDetails {
+          strong {
+            font-size: 1.1rem;
+          }
+
+          p,
+          span,
+          div {
+            font-size: 1.1rem;
+          }
+        }
+      }
+
+      .scoreBox {
+        padding: 25px;
+        .scorePercent {
+          font-size: 3rem;
+        }
+
+        .scoreFraction {
+          font-size: 1.6rem;
+        }
+      }
+    }
+
+    .summaryCards {
+      gap: 30px;
+
+      .card {
+        padding: 25px;
+        .cardTitle {
+          font-size: 1.2rem;
+        }
+
+        .cardMain {
+          font-size: 1.6rem;
+        }
+
+        .cardSub {
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    .questionsSection {
+      .questionCard {
+        padding: 25px;
+      }
+
+      .questionText {
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  @media (min-width: 1440px) {
+    padding: 80px 140px;
+
+    .header {
+      .title {
+        font-size: 3rem;
+      }
+    }
+
+    .profileSection {
+      .profileInfo {
+        .profilePic {
+          width: 120px;
+          height: 120px;
+        }
+
+        .profileDetails {
+          strong {
+            font-size: 1.2rem;
+          }
+
+          p,
+          span,
+          div {
+            font-size: 1.2rem;
+          }
+        }
+      }
+
+      .scoreBox {
+        padding: 30px;
+        .scorePercent {
+          font-size: 3.5rem;
+        }
+
+        .scoreFraction {
+          font-size: 1.8rem;
+        }
+      }
+    }
+
+    .summaryCards {
+      gap: 40px;
+
+      .card {
+        padding: 30px;
+        .cardTitle {
+          font-size: 1.3rem;
+        }
+
+        .cardMain {
+          font-size: 1.8rem;
+        }
+
+        .cardSub {
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    .questionsSection {
+      .questionCard {
+        padding: 30px;
+      }
+
+      .questionText {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  @media (min-width: 1600px) {
+    padding: 100px 160px;
+
+    .header {
+      .title {
+        font-size: 2.5rem;
+      }
+    }
+
+    .profileSection {
+      .profileInfo {
+        .profilePic {
+          width: 230px;
+          height: 230px;
+        }
+
+        .profileDetails {
+          strong {
+            font-size: 1.3rem;
+          }
+
+          p,
+          span,
+          div {
+            font-size: 1.3rem;
+          }
+        }
+      }
+
+      .scoreBox {
+        padding: 35px;
+        .scorePercent {
+          font-size: 4rem;
+        }
+
+        .scoreFraction {
+          font-size: 2rem;
+        }
+      }
+    }
+
+    .summaryCards {
+      gap: 50px;
+
+      .card {
+        padding: 35px;
+        .cardTitle {
+          font-size: 1.4rem;
+        }
+
+        .cardMain {
+          font-size: 2rem;
+        }
+
+        .cardSub {
+          font-size: 1.3rem;
+        }
+      }
+    }
+
+    .questionsSection {
+      .questionCard {
+        padding: 35px;
+      }
+
+      .questionText {
+        font-size: 1.6rem;
+      }
+    }
+  }
+}

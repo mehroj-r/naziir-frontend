@@ -168,6 +168,17 @@ export const quizService = {
       throw new Error("Failed to fetch grading report: " + error.message);
     }
   },
+
+  changeQuizStatus: async (quizId, newStatus) => {
+    try {
+      const response = await httpRequest.put(
+        `/quizzes/${quizId}/status?newStatus=${newStatus}`
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to change quiz status: " + error.message);
+    }
+  },
 };
 
 export const useQuizzes = ({ params, props }) =>

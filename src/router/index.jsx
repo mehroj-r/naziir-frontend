@@ -44,6 +44,7 @@ import QuizId from "@/pages/Professors Pages/QuizStatus/Quizid/index";
 import StudentQuiz from "@/pages/Startquiz/index";
 import QuizAttempt from "@/pages/Startquiz/QuizAttempt/index";
 import GradeQuiz from "@/pages/Professors Pages/QuizGrading/index";
+import QuizResult from "@/pages/QuizResults/index";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -209,6 +210,10 @@ const Router = () => {
           <Route
             path="/student/quizzes/:quizId/attempt"
             element={<QuizAttempt />}
+          />
+          <Route
+            path="/student/quizzes/attempts/:quizId/result"
+            element={<QuizResult />}
           />
         </Route>
       </Routes>

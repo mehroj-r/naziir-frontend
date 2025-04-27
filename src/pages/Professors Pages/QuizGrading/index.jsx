@@ -25,6 +25,7 @@ const GradeQuiz = () => {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [points, setPoints] = useState({});
   const [feedbacks, setFeedbacks] = useState({});
+  const [gradedQuestions, setGradedQuestions] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,13 +112,21 @@ const GradeQuiz = () => {
 
     const payload = {
       questionVersionId: question.questionVersionId,
-      answerGroup: selectedGroup?.answer || "",
+      answerGroup: selectedGroup.answer,
       overrideGrade: point,
       feedback,
+      ...(question.questionType === "MULTIPLE_CHOICE" && {
+        answerOptionId: selectedGroup.answerOptionId,
+      }),
     };
 
     try {
       await quizService.gradeQuestion(payload);
+
+      setGradedQuestions((prev) => [
+        ...new Set([...prev, question.questionVersionId]),
+      ]);
+
       toast({
         title: "Graded successfully",
         status: "success",
@@ -128,6 +137,26 @@ const GradeQuiz = () => {
       toast({
         title: "Grading failed",
         description: err.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleFinishGrading = async () => {
+    try {
+      await quizService.changeQuizStatus(id, "GRADED");
+      toast({
+        title: "Quiz marked as GRADED!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to finish grading",
+        description: error.message,
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -269,6 +298,13 @@ const GradeQuiz = () => {
           </Flex>
         </Box>
       ))}
+      {gradedQuestions.length === gradingData.length && (
+        <Flex justify="center" mt={6}>
+          <Button colorScheme="blue" onClick={handleFinishGrading}>
+            Finish Grading
+          </Button>
+        </Flex>
+      )}
     </Box>
   );
 };
