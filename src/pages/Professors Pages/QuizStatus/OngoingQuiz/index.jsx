@@ -10,8 +10,9 @@ import ConfirmModal from "@/components/CModal/ConfirmModal";
 import CModal from "@/components/CModal";
 import { Input, Button, Flex } from "@chakra-ui/react";
 import { customToast } from "@/utils/toastify";
-import { QUIZ_STATUS_OPTIONS, QUIZ_STATUSES } from "@/utils/const/quiz";
+import { QUIZ_STATUS_OPTIONS, QUIZ_STATUS_OPTIONS_FOR_STUDENTS } from "@/utils/const/quiz";
 import CSelect from "@/components/CSelect";
+import { useSelector } from "react-redux";
 
 const OngoingQuizzes = () => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -23,6 +24,7 @@ const OngoingQuizzes = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const status = searchParams.get("status") || "OPEN";
+  const userData = useSelector(state => state.user)
 
   const { data, isLoading, refetch } = useQuizzes({
     params: { 
@@ -180,7 +182,7 @@ const OngoingQuizzes = () => {
       <Flex alignItems='center' gap={4}>
         <SearchBar placeholder="Search for quizzes" />
         <CSelect 
-          options={QUIZ_STATUS_OPTIONS}
+          options={userData?.role !== 'STUDENT' ? QUIZ_STATUS_OPTIONS : QUIZ_STATUS_OPTIONS_FOR_STUDENTS}
           value={statusOption}
           onChange={(val) => setStatusOption(val)}
           isClearable
