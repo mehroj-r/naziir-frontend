@@ -7,7 +7,19 @@ export const QUIZ_TYPES = [
   "EXAM",
 ];
 
+export const QUESTION_TYPES = [
+  'MULTIPLE_CHOICE',
+  'SHORT_ANSWER',
+  'TRUE_FALSE',
+  'MIXED'
+]
+
 export const QUIZ_TYPE_OPTIONS = QUIZ_TYPES.map((item) => ({
+  label: item,
+  value: item,
+}));
+
+export const QUESTION_TYPE_OPTIONS = QUESTION_TYPES.map((item) => ({
   label: item,
   value: item,
 }));
@@ -37,6 +49,10 @@ export const QUIZ_STATUS_OPTIONS = [
     label: "Past",
     value: "CLOSED"
   },
+  {
+    label: "Graded",
+    value: "GRADED"
+  },
 ]
 
 
@@ -52,5 +68,9 @@ export const QUIZ_STATUS_OPTIONS_FOR_STUDENTS = [
   {
     label: "Past",
     value: "CLOSED"
+  },
+  {
+    label: "Graded",
+    value: "GRADED"
   },
 ]

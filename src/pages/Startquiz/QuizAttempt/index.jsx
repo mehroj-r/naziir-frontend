@@ -47,8 +47,16 @@ const QuizAttempt = () => {
   const startQuiz = async () => {
     try {
       const attempt = await quizService.startAttempt(quizId);
-      setQuiz(attempt);
-      setStarted(true);
+      if(attempt?.status !== 'SUBMITTED'){
+        setQuiz(attempt);
+        setStarted(true);
+      } else {
+        toast({
+          title: "You've already submitted the quiz",
+          status: "error",
+          isClosable: true,
+        });
+      }
     } catch {
       toast({
         title: "Failed to start quiz.",

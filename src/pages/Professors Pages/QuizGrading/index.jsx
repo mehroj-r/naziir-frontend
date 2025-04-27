@@ -12,16 +12,17 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { quizService } from "../../../services/quizService";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
 const GradeQuiz = () => {
   const { id } = useParams();
   const toast = useToast();
+  const navigate = useNavigate();
+  
   const [gradingData, setGradingData] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [points, setPoints] = useState({});
   const [feedbacks, setFeedbacks] = useState({});
@@ -153,6 +154,7 @@ const GradeQuiz = () => {
         duration: 3000,
         isClosable: true,
       });
+      navigate("/quizzes?status=GRADED")
     } catch (error) {
       toast({
         title: "Failed to finish grading",

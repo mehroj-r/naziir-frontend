@@ -227,6 +227,7 @@ const QuizId = () => {
           <Select
             value={q.questionType}
             className={styles.dropdown}
+            disabled={quiz?.status !== 'DRAFT'}
             onChange={(e) =>
               handleFieldChange2(idx, "questionType", e.target.value)
             }
@@ -240,6 +241,7 @@ const QuizId = () => {
             <input
               type="file"
               hidden
+              disabled={quiz?.status !== 'DRAFT'}
               onChange={(e) => {
                 const file = e.target.files[0];
                 if (file) {
@@ -256,6 +258,7 @@ const QuizId = () => {
             variant="ghost"
             className={styles.deleteBtn}
             onClick={() => handleDeleteQuestion(q.id)}
+            disabled={quiz?.status !== 'DRAFT'}
           >
             Delete question
           </Button>
@@ -264,6 +267,7 @@ const QuizId = () => {
         <div className={styles.fieldGroup}>
           <FormLabel>Question *</FormLabel>
           <Textarea
+            disabled={quiz?.status !== 'DRAFT'}
             value={q.content}
             onChange={(e) => handleFieldChange2(idx, "content", e.target.value)}
             placeholder="What does the economy study?"
@@ -273,6 +277,7 @@ const QuizId = () => {
         <div className={styles.fieldGroup}>
           <FormLabel>Description</FormLabel>
           <Textarea
+            disabled={quiz?.status !== 'DRAFT'}
             value={q.explanation}
             onChange={(e) =>
               handleFieldChange2(idx, "explanation", e.target.value)
@@ -286,6 +291,7 @@ const QuizId = () => {
             <div className={styles.fieldGroup}>
               <FormLabel>Answer *</FormLabel>
               <Textarea
+                disabled={quiz?.status !== 'DRAFT'}
                 value={q.expectedAnswer}
                 onChange={(e) =>
                   handleFieldChange2(idx, "expectedAnswer", e.target.value)
@@ -297,6 +303,7 @@ const QuizId = () => {
             <div className={styles.fieldGroup}>
               <FormLabel>Hint</FormLabel>
               <Textarea
+                disabled={quiz?.status !== 'DRAFT'}
                 value={q.hint}
                 onChange={(e) =>
                   handleFieldChange2(idx, "hint", e.target.value)
@@ -311,6 +318,7 @@ const QuizId = () => {
           <div className={styles.fieldGroup}>
             <FormLabel>Select Correct Answer</FormLabel>
             <Select
+              disabled={quiz?.status !== 'DRAFT'}
               value={q.correctAnswer}
               onChange={(e) =>
                 handleFieldChange2(idx, "correctAnswer", e.target.value)
@@ -335,6 +343,7 @@ const QuizId = () => {
                 <Input
                   placeholder={`Option ${String.fromCharCode(65 + i)}`}
                   value={option.content}
+                  disabled={quiz?.status !== 'DRAFT'}
                   onChange={(e) => {
                     const updated = [...q.options];
                     updated[i] = {
@@ -350,6 +359,7 @@ const QuizId = () => {
                     const updated = q.options.filter((_, index) => index !== i);
                     handleFieldChange2(idx, "options", updated);
                   }}
+                  disabled={quiz?.status !== 'DRAFT'}
                 >
                   Remove
                 </Button>
@@ -366,6 +376,7 @@ const QuizId = () => {
                 updated.push({ content: "", isCorrect: false });
                 handleFieldChange2(idx, "options", updated);
               }}
+              disabled={quiz?.status !== 'DRAFT'}
             >
               Add Option
             </Button>
@@ -382,6 +393,7 @@ const QuizId = () => {
                 }));
                 handleFieldChange2(idx, "options", updated);
               }}
+              disabled={quiz?.status !== 'DRAFT'}
             >
               {(q.options || []).map((_, i) => (
                 <option key={i} value={i}>
@@ -395,6 +407,7 @@ const QuizId = () => {
         <div className={styles.fieldGroup}>
           <FormLabel>Point *</FormLabel>
           <Input
+            disabled={quiz?.status !== 'DRAFT'}
             type="number"
             value={q.points}
             onChange={(e) => handleFieldChange2(idx, "points", e.target.value)}
@@ -402,7 +415,7 @@ const QuizId = () => {
           />
         </div>
         {hasQuestionChanged(originalQuestions[idx], q) && (
-          <Button colorScheme="green" onClick={() => handleUpdateQuestion(q)}>
+          <Button disabled={quiz?.status !== 'DRAFT'} colorScheme="green" onClick={() => handleUpdateQuestion(q)}>
             Update
           </Button>
         )}
@@ -469,7 +482,7 @@ const QuizId = () => {
           <span>📤 Upload media</span>
         </label>
 
-        <Button colorScheme="red" variant="ghost" className={styles.deleteBtn}>
+        <Button disabled={quiz?.status !== 'DRAFT'} colorScheme="red" variant="ghost" className={styles.deleteBtn}>
           Delete question
         </Button>
       </div>
@@ -622,12 +635,21 @@ const QuizId = () => {
           Quiz: {quiz?.title}
         </Heading>
         <HStack>
-          <Button onClick={handleOpenModal} mt={4} colorScheme="blue">
-            Add New Question
-          </Button>
-          <Button onClick={publishQuiz} mt={4} isLoading={isPublishing} colorScheme="blue">
-            Publish
-          </Button>
+          {quiz?.status === 'DRAFT' && (
+            <>
+              <Button onClick={handleOpenModal} mt={4} colorScheme="blue">
+                Add New Question
+              </Button>
+              <Button onClick={publishQuiz} mt={4} isLoading={isPublishing} colorScheme="blue">
+                Publish
+              </Button>
+            </>
+          )}
+          {quiz?.status === 'CLOSED' && (
+            <Button onClick={() => navigate(`/professor/grading/quiz/${quizId}`)}>
+              Grade quiz
+            </Button>
+          )}
         </HStack>
       </div>
       <div className={styles.questionList}>

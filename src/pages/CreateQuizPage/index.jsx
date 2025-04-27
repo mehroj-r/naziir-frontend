@@ -7,7 +7,7 @@ import FormItem from "@/components/FormItem";
 import { courseService } from "@/services/course.service";
 import { groupsService } from "@/services/groups.service";
 import { quizService } from "@/services/quizService";
-import { QUIZ_TYPE_OPTIONS, REVEAL_MODE_OPTIONS } from "@/utils/const/quiz";
+import { QUESTION_TYPE_OPTIONS, QUIZ_TYPE_OPTIONS, REVEAL_MODE_OPTIONS } from "@/utils/const/quiz";
 import { customToast } from "@/utils/toastify";
 import {
   Box,
@@ -39,6 +39,9 @@ const INITIAL_VALUES = {
   revealAt: null,
   revealMode: null,
   overallScore: 0,
+  numberOfQuestions: 0,
+  timeLimit: 0,
+  questionType: null
 };
 
 export default function CreateQuizPage() {
@@ -65,6 +68,9 @@ export default function CreateQuizPage() {
       revealAt: fmt(values.revealAt),
       revealMode: values?.revealMode?.value,
       overallScore: String(values?.overallScore),
+      numberOfQuestions: values?.numberOfQuestions,
+      timeLimit: values?.timeLimit,
+      questionType: values?.questionType?.value
     };
 
     quizService
@@ -195,6 +201,28 @@ export default function CreateQuizPage() {
             />
           </FormItem>
 
+          <FormItem label="Number of questions">
+            <Input
+              type="number"
+              name="numberOfQuestions"
+              placeholder="Enter number of questions"
+              value={values.numberOfQuestions}
+              onChange={handleChange}
+              borderColor={BORDER_COLOR}
+            />
+          </FormItem>
+
+          <FormItem label="Time limit (minutes)">
+            <Input
+              type="number"
+              name="timeLimit"
+              placeholder="Time limit"
+              value={values.timeLimit}
+              onChange={handleChange}
+              borderColor={BORDER_COLOR}
+            />
+          </FormItem>
+
           <FormItem label="Number of Versions">
             <Input
               type="number"
@@ -211,6 +239,15 @@ export default function CreateQuizPage() {
               options={QUIZ_TYPE_OPTIONS}
               value={values.quizType}
               onChange={(val) => setFieldValue("quizType", val)}
+              styles={{ control: (base) => ({ ...base, BORDER_COLOR }) }}
+            />
+          </FormItem>
+
+          <FormItem label="Question Type">
+            <CSelect
+              options={QUESTION_TYPE_OPTIONS}
+              value={values.questionType}
+              onChange={(val) => setFieldValue("questionType", val)}
               styles={{ control: (base) => ({ ...base, BORDER_COLOR }) }}
             />
           </FormItem>
