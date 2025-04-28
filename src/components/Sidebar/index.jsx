@@ -163,11 +163,18 @@ const SIDEBAR_ITEMS = {
   PROFESSOR: professors,
   MANAGER: managers,
 };
+
 export default function Sidebar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { role } = useSelector((state) => state.user);
   const isActive = (path) => pathname === path;
+  // console.log("pathname" + pathname);
+  //  const isQuizAttemptPage = pathname.includes("/quizzes/");
+
+  // if (isQuizAttemptPage) {
+  //   return null;
+  // }
 
   return (
     <Box bg="#081545" h="full" w="full" p={4} rounded="8px">
