@@ -1,13 +1,20 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { professorService } from "../../../services/professors.service";
 import { useDepartments } from "../../../services/department.service";
 import { useCourses } from "../../../services/course.service";
 import styles from "./ProfessorDetail.module.scss";
+import { getMediaIdFromString } from "@/utils/getMediaIdFromString";
+import { Box } from "@chakra-ui/react";
+import ImageUpload from "@/components/ImageUpload";
 
 const ProfessorDetail = () => {
   const { id } = useParams();
+  const [image, setImage] = useState({
+    url: '',
+    id: ''
+  })
 
   const {
     data: professor,
@@ -40,6 +47,15 @@ const ProfessorDetail = () => {
     });
     return map;
   }, [coursesData]);
+  
+  useEffect(() => {
+    if(professor?.profilePictureUrl){
+      setImage({
+        id: getMediaIdFromString(professor.profilePictureUrl),
+        url: ''
+      })
+    }
+  }, [professor])
 
   if (isLoading) return <div>Loading professor...</div>;
   if (isError) return <div>Error loading professor data</div>;
@@ -48,12 +64,14 @@ const ProfessorDetail = () => {
     <div className={styles.professorDetail}>
       <h2>Professor Detail</h2>
       <div className={styles.profile}>
-        <div className={styles.image}>
-          <img
-            src="https://via.placeholder.com/150"
-            alt={`${professor.firstName} ${professor.lastName}`}
+        <Box w='150px' h='150px' border='1px solid gray' rounded='50%'>
+          <ImageUpload
+            image={image}
+            setImage={setImage}
+            rounded='50%'
+            disabled
           />
-        </div>
+        </Box>
         <div className={styles.info}>
           <p>
             <strong>First Name:</strong> {professor.firstName}

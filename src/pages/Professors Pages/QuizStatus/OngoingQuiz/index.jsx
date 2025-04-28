@@ -185,7 +185,7 @@ const OngoingQuizzes = () => {
           options={userData?.role !== 'STUDENT' ? QUIZ_STATUS_OPTIONS : QUIZ_STATUS_OPTIONS_FOR_STUDENTS}
           value={statusOption}
           onChange={(val) => setStatusOption(val)}
-          isClearable
+          isClearable={false}
           placeholder="Filter by status"
         />
       </Flex>

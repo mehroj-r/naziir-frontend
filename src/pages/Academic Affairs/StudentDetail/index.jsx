@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { studentService } from "../../../services/student.service";
@@ -6,12 +6,13 @@ import { useGroups } from "../../../services/group.service";
 import styles from "./StudentDetail.module.scss";
 import ImageUpload from "@/components/ImageUpload";
 import { Box } from "@chakra-ui/react";
+import { getMediaIdFromString } from "@/utils/getMediaIdFromString";
 
 const StudentDetail = () => {
   const { id } = useParams();
   const [image, setImage] = useState({
     url: '',
-    previewURL: ''
+    id: ''
   })
 
   const {
@@ -34,6 +35,15 @@ const StudentDetail = () => {
     return map;
   }, [groupsData]);
 
+  useEffect(() => {
+    if(student?.profilePictureUrl){
+      setImage({
+        id: getMediaIdFromString(student.profilePictureUrl),
+        url: ''
+      })
+    }
+  }, [student])
+
   if (isLoading) return <div>Loading student...</div>;
   if (isError) return <div>Error loading student data</div>;
 
@@ -43,18 +53,10 @@ const StudentDetail = () => {
       <div className={styles.profile}>
         <Box w='150px' h='150px' border='1px solid gray' rounded='50%'>
           <ImageUpload
-            preview={image?.previewURL}
-            onUpload={(url, previewURL) =>
-              setFormData((prev) => ({
-                ...prev,
-                url: url,
-                previewURL: previewURL,
-              }))
-            }
-            onRemove={() => setImage({
-              url: "",
-              previewURL: "",
-            })}
+            image={image}
+            setImage={setImage}
+            rounded='50%'
+            disabled
           />
         </Box>
         <div className={styles.info}>

@@ -1,42 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UploadIcon, XIcon } from "@/assets/icons/commonIcons";
 import { fileService } from "@/services/file.service";
-import { Box } from "@chakra-ui/react";
+import { Box, FormLabel, Text } from "@chakra-ui/react";
+import { mediaService } from "@/services/media.service";
+import { customToast } from "@/utils/toastify";
+import noImageSrc from '@/assets/images/no_image.png';
 
-const ImageUpload = ({ onUpload, preview, onRemove, inline=false }) => {
-  const [image, setImage] = useState(preview || "");
+const ImageUpload = ({ 
+  image, 
+  setImage,
+  w='full',
+  h='full',
+  placeholder = 'Upload',
+  maxFileSize = 15 * 1024 * 1024, // 15 MB
+  rounded = 0,
+  disabled = false,
+}) => {
+  console.log("image image:", image) // log
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false)
-
-  const allowedFormats = [
-    "image/jpeg",
-    "image/png",
-    "image/jpg"
-  ];
-
-  const maxFileSize = 15 * 1024 * 1024; // 50MB
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
     if (file.size > maxFileSize) {
-      setError("File size exceeds 2MB limit");
+      setError("File size exceeds 15MB limit");
       return;
     }
 
     setIsLoading(true)
     fileService.upload(file)
       .then(res => {
-        console.log("upload res:", res) // log
         if(res?.data?.success){
-          const imageUrl = URL.createObjectURL(file);
-          setImage(imageUrl);
-          onUpload(res?.cloudURL, imageUrl)
+          setImage({
+            id: res?.data?.data?.id,
+            url: ''
+          });
         }
       })
       .catch(err => {
-        console.log("upload err:", err) // log
+        customToast("error", "Couldn't upload")
       })
       .finally(() => {
         setIsLoading(false)
@@ -44,44 +48,83 @@ const ImageUpload = ({ onUpload, preview, onRemove, inline=false }) => {
   };
 
   const removeImage = () => {
-    setImage(null);
-    onRemove()
+    setImage({
+      id: '',
+      url: ''
+    });
   };
 
+  useEffect(() => {
+    if(!image?.id || image?.url) return;
+
+    setIsLoading(true)
+    mediaService.getById(image.id)
+      .then(res => {
+        const blob = res.data;
+        const url = URL.createObjectURL(blob);
+        setImage((prev) => ({
+          id: prev.id,
+          url: url
+        }))
+      })
+      .catch(err => {
+        console.log("image err:", err) // log
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }, [image])
+
   return (
-    <div className={`flex ${
-        inline ? "p-2" : "min-h-[54px] p-4"
-      } flex-col items-center justify-center shadow-sm gap-4 rounded-[50%] w-full h-full`}>
-      {image ? (
-        <div className="relative w-full h-full rounded-[50%]">
+    <Box w={w} h={h}>
+      {image?.url ? (
+        <Box position='relative' w='full' h='full'>
           <img
-            src={image}
+            src={image?.url}
             alt="Preview"
-            className="w-full h-full object-cover rounded-[50%]"
+            className={`w-full h-full object-cover rounded-[${rounded}]`} 
           />
-          <Box
-            onClick={removeImage}
-            // className="absolute top-3 right-3 text-white p-1 rounded-full shadow-md hover:shadow-sm"
-            position='absolute'
-            top='-10px'
-            right='-10px'
-            cursor='pointer'
-          >
-            <XIcon />
-          </Box>
-        </div>
+          {!disabled && (
+            <Box
+              onClick={removeImage}
+              position='absolute'
+              top='-10px'
+              right='-10px'
+              cursor='pointer'
+            >
+              <XIcon />
+            </Box>
+          )}
+        </Box>
       ) : isLoading ? (
         <div className="w-8 h-8 border-3 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
       ) : (
-        <label className={`flex flex-col items-center cursor-pointer`}>
-          <UploadIcon />
-          <span className="text-sm text-center text-gray-600">upload image</span>
-          <span className="text-xs text-center text-gray-600">Maximum size: 10MB</span>
-          <input type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
-        </label>
+        <FormLabel 
+          h='full' 
+          w='full' 
+          display='flex' 
+          justifyContent='center' 
+          alignItems='center'
+          flexDirection='column'
+          cursor='pointer'
+        >
+          {disabled ? (
+            <img
+              src={noImageSrc}
+              alt="Preview"
+              className={`w-full h-full object-cover rounded-[${rounded}]`} 
+            />
+          ) : (
+            <>
+              <UploadIcon />
+              {placeholder && <Text fontSize='sm'>{placeholder}</Text>}
+              <input type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+            </>
+          )}
+        </FormLabel>
       )}
       {Boolean(error && !isLoading) && <p className="text-red-500 text-sm">{error}</p>}
-    </div>
+    </Box>
   );
 };
 

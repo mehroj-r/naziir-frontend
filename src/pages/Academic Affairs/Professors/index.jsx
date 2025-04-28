@@ -8,9 +8,11 @@ import { customToast } from "@/utils/toastify";
 import SearchBar from "@/components/SearchBar/index";
 import { useSelector } from "react-redux";
 import ActionMenu from "@/components/ActionMenu";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { Box, DeleteIcon, EditIcon, Flex } from "@chakra-ui/icons";
 import ConfirmModal from "@/components/CModal/ConfirmModal";
 import { useNavigate } from "react-router-dom";
+import ImageUpload from "@/components/ImageUpload";
+import { getMediaIdFromString } from "@/utils/getMediaIdFromString";
 
 const Professors = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -169,6 +171,10 @@ const NewProfessorForm = ({ onClose, defaultValues }) => {
   const [departmentId, setDepartmentId] = useState(
     defaultValues?.departmentId ?? ""
   );
+  const [image, setImage] = useState({
+      url: '',
+      id: getMediaIdFromString(defaultValues?.profilePictureUrl),
+    })
   const [isLoading, setIsLoading] = useState(false);
 
   const { data } = useDepartments({ params: { page: 1, limit: 100 } });
@@ -218,6 +224,7 @@ const NewProfessorForm = ({ onClose, defaultValues }) => {
         employeeId,
         departmentId,
         organizationId: userData?.organizationId,
+        profilePictureId: image?.id
       };
       setIsLoading(true);
       professorService
@@ -235,6 +242,20 @@ const NewProfessorForm = ({ onClose, defaultValues }) => {
 
   return (
     <form className={styles?.form} onSubmit={onSubmit}>
+      <Flex alignItems='center' justifyContent='center'>
+        <Box
+          w='80px'
+          h='80px'
+          border='1px solid gray'
+          rounded='50%'
+        >
+          <ImageUpload 
+            image={image}
+            setImage={setImage}
+            rounded='50%'
+          />
+        </Box>
+      </Flex>
       <input
         placeholder="First Name"
         value={firstName}

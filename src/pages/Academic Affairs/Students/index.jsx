@@ -8,9 +8,10 @@ import ConfirmModal from "@/components/CModal/ConfirmModal";
 import SearchBar from "@/components/SearchBar/index";
 import { customToast } from "@/utils/toastify";
 import ActionMenu from "@/components/ActionMenu";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { Box, DeleteIcon, EditIcon, Flex } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import CSelect from "@/components/CSelect";
+import ImageUpload from "@/components/ImageUpload";
 
 const debounce = (func, delay) => {
   let timeoutId;
@@ -190,6 +191,10 @@ const NewStudentForm = ({ defaultValues, onClose }) => {
   const [studentId, setStudentId] = useState(defaultValues?.studentId ?? "");
   const [groupId, setGroupId] = useState(defaultValues?.group?.id ?? "");
   const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState({
+    url: '',
+    id: '',
+  })
 
   const { data } = useGroups({ params: { page: 1, limit: 100 } });
   const groups = useMemo(() => data?.data?.data ?? [], [data]);
@@ -220,7 +225,8 @@ const NewStudentForm = ({ defaultValues, onClose }) => {
       email,
       phoneNumber,
       studentId,
-      groupId: groupId?.value
+      groupId: groupId?.value,
+      profilePictureId: image?.id
     };
 
     const request = defaultValues
@@ -250,6 +256,20 @@ const NewStudentForm = ({ defaultValues, onClose }) => {
 
   return (
     <form className={styles.form} onSubmit={onSubmit}>
+      <Flex alignItems='center' justifyContent='center'>
+        <Box
+          w='80px'
+          h='80px'
+          border='1px solid gray'
+          rounded='50%'
+        >
+          <ImageUpload 
+            image={image}
+            setImage={setImage}
+            rounded='50%'
+          />
+        </Box>
+      </Flex>
       <input
         placeholder="First name"
         value={firstName}
