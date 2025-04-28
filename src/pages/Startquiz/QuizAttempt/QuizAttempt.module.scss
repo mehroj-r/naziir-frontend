@@ -6,6 +6,12 @@
   gap: 30px;
 }
 
+.timerdiv {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 18vw;
+}
+
 .content {
   display: flex;
   flex-direction: row;
@@ -170,7 +176,7 @@
   background-color: #c3e6ff;
 }
 .answered {
-  background-color: teal;
+  background-color: #c3e6ff;
 }
 
 .truncate {

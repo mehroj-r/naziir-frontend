@@ -17,3 +17,10 @@ const b = {
   role: "MANAGER",
   organizationId: "3f69ffb4-2e25-4041-9520-c61ea6937650",
 };
+
+const c = {
+  email: "nshinpolatov@gmail.com",
+  password: "Password123!",
+  role: "STUDENT",
+  organizationId: "3f69ffb4-2e25-4041-9520-c61ea6937650",
+};
