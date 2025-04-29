@@ -72,7 +72,7 @@ const Courses = () => {
     setIdForDelete(courseId);
   };
 
-  const COLUMNS = [
+  const baseColumns = [
     {
       title: "Code",
       key: "Code",
@@ -91,13 +91,8 @@ const Courses = () => {
           return "-";
 
         return record.professors
-          .map((id) => {
-            const professor = professorsData?.data?.data?.find(
-              (p) => p.id === id
-            );
-            return professor
-              ? `${professor.firstName} ${professor.lastName}`
-              : id;
+          .map((professor) => {
+            return `${professor.professorFirstName} ${professor.professorLastName} (${professor.assignmentRole})`;
           })
           .join(", ");
       },
@@ -107,27 +102,32 @@ const Courses = () => {
       key: "Term",
       render: (record) => record?.academicTerm ?? "-",
     },
-
-    {
-      key: "actions",
-      render: (record) => (
-        <ActionMenu
-          actions={[
-            {
-              title: "Edit",
-              icon: <EditIcon />,
-              onClick: () => openEditModal(record),
-            },
-            {
-              title: "Delete",
-              icon: <DeleteIcon />,
-              onClick: () => openDeleteModal(record.id),
-            },
-          ]}
-        />
-      ),
-    },
   ];
+
+  const actionColumn = {
+    key: "actions",
+    render: (record) => (
+      <ActionMenu
+        actions={[
+          {
+            title: "Edit",
+            icon: <EditIcon />,
+            onClick: () => openEditModal(record),
+          },
+          {
+            title: "Delete",
+            icon: <DeleteIcon />,
+            onClick: () => openDeleteModal(record.id),
+          },
+        ]}
+      />
+    ),
+  };
+
+  const COLUMNS =
+    role === ROLES.PROFESSOR || role === ROLES.STUDENT
+      ? baseColumns 
+      : [...baseColumns, actionColumn];
 
   const isFormValid = () => {
     return (
@@ -258,7 +258,10 @@ const Courses = () => {
         columns={COLUMNS}
         data={data?.data?.data}
         loading={isLoading}
-        onRowClick={(record) => navigate(`/courses/${record?.id ?? ""}`)}
+        onRowClick={(record) => {
+          if (!record?.id) return;
+          navigate(`/courses/${record.id}`);
+        }}
       />
 
       <CModal

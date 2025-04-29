@@ -30,6 +30,8 @@ const QuizAttempt = () => {
   const [violationMessage, setViolationMessage] = useState("");
   const [fullscreenLost, setFullscreenLost] = useState(false);
   const [countdown, setCountdown] = useState(10);
+  const [showRulesModal, setShowRulesModal] = useState(false);
+
   const [remainingTime, setRemainingTime] = useState(0);
   
   const violationTimer = useRef(null);
@@ -69,6 +71,12 @@ const QuizAttempt = () => {
         const data = await quizService.getById(quizId);
         setQuiz(data);
         setLoading(false);
+
+        if (data?.status === "SUBMITTED") {
+          navigate(`/student/quizzes/attempts/${quizId}/result`);
+          return;
+        }
+
         if (data?.timeLimit) {
           const timeLimitInSeconds = data.timeLimit * 60;
           setRemainingTime(timeLimitInSeconds);
@@ -84,9 +92,14 @@ const QuizAttempt = () => {
     fetchQuiz();
   }, [quizId, toast]);
 
-  const startQuiz = async () => {
+  const handleStartClick = () => {
+    setShowRulesModal(true);
+  };
+
+  const confirmStartQuiz = async () => {
     try {
       const attempt = await quizService.startAttempt(quizId);
+
       if (attempt?.status !== "SUBMITTED") {
         setQuiz(attempt);
         setStarted(true);
@@ -208,6 +221,7 @@ const QuizAttempt = () => {
             toast({
               title: "Only 5 minutes left!",
               status: "warning",
+              color: "red",
               isClosable: true,
               duration: 5000,
             });
@@ -314,6 +328,46 @@ const QuizAttempt = () => {
 
   return (
     <Box className={styles.quizAttempt}>
+      <CModal
+        isOpen={showRulesModal}
+        onClose={() => setShowRulesModal(false)}
+        title="Do you agree with our rules?"
+        body={
+          <Box>
+            <Text mb="2">
+              Please review the rules carefully before proceeding.
+            </Text>
+            <ul>
+              <li>Rule 1: No cheating.</li>
+              <li>Rule 2: Do not switch tabs or windows.</li>
+              <li>Rule 3: Stay in fullscreen mode.</li>
+            </ul>
+          </Box>
+        }
+        footer={
+          <Stack direction="row" justify="flex-end">
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setShowRulesModal(false);
+                navigate(-1);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              colorScheme="teal"
+              onClick={() => {
+                setShowRulesModal(false);
+                confirmStartQuiz();
+              }}
+            >
+              I Agree
+            </Button>
+          </Stack>
+        }
+        size="lg"
+      />
       {started && (
         <>
           <div className={styles.timerdiv}>
@@ -321,7 +375,7 @@ const QuizAttempt = () => {
               Violations: {violationCount}
             </Box>
             <Box className={styles.timerBox}>
-              <Text fontSize="xl" color="red" fontWeight="bold">
+              <Text fontSize="xl" color="green" fontWeight="bold">
                 Time Left: {formatTime(remainingTime)}
               </Text>
             </Box>
@@ -355,7 +409,7 @@ const QuizAttempt = () => {
       <Box className={styles.content}>
         {!started ? (
           <Box className={styles.startSection}>
-            <Button colorScheme="teal" onClick={startQuiz} mr="4">
+            <Button colorScheme="teal" onClick={handleStartClick} mr="4">
               Start Quiz
             </Button>
             <Button

@@ -45,6 +45,7 @@ import StudentQuiz from "@/pages/Startquiz/index";
 import QuizAttempt from "@/pages/Startquiz/QuizAttempt/index";
 import GradeQuiz from "@/pages/Professors Pages/QuizGrading/index";
 import QuizResult from "@/pages/QuizResults/index";
+import PCourseIdPage from "@/pages/Academic Affairs/PCourseDetail/index";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -120,6 +121,7 @@ const Router = () => {
           <Route index element={<PDashboard />} />
           <Route path="create-quiz" element={<CreateQuiz />} />
           <Route path="courses" element={<CoursesPage />} />
+          <Route path="/courses/:id" element={<PCourseIdPage />} />
           <Route path="add-course" element={<AddCourse />} />
           <Route path="statistics" element={<Statistics />} />
           <Route path="quizzes" element={<OngoingQuizzes />} />
@@ -142,7 +144,8 @@ const Router = () => {
           <Route path="professors/:professorId" element={<ProfessorInfo />} />
           <Route path="/groups/:id" element={<GroupDetail />} />
           <Route path="/students/:id" element={<StudentDetail />} />
-          <Route path="/courses/:id" element={<CourseIdPage />} />
+
+          <Route path="/professor/courses/:id" element={<PCourseIdPage />} />
           <Route path="/departments/:id" element={<DepartmentIdPage />} />
           {/* <Route path="courses-list" element={<ACourses />} /> */}
           <Route path="/quizzes/:quizId" element={<QuizId />} />
@@ -194,10 +197,10 @@ const Router = () => {
           <Route path="professors/:professorId" element={<ProfessorInfo />} />
           <Route path="/groups/:id" element={<GroupDetail />} />
           <Route path="/students/:id" element={<StudentDetail />} />
-          <Route path="/courses/:id" element={<CourseIdPage />} />
+          <Route path="/courses/:id" element={<PCourseIdPage />} />
           <Route path="/departments/:id" element={<DepartmentIdPage />} />
           {/* <Route path="courses-list" element={<ACourses />} /> */}
-          
+
           <Route path="departments" element={<Departments />} />
           <Route path="students" element={<Students />} />
           <Route path="groups" element={<Groups />} />

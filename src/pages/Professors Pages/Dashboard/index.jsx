@@ -30,17 +30,29 @@ const sampleData = {
   ],
   messages: [
     {
-      title: "1 hour left",
-      content: "After 1 hour Quiz 17 from Economics 101 will start on NSE 05",
+      title: "-",
+      content: "No important messages yet",
     },
     {
-      title: "Evaluate NSE 05 from MNG101",
-      content: "Check results of NSE 05 from Quiz 17 MNG101",
+      title: "",
+      content: "",
     },
-    { title: "Sultanbek Erkinbaev", content: "I ask to evaluate my quiz" },
-    { title: "Sultanbek Erkinbaev", content: "I ask to evaluate my quiz" },
-    { title: "Sultanbek Erkinbaev", content: "I ask to evaluate my quiz" },
-    { title: "Sultanbek Erkinbaev", content: "I ask to evaluate my quiz" },
+    {
+      title: "",
+      content: "",
+    },
+    {
+      title: "",
+      content: "",
+    },
+    {
+      title: "",
+      content: "",
+    },
+    {
+      title: "",
+      content: "",
+    },
   ],
 };
 
@@ -50,8 +62,8 @@ const PDashboard = () => {
   const [showAllMessages, setShowAllMessages] = useState(false);
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user);
-  
-  const isUserProfessor = userData.role === 'PROFESSOR'
+
+  const isUserProfessor = userData.role === "PROFESSOR";
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -103,10 +115,10 @@ const PDashboard = () => {
         <h1>{!isUserProfessor ? "Students Profile" : "Professors Profile"}</h1>
         {isUserProfessor && (
           <div className={styles.headerActions}>
-            <button>
+            <button onClick={() => navigate("/quizzes?status=CLOSED")}>
               <GradeQuizzesIcon /> Grade Quizzes
             </button>
-            <button>
+            <button onClick={() => navigate("/quizzes/create")}>
               <NewquizzesIcon /> New Quiz
             </button>
           </div>

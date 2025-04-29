@@ -12,9 +12,9 @@ import ImageUpload from "@/components/ImageUpload";
 const ProfessorDetail = () => {
   const { id } = useParams();
   const [image, setImage] = useState({
-    url: '',
-    id: ''
-  })
+    url: "",
+    id: "",
+  });
 
   const {
     data: professor,
@@ -47,15 +47,15 @@ const ProfessorDetail = () => {
     });
     return map;
   }, [coursesData]);
-  
+
   useEffect(() => {
-    if(professor?.profilePictureUrl){
+    if (professor?.profilePictureUrl) {
       setImage({
         id: getMediaIdFromString(professor.profilePictureUrl),
-        url: ''
-      })
+        url: "",
+      });
     }
-  }, [professor])
+  }, [professor]);
 
   if (isLoading) return <div>Loading professor...</div>;
   if (isError) return <div>Error loading professor data</div>;
@@ -64,13 +64,8 @@ const ProfessorDetail = () => {
     <div className={styles.professorDetail}>
       <h2>Professor Detail</h2>
       <div className={styles.profile}>
-        <Box w='150px' h='150px' border='1px solid gray' rounded='50%'>
-          <ImageUpload
-            image={image}
-            setImage={setImage}
-            rounded='50%'
-            disabled
-          />
+        <Box w="150px" h="150px" border="1px solid gray">
+          <ImageUpload image={image} setImage={setImage} disabled />
         </Box>
         <div className={styles.info}>
           <p>
