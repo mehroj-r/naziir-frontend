@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import devtools from "devtools-detect";
 import { quizService } from "@/services/quizService";
 import styles from "./QuizAttempt.module.scss";
 import {
@@ -32,8 +33,9 @@ const QuizAttempt = () => {
   const [violationMessage, setViolationMessage] = useState("");
   const [fullscreenLost, setFullscreenLost] = useState(false);
   const fullscreenTimer = useRef(null);
-  const [countdown, setCountdown] = useState(10);
+  const [countdown, setCountdown] = useState(13);
   const [showRulesModal, setShowRulesModal] = useState(false);
+  const [showViolationAlert, setShowViolationAlert] = useState(false);
 
   const [remainingTime, setRemainingTime] = useState(0);
   const timerRef = useRef(null);
@@ -57,6 +59,56 @@ const QuizAttempt = () => {
       .toString()
       .padStart(2, "0")}`;
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && ["I", "J", "U"].includes(e.key))
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+    };
+
+    let devtoolsOpen = false;
+    const threshold = 160;
+    const detectDevTools = () => {
+      const widthDiff = window.outerWidth - window.innerWidth;
+      const heightDiff = window.outerHeight - window.innerHeight;
+      const isOpen = widthDiff > threshold || heightDiff > threshold;
+
+      if (isOpen && !devtoolsOpen) {
+        devtoolsOpen = true;
+
+        setShowViolationAlert(true);
+        toast({
+          title: "Developer Tools detected!",
+          status: "warning",
+          isClosable: true,
+          duration: 5000,
+        });
+
+        handleViolation();
+      }
+
+      devtoolsOpen = isOpen;
+    };
+
+    document.addEventListener("keydown", handleKeyDown, true);
+    document.addEventListener("contextmenu", handleContextMenu, true);
+    const intervalId = setInterval(detectDevTools, 1000);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown, true);
+      document.removeEventListener("contextmenu", handleContextMenu, true);
+      clearInterval(intervalId);
+    };
+  }, [toast]);
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -191,6 +243,9 @@ const QuizAttempt = () => {
       clearTimeout(violationTimer.current);
     }
 
+    setShowViolationAlert(true);
+    setTimeout(() => setShowViolationAlert(false), 3000);
+
     violationTimer.current = setTimeout(() => {
       setViolationCount((prev) => prev + 1);
     }, 3000);
@@ -211,7 +266,6 @@ const QuizAttempt = () => {
             toast({
               title: "Only 5 minutes left!",
               status: "warning",
-              color: "red",
               isClosable: true,
               duration: 5000,
             });
@@ -241,7 +295,7 @@ const QuizAttempt = () => {
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement) {
         setFullscreenLost(true);
-        setCountdown(10);
+        setCountdown(13);
 
         if (fullscreenTimer.current) {
           clearTimeout(fullscreenTimer.current);
@@ -312,6 +366,12 @@ const QuizAttempt = () => {
 
   return (
     <Box className={styles.quizAttempt}>
+      {showViolationAlert && (
+        <Box className={styles.fullscreenAlert}>
+          <Text className={styles.alertText}>Violation Detected!</Text>
+        </Box>
+      )}
+
       <CModal
         isOpen={showRulesModal}
         onClose={() => setShowRulesModal(false)}
@@ -322,9 +382,23 @@ const QuizAttempt = () => {
               Please review the rules carefully before proceeding.
             </Text>
             <ul>
-              <li>Rule 1: No cheating.</li>
-              <li>Rule 2: Do not switch tabs or windows.</li>
-              <li>Rule 3: Stay in fullscreen mode.</li>
+              <ul>
+                <li>Rule 1: No cheating.</li>
+                <li>Rule 2: Do not switch tabs or windows. (Violation #1)</li>
+                <li>Rule 3: Stay in fullscreen mode.</li>
+                <li>
+                  Rule 4: Do not press the "Esc" key or attempt to minimize the
+                  window. (Violation #3)
+                </li>
+                <li>
+                  Rule 5: Do not open developer tools or inspect the page.
+                  (Violation #4)
+                </li>
+                <li>
+                  Rule 6: If you accumulate 3 violations, the quiz will be
+                  auto-submitted. (Final Violation)
+                </li>
+              </ul>
             </ul>
           </Box>
         }
@@ -359,7 +433,11 @@ const QuizAttempt = () => {
               Violations: {violationCount}
             </Box>
             <Box className={styles.timerBox}>
-              <Text fontSize="xl" color="green" fontWeight="bold">
+              <Text
+                fontSize="3xl"
+                color={remainingTime <= 300 ? "red.500" : "green.500"}
+                fontWeight="bold"
+              >
                 Time Left: {formatTime(remainingTime)}
               </Text>
             </Box>

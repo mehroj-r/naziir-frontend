@@ -8,16 +8,36 @@
   min-height: 100vh;
 }
 
+.fullscreenAlert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alertText {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
 .timerdiv {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-right: 18vw;
-  font-size: 18px;
   font-weight: bold;
 }
 
 .timerBox {
+  font-size: 32px;
   color: #e63946;
 }
 
@@ -72,7 +92,6 @@
 .answerBlock {
   margin-top: 10px;
   margin-bottom: 25px;
- 
 
   textarea,
   input[type="text"] {

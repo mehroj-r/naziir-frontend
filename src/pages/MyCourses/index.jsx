@@ -125,7 +125,9 @@ const Courses = () => {
   };
 
   const COLUMNS =
-    role === ROLES.PROFESSOR ? baseColumns : [...baseColumns, actionColumn];
+    role === ROLES.PROFESSOR || ROLES.STUDENT
+      ? baseColumns
+      : [...baseColumns, actionColumn];
 
   const isFormValid = () => {
     return (
@@ -425,3 +427,4 @@ const Courses = () => {
 };
 
 export default Courses;
+
