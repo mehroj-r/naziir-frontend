@@ -14,6 +14,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 
 import { userReducers } from "./slices/userSlice";
+import { settingsReducers } from "./slices/settingsSlice";
 
 const persistConfig = { key: "root", storage }; // example
 const persistUser = { key: "user", storage }
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   // counter: persistReducer(persistConfig, counterSlice), // example
   // orders: orderReducers,
   user: persistReducer(persistUser, userReducers),
+  settings: settingsReducers,
 });
 
 export const store = configureStore({

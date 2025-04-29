@@ -14,9 +14,10 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import CModal from "@/components/CModal";
+import { useDispatch } from "react-redux";
+import { settingsActions } from "@/store/slices/settingsSlice";
 
 const QuizAttempt = () => {
-  const { quizId } = useParams();
   const [quiz, setQuiz] = useState(null);
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(true);
@@ -26,18 +27,23 @@ const QuizAttempt = () => {
   const [resultError, setResultError] = useState(null);
   const [violationCount, setViolationCount] = useState(0);
   const [submittedDueToViolation, setSubmittedDueToViolation] = useState(false);
-  const violationTimer = useRef(null);
-  const toast = useToast();
-  const navigate = useNavigate();
   const [violationMessage, setViolationMessage] = useState("");
   const [fullscreenLost, setFullscreenLost] = useState(false);
-  const fullscreenTimer = useRef(null);
   const [countdown, setCountdown] = useState(10);
-
   const [remainingTime, setRemainingTime] = useState(0);
+  
+  const violationTimer = useRef(null);
+  const fullscreenTimer = useRef(null);
   const timerRef = useRef(null);
+  const { quizId } = useParams();
+  const toast = useToast();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const enterFullscreen = () => {
+    dispatch(settingsActions.setSidebarShown({
+      isSidebarShown: false
+    }))
     if (document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen();
     } else if (document.documentElement.mozRequestFullScreen) {
@@ -150,6 +156,9 @@ const QuizAttempt = () => {
   const autoSubmitQuiz = async () => {
     if (submittedDueToViolation) return;
     setSubmittedDueToViolation(true);
+    dispatch(settingsActions.setSidebarShown({
+      isSidebarShown: true
+    }))
 
     if (fullscreenTimer.current) {
       clearTimeout(fullscreenTimer.current);
@@ -227,6 +236,9 @@ const QuizAttempt = () => {
 
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement) {
+        dispatch(settingsActions.setSidebarShown({
+          isSidebarShown: true
+        }))
         setFullscreenLost(true);
         setCountdown(10);
 
@@ -234,6 +246,9 @@ const QuizAttempt = () => {
           clearTimeout(fullscreenTimer.current);
         }
       } else {
+        dispatch(settingsActions.setSidebarShown({
+          isSidebarShown: false
+        }))
         setFullscreenLost(false);
         if (fullscreenTimer.current) {
           clearTimeout(fullscreenTimer.current);

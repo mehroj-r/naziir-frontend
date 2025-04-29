@@ -10,6 +10,7 @@ import Sidebar from "@/components/Sidebar";
 
 export default function MainLayout() {
   const userData = useSelector((state) => state.user);
+  const settings = useSelector((state) => state.settings);
   const dispatch = useDispatch()
 
   useEffect(()=>{
@@ -24,10 +25,12 @@ export default function MainLayout() {
   return(
     <>
       <Header />
-      <Grid h='calc(100vh - 60px)' templateColumns='250px 1fr'>
-        <Box pl='1px' pb='1px'>
-          <Sidebar />
-        </Box>
+      <Grid h='calc(100vh - 60px)' templateColumns={settings?.isSidebarShown ? '250px 1fr' : '1fr'}>
+        {settings?.isSidebarShown && (
+          <Box pl='1px' pb='1px'>
+            <Sidebar />
+          </Box>
+        )}
         <Box overflowY='scroll'>
           <Outlet />
         </Box>
