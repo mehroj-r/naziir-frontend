@@ -51,11 +51,11 @@ const StudentDetail = () => {
     <div className={styles.studentDetail}>
       <h2>Student Detail</h2>
       <div className={styles.profile}>
-        <Box w='150px' h='150px' border='1px solid gray' rounded='50%'>
+        <Box w='150px' h='150px' border='1px solid gray' >
           <ImageUpload
             image={image}
             setImage={setImage}
-            rounded='50%'
+          
             disabled
           />
         </Box>
