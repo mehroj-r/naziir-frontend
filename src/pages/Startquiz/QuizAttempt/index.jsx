@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import devtools from "devtools-detect";
 import { quizService } from "@/services/quizService";
 import styles from "./QuizAttempt.module.scss";
 import {
@@ -59,6 +58,74 @@ const QuizAttempt = () => {
       .toString()
       .padStart(2, "0")}`;
   };
+
+  useEffect(() => {
+    if (!started) return;
+
+    const keyHandler = (e) => {
+      const k = e.key.toUpperCase();
+      const isMeta = e.metaKey;
+      const isCtrl = e.ctrlKey;
+      const isAlt = e.altKey;
+      const isShift = e.shiftKey;
+
+      if (
+        k === "F12" ||
+        (isCtrl && isShift && ["I", "J", "U"].includes(k)) ||
+        (isMeta && isAlt && ["I", "J", "C"].includes(k))
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+       
+      }
+
+      if ((isCtrl || isMeta) && ["C", "V", "X", "A"].includes(k)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    const block = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+     
+    };
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        setViolationMessage("Quiz paused: switching tabs is not allowed.");
+        handleViolation();
+      }
+    };
+
+    const onFullScreenChange = () => {
+      if (!document.fullscreenElement) {
+        setFullscreenLost(true);
+        setViolationMessage("Please remain in fullscreen during the quiz.");
+        handleViolation();
+        enterFullscreen();
+      }
+    };
+
+  
+    document.addEventListener("keydown", keyHandler, true);
+    document.addEventListener("contextmenu", block, true);
+    document.addEventListener("copy", block, true);
+    document.addEventListener("paste", block, true);
+    document.addEventListener("cut", block, true);
+    document.addEventListener("visibilitychange", handleVisibility);
+    document.addEventListener("fullscreenchange", onFullScreenChange);
+
+    return () => {
+      document.removeEventListener("keydown", keyHandler, true);
+      document.removeEventListener("contextmenu", block, true);
+      document.removeEventListener("copy", block, true);
+      document.removeEventListener("paste", block, true);
+      document.removeEventListener("cut", block, true);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      document.removeEventListener("fullscreenchange", onFullScreenChange);
+    };
+  }, [started]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
