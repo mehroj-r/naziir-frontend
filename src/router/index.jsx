@@ -186,10 +186,10 @@ const Router = () => {
           <Route path="courses/economics" element={<EconomicsPage />} />
           <Route path="courses/quiz" element={<QuizPage />} />
           <Route path="*" element={<Navigate to="/" />} />
-          <Route
+          {/*<Route
             path="students/:studentId/results"
             element={<StudentResults />}
-          />
+    />*/}
           <Route path="/professors/:id" element={<ProfessorDetail />} />
           <Route path="academic-affairs-dashboard" element={<AADashboard />} />
           <Route path="students-dashboard" element={<Dashboard />} />

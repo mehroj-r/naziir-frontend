@@ -230,10 +230,42 @@ const OngoingQuizzes = () => {
         columns={COLUMNS}
         data={quizzes}
         loading={isLoading}
-        onRowClick={({ id }) => {
+        onRowClick={({ id, status, quizAttempt }) => {
           console.log("Row clicked with ID:", id);
-          if (id) {
+
+          if (userData.role === "PROFESSOR") {
             navigate(`/quizzes/${id}`);
+            return;
+          }
+
+          if (userData.role === "STUDENT") {
+            if (status === "OPEN") {
+              if (quizAttempt?.status === "Not Attempted" || !quizAttempt) {
+                navigate(`/quizzes/${id}`);
+              } else {
+                customToast("info", "Quiz is already attempted");
+              }
+            } else if (status === "GRADED") {
+              if (quizAttempt?.status === "GRADED") {
+                navigate(`/student/quizzes/attempts/${id}/result`);
+              } else {
+                customToast(
+                  "info",
+                  "You cannot access this quiz or result right now."
+                );
+              }
+            } else if (status === "CLOSED") {
+              if (quizAttempt?.status === "SUBMITTED") {
+                customToast("info", "Results have not been released yet");
+              } else {
+                customToast(
+                  "info",
+                  "You cannot view the results due to cheating or absence"
+                );
+              }
+            } else if (status === "SCHEDULED") {
+              customToast("info", "The quiz is not open for students yet");
+            }
           }
         }}
       />
