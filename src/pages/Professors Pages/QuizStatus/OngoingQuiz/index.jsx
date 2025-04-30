@@ -14,6 +14,7 @@ import {
   QUIZ_STATUS_OPTIONS,
   QUIZ_STATUS_OPTIONS_FOR_STUDENTS,
 } from "@/utils/const/quiz";
+import { ROLES } from "@/utils/const/roles";
 import CSelect from "@/components/CSelect";
 import { useSelector } from "react-redux";
 
@@ -88,8 +89,8 @@ const OngoingQuizzes = () => {
       });
   };
 
-  const COLUMNS = useMemo(
-    () => [
+  const COLUMNS = useMemo(() => {
+    const baseColumns = [
       {
         title: "Quiz Title",
         key: "title",
@@ -118,38 +119,49 @@ const OngoingQuizzes = () => {
             16
           )}` ?? "-",
       },
-      {
+    ];
+    if (userData?.role !== ROLES.STUDENT) {
+      baseColumns.push({
         title: "Status",
         key: "status",
         render: (record) => record?.status ?? "-",
-      },
-      ...(userData?.role !== "STUDENT"
-        ? [
-            {
-              title: "",
-              key: "actions",
-              render: (record) => (
-                <ActionMenu
-                  actions={[
-                    {
-                      title: "Edit",
-                      icon: <EditIcon />,
-                      onClick: () => setEditQuiz(record),
-                    },
-                    {
-                      title: "Delete",
-                      icon: <DeleteIcon />,
-                      onClick: () => setIdForDelete(record?.id ?? ""),
-                    },
-                  ]}
-                />
-              ),
-            },
-          ]
-        : []),
-    ],
-    [userData]
-  );
+      });
+    }
+
+    if (userData?.role === ROLES.STUDENT) {
+      baseColumns.push({
+        title: "Status",
+        key: "quizAttemptStatus",
+        render: (record) => record?.quizAttempt?.status ?? "Not Attempted",
+      });
+    }
+
+    // Add actions for non-students
+    if (userData?.role !== ROLES.STUDENT) {
+      baseColumns.push({
+        title: "",
+        key: "actions",
+        render: (record) => (
+          <ActionMenu
+            actions={[
+              {
+                title: "Edit",
+                icon: <EditIcon />,
+                onClick: () => setEditQuiz(record),
+              },
+              {
+                title: "Delete",
+                icon: <DeleteIcon />,
+                onClick: () => setIdForDelete(record?.id ?? ""),
+              },
+            ]}
+          />
+        ),
+      });
+    }
+
+    return baseColumns;
+  }, [userData]);
 
   const modalBody = (
     <>
