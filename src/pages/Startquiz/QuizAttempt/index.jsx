@@ -14,10 +14,9 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import CModal from "@/components/CModal";
-import { useDispatch } from "react-redux";
-import { settingsActions } from "@/store/slices/settingsSlice";
 
 const QuizAttempt = () => {
+  const { quizId } = useParams();
   const [quiz, setQuiz] = useState(null);
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(true);
@@ -27,26 +26,20 @@ const QuizAttempt = () => {
   const [resultError, setResultError] = useState(null);
   const [violationCount, setViolationCount] = useState(0);
   const [submittedDueToViolation, setSubmittedDueToViolation] = useState(false);
+  const violationTimer = useRef(null);
+  const toast = useToast();
+  const navigate = useNavigate();
   const [violationMessage, setViolationMessage] = useState("");
   const [fullscreenLost, setFullscreenLost] = useState(false);
+  const fullscreenTimer = useRef(null);
   const [countdown, setCountdown] = useState(13);
   const [showRulesModal, setShowRulesModal] = useState(false);
   const [showViolationAlert, setShowViolationAlert] = useState(false);
 
   const [remainingTime, setRemainingTime] = useState(0);
-  
-  const violationTimer = useRef(null);
-  const fullscreenTimer = useRef(null);
   const timerRef = useRef(null);
-  const { quizId } = useParams();
-  const toast = useToast();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const enterFullscreen = () => {
-    dispatch(settingsActions.setSidebarShown({
-      isSidebarShown: false
-    }))
     if (document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen();
     } else if (document.documentElement.mozRequestFullScreen) {
@@ -55,6 +48,18 @@ const QuizAttempt = () => {
       document.documentElement.webkitRequestFullscreen();
     } else if (document.documentElement.msRequestFullscreen) {
       document.documentElement.msRequestFullscreen();
+    }
+  };
+
+  const exitFullscreen = () => {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
     }
   };
 
@@ -83,7 +88,6 @@ const QuizAttempt = () => {
       ) {
         e.preventDefault();
         e.stopPropagation();
-       
       }
 
       if ((isCtrl || isMeta) && ["C", "V", "X", "A"].includes(k)) {
@@ -95,7 +99,6 @@ const QuizAttempt = () => {
     const block = (e) => {
       e.preventDefault();
       e.stopPropagation();
-     
     };
 
     const handleVisibility = () => {
@@ -114,7 +117,6 @@ const QuizAttempt = () => {
       }
     };
 
-  
     document.addEventListener("keydown", keyHandler, true);
     document.addEventListener("contextmenu", block, true);
     document.addEventListener("copy", block, true);
@@ -254,6 +256,8 @@ const QuizAttempt = () => {
 
       if (currentIndex === questions.length - 1) {
         await quizService.finishAttempt(quizId);
+        navigate(`/quizzes?status=OPEN`);
+        exitFullscreen();
         const resultData = await quizService.getResult(quizId);
         setResult(resultData);
         setResultError(null);
@@ -262,7 +266,6 @@ const QuizAttempt = () => {
           status: "success",
           isClosable: true,
         });
-        navigate(`/quizzes?status=OPEN`);
       } else {
         setCurrentIndex((prev) => prev + 1);
       }
@@ -288,9 +291,6 @@ const QuizAttempt = () => {
   const autoSubmitQuiz = async () => {
     if (submittedDueToViolation) return;
     setSubmittedDueToViolation(true);
-    dispatch(settingsActions.setSidebarShown({
-      isSidebarShown: true
-    }))
 
     if (fullscreenTimer.current) {
       clearTimeout(fullscreenTimer.current);
@@ -301,6 +301,8 @@ const QuizAttempt = () => {
 
     try {
       await quizService.finishAttempt(quizId);
+      exitFullscreen();
+      navigate(`/quizzes?status=OPEN`);
       const resultData = await quizService.getResult(quizId);
       setResult(resultData);
       setResultError(null);
@@ -310,8 +312,6 @@ const QuizAttempt = () => {
         status: "warning",
         isClosable: true,
       });
-
-      navigate(`/student/quizzes/attempts/${quizId}/result`);
     } catch (error) {}
   };
 
@@ -371,9 +371,6 @@ const QuizAttempt = () => {
 
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement) {
-        dispatch(settingsActions.setSidebarShown({
-          isSidebarShown: true
-        }))
         setFullscreenLost(true);
         setCountdown(13);
 
@@ -381,9 +378,6 @@ const QuizAttempt = () => {
           clearTimeout(fullscreenTimer.current);
         }
       } else {
-        dispatch(settingsActions.setSidebarShown({
-          isSidebarShown: false
-        }))
         setFullscreenLost(false);
         if (fullscreenTimer.current) {
           clearTimeout(fullscreenTimer.current);
