@@ -84,6 +84,25 @@ const QuizAttempt = () => {
       .padStart(2, "0")}`;
   };
 
+
+  useEffect(() => {
+    const handleScreenshotAttempt = (e) => {
+      if (e.key === "PrintScreen") {
+        document.body.style.opacity = "0";
+        setTimeout(() => {
+          document.body.style.opacity = "1";
+        }, 100);
+  
+      }
+    };
+    document.addEventListener("keyup", handleScreenshotAttempt);
+  
+    return () => {
+      document.removeEventListener("keyup", handleScreenshotAttempt);
+    };
+  }, []);
+  
+
   useEffect(() => {
     if (!started) return;
 
@@ -474,8 +493,9 @@ const QuizAttempt = () => {
   return (
     <Box className={styles.quizAttempt}>
       {showViolationAlert && (
-        <Box className={styles.fullscreenAlert}>
-          <Text className={styles.alertText}>Violation Detected!</Text>
+        <Box className={styles.toastAlert}>
+          <Text className={styles.warningIcon}>⚠️</Text>
+          <Text className={styles.toastText}>Violation Detected!</Text>
         </Box>
       )}
 
@@ -649,7 +669,7 @@ const QuizAttempt = () => {
 
               <Box className={styles.pointsSection}>
                 <Text>Point</Text>
-                <input type="text" value="1" readOnly />
+                <input type="text" value={currentQuestion.Points} readOnly />
               </Box>
 
               <Box className={styles.navButtons}>
