@@ -24,7 +24,9 @@ export default function MainLayout() {
 
   return(
     <>
-      <Header />
+      {settings?.isSidebarShown && (
+        <Header />
+      )}
       <Grid h='calc(100vh - 60px)' templateColumns={settings?.isSidebarShown ? '250px 1fr' : '1fr'}>
         {settings?.isSidebarShown && (
           <Box pl='1px' pb='1px'>
