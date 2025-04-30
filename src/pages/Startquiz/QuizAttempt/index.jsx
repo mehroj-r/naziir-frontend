@@ -669,7 +669,7 @@ const QuizAttempt = () => {
 
               <Box className={styles.pointsSection}>
                 <Text>Point</Text>
-                <input type="text" value={currentQuestion.Points} readOnly />
+                <input type="text" value={currentQuestion?.points} readOnly />
               </Box>
 
               <Box className={styles.navButtons}>
