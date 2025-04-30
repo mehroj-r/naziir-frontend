@@ -43,9 +43,11 @@ const QuizAttempt = () => {
   const dispatch = useDispatch();
 
   const enterFullscreen = () => {
-    dispatch(settingsActions.setSidebarShown({
-      isSidebarShown: false
-    }))
+    dispatch(
+      settingsActions.setSidebarShown({
+        isSidebarShown: false,
+      })
+    );
     if (document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen();
     } else if (document.documentElement.mozRequestFullScreen) {
@@ -58,9 +60,11 @@ const QuizAttempt = () => {
   };
 
   const exitFullscreen = () => {
-    dispatch(settingsActions.setSidebarShown({
-      isSidebarShown: true
-    }))
+    dispatch(
+      settingsActions.setSidebarShown({
+        isSidebarShown: true,
+      })
+    );
     if (document.exitFullscreen) {
       document.exitFullscreen();
     } else if (document.webkitExitFullscreen) {
@@ -202,15 +206,12 @@ const QuizAttempt = () => {
         setQuiz(data);
         setLoading(false);
 
-        if (data?.status === "SUBMITTED") {
-          navigate(`/student/quizzes/attempts/${quizId}/result`);
-          return;
-        }
-
         if (data?.timeLimit) {
           const timeLimitInSeconds = data.timeLimit * 60;
           setRemainingTime(timeLimitInSeconds);
         }
+
+        setShowRulesModal(true);
       } catch {
         toast({
           title: "Failed to load quiz.",
@@ -300,9 +301,11 @@ const QuizAttempt = () => {
   const autoSubmitQuiz = async () => {
     if (submittedDueToViolation) return;
     setSubmittedDueToViolation(true);
-    dispatch(settingsActions.setSidebarShown({
-      isSidebarShown: true
-    }))
+    dispatch(
+      settingsActions.setSidebarShown({
+        isSidebarShown: true,
+      })
+    );
 
     if (fullscreenTimer.current) {
       clearTimeout(fullscreenTimer.current);
@@ -383,9 +386,11 @@ const QuizAttempt = () => {
 
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement) {
-        dispatch(settingsActions.setSidebarShown({
-          isSidebarShown: true
-        }))
+        dispatch(
+          settingsActions.setSidebarShown({
+            isSidebarShown: true,
+          })
+        );
         setFullscreenLost(true);
         setCountdown(13);
 
@@ -393,9 +398,11 @@ const QuizAttempt = () => {
           clearTimeout(fullscreenTimer.current);
         }
       } else {
-        dispatch(settingsActions.setSidebarShown({
-          isSidebarShown: false
-        }))
+        dispatch(
+          settingsActions.setSidebarShown({
+            isSidebarShown: false,
+          })
+        );
         setFullscreenLost(false);
         if (fullscreenTimer.current) {
           clearTimeout(fullscreenTimer.current);
@@ -469,36 +476,45 @@ const QuizAttempt = () => {
 
       <CModal
         isOpen={showRulesModal}
-        onClose={() => setShowRulesModal(false)}
+        onClose={() => {}}
+        closeOnOverlayClick={false}
+        closeOnEsc={false}
         title="Do you agree with our rules?"
+        size="xl"
         body={
-          <Box>
-            <Text mb="2">
-              Please review the rules carefully before proceeding.
+          <Box px={4} py={2}>
+            <Text fontSize="lg" mb={4} fontWeight="semibold">
+              Please review the rules carefully before proceeding:
             </Text>
-            <ul>
-              <ul>
-                <li>Rule 1: No cheating.</li>
-                <li>Rule 2: Do not switch tabs or windows. (Violation #1)</li>
-                <li>Rule 3: Stay in fullscreen mode.</li>
-                <li>
-                  Rule 4: Do not press the "Esc" key or attempt to minimize the
-                  window. (Violation #3)
-                </li>
-                <li>
-                  Rule 5: Do not open developer tools or inspect the page.
-                  (Violation #4)
-                </li>
-                <li>
-                  Rule 6: If you accumulate 3 violations, the quiz will be
-                  auto-submitted. (Final Violation)
-                </li>
-              </ul>
-            </ul>
+            <Box as="ol" pl={5} spacing={2}>
+              <Text as="li" mb={2}>
+                <strong>Rule 1:</strong> You can take the quiz only once.
+                Leaving or closing the browser ends your attempt.
+              </Text>
+              <Text as="li" mb={2}>
+                <strong>Rule 2:</strong> Do not switch tabs or windows.
+                (Violation #1)
+              </Text>
+              <Text as="li" mb={2}>
+                <strong>Rule 3:</strong> Stay in fullscreen mode.
+              </Text>
+              <Text as="li" mb={2}>
+                <strong>Rule 4:</strong> Do not press the "Esc" key or attempt
+                to minimize the window. (Violation #3)
+              </Text>
+              <Text as="li" mb={2}>
+                <strong>Rule 5:</strong> Do not open developer tools or inspect
+                the page. (Violation #4)
+              </Text>
+              <Text as="li" mb={2}>
+                <strong>Rule 6:</strong> If you accumulate 3 violations, the
+                quiz will be failed. (Final Violation)
+              </Text>
+            </Box>
           </Box>
         }
         footer={
-          <Stack direction="row" justify="flex-end">
+          <Stack direction="row" justify="flex-end" px={4} py={3}>
             <Button
               variant="ghost"
               onClick={() => {
@@ -515,11 +531,10 @@ const QuizAttempt = () => {
                 confirmStartQuiz();
               }}
             >
-              I Agree
+              Accept Rules & Start
             </Button>
           </Stack>
         }
-        size="lg"
       />
       {started && (
         <>
@@ -565,19 +580,7 @@ const QuizAttempt = () => {
 
       <Box className={styles.content}>
         {!started ? (
-          <Box className={styles.startSection}>
-            <Button colorScheme="teal" onClick={handleStartClick} mr="4">
-              Start Quiz
-            </Button>
-            <Button
-              colorScheme="blue"
-              onClick={() =>
-                navigate(`/student/quizzes/attempts/${quizId}/result`)
-              }
-            >
-              Show Results
-            </Button>
-          </Box>
+          <Box className={styles.startSection}></Box>
         ) : (
           <>
             <Box className={styles.mainCard}>

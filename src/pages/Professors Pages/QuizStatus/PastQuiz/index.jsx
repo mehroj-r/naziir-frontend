@@ -10,6 +10,7 @@ import ConfirmModal from "@/components/CModal/ConfirmModal";
 import CModal from "@/components/CModal";
 import { Input, Button } from "@chakra-ui/react";
 import { customToast } from "@/utils/toastify";
+import { ROLES } from "@/utils/const/roles";
 
 const PastQuizzes = () => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -71,54 +72,63 @@ const PastQuizzes = () => {
         setEditQuiz(null);
       });
   };
+  const COLUMNS = useMemo(() => {
+    const baseColumns = [
+      {
+        title: "Quiz Title",
+        key: "title",
+        render: (record) => record?.title ?? "-",
+      },
+      {
+        title: "Course",
+        key: "course",
+        render: (record) => record?.courseName ?? "-",
+      },
+      {
+        title: "Start Time",
+        key: "startTime",
+        render: (record) => record?.startTime ?? "-",
+      },
+      {
+        title: "End Time",
+        key: "endTime",
+        render: (record) => record?.endTime ?? "-",
+      },
+      {
+        title: "Status",
+        key: "status",
+        render: (record) =>
+          user?.role === ROLES.STUDENT
+            ? record?.quizAttempt?.statu
+            : record?.status ?? "-",
+      },
+    ];
 
-  const COLUMNS = [
-    {
-      title: "Quiz Title",
-      key: "title",
-      render: (record) => record?.title ?? "-",
-    },
-    {
-      title: "Course",
-      key: "course",
-      render: (record) => record?.courseName ?? "-",
-    },
-    {
-      title: "Start Time",
-      key: "startTime",
-      render: (record) => record?.startTime ?? "-",
-    },
-    {
-      title: "End Time",
-      key: "endTime",
-      render: (record) => record?.endTime ?? "-",
-    },
-    {
-      title: "Status",
-      key: "status",
-      render: (record) => record?.status ?? "-",
-    },
-    {
-      title: "",
-      key: "actions",
-      render: (record) => (
-        <ActionMenu
-          actions={[
-            {
-              title: "Edit",
-              icon: <EditIcon />,
-              onClick: () => setEditQuiz(record),
-            },
-            {
-              title: "Delete",
-              icon: <DeleteIcon />,
-              onClick: () => setIdForDelete(record?.id ?? ""),
-            },
-          ]}
-        />
-      ),
-    },
-  ];
+    if (user?.role !== ROLES.STUDENT) {
+      baseColumns.push({
+        title: "",
+        key: "actions",
+        render: (record) => (
+          <ActionMenu
+            actions={[
+              {
+                title: "Edit",
+                icon: <EditIcon />,
+                onClick: () => setEditQuiz(record),
+              },
+              {
+                title: "Delete",
+                icon: <DeleteIcon />,
+                onClick: () => setIdForDelete(record?.id ?? ""),
+              },
+            ]}
+          />
+        ),
+      });
+    }
+
+    return baseColumns;
+  }, [user]);
 
   const modalBody = (
     <>
