@@ -14,6 +14,8 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import CModal from "@/components/CModal";
+import { useDispatch } from "react-redux";
+import { settingsActions } from "@/store/slices/settingsSlice";
 
 const QuizAttempt = () => {
   const { quizId } = useParams();
@@ -35,9 +37,10 @@ const QuizAttempt = () => {
   const [countdown, setCountdown] = useState(13);
   const [showRulesModal, setShowRulesModal] = useState(false);
   const [showViolationAlert, setShowViolationAlert] = useState(false);
-
   const [remainingTime, setRemainingTime] = useState(0);
+
   const timerRef = useRef(null);
+  const dispatch = useDispatch();
 
   const enterFullscreen = () => {
     dispatch(settingsActions.setSidebarShown({
