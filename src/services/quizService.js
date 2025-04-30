@@ -25,10 +25,13 @@ export const quizService = {
   },
 
   create: async (body) => await httpRequest.post("/quizzes", body),
-  generateVersions: async (id) => await httpRequest.post(`quizzes/${id}/generate-versions`),
+  generateVersions: async (id) =>
+    await httpRequest.post(`quizzes/${id}/generate-versions`),
   getVersions: async (id) => await httpRequest.get(`quizzes/${id}/versions`),
-  distributeVersions: async (id) => await httpRequest.post(`quizzes/${id}/distribute`),
-  updateQuizStatus: async (id, newStatus) => await httpRequest.put(`/quizzes/${id}/status?newStatus=${newStatus}`),
+  distributeVersions: async (id) =>
+    await httpRequest.post(`quizzes/${id}/distribute`),
+  updateQuizStatus: async (id, newStatus) =>
+    await httpRequest.put(`/quizzes/${id}/status?newStatus=${newStatus}`),
 
   update: async (id, payload) => {
     try {
@@ -177,6 +180,14 @@ export const quizService = {
       return response.data;
     } catch (error) {
       throw new Error("Failed to change quiz status: " + error.message);
+    }
+  },
+
+  reportViolation: async (quizId) => {
+    try {
+      await httpRequest.post(`/student/quizzes/attempts/${quizId}/violation`);
+    } catch (error) {
+      console.error("Failed to report violation", error);
     }
   },
 };
