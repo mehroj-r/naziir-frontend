@@ -10,7 +10,10 @@ import ConfirmModal from "@/components/CModal/ConfirmModal";
 import CModal from "@/components/CModal";
 import { Input, Button, Flex } from "@chakra-ui/react";
 import { customToast } from "@/utils/toastify";
-import { QUIZ_STATUS_OPTIONS, QUIZ_STATUS_OPTIONS_FOR_STUDENTS } from "@/utils/const/quiz";
+import {
+  QUIZ_STATUS_OPTIONS,
+  QUIZ_STATUS_OPTIONS_FOR_STUDENTS,
+} from "@/utils/const/quiz";
 import CSelect from "@/components/CSelect";
 import { useSelector } from "react-redux";
 
@@ -20,21 +23,21 @@ const OngoingQuizzes = () => {
   const [editQuiz, setEditQuiz] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [statusOption, setStatusOption] = useState(QUIZ_STATUS_OPTIONS[1]);
-  
+
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const status = searchParams.get("status") || "OPEN";
-  const userData = useSelector(state => state.user)
+  const userData = useSelector((state) => state.user);
 
   const { data, isLoading, refetch } = useQuizzes({
-    params: { 
-      status: statusOption?.value, 
-      page: 1, 
-      limit: 50
+    params: {
+      status: statusOption?.value,
+      page: 1,
+      limit: 50,
     },
     props: {
-      enabled: !!statusOption?.value
-    }
+      enabled: !!statusOption?.value,
+    },
   });
 
   const quizzes = useMemo(
@@ -85,53 +88,68 @@ const OngoingQuizzes = () => {
       });
   };
 
-  const COLUMNS = [
-    {
-      title: "Quiz Title",
-      key: "title",
-      render: (record) => record?.title ?? "-",
-    },
-    {
-      title: "Course",
-      key: "course",
-      render: (record) => record?.courseName ?? "-",
-    },
-    {
-      title: "Start Time",
-      key: "startTime",
-      render: (record) => `${record?.startTime?.slice(0, 10)},  ${record?.startTime?.slice(11, 16)}` ?? "-", 
-    },
-    {
-      title: "End Time",
-      key: "endTime",
-      render: (record) => `${record?.endTime?.slice(0, 10)},  ${record?.endTime?.slice(11, 16)}` ?? "-",
-    },
-    {
-      title: "Status",
-      key: "status",
-      render: (record) => record?.status ?? "-",
-    },
-    {
-      title: "",
-      key: "actions",
-      render: (record) => (
-        <ActionMenu
-          actions={[
+  const COLUMNS = useMemo(
+    () => [
+      {
+        title: "Quiz Title",
+        key: "title",
+        render: (record) => record?.title ?? "-",
+      },
+      {
+        title: "Course",
+        key: "course",
+        render: (record) => record?.courseName ?? "-",
+      },
+      {
+        title: "Start Time",
+        key: "startTime",
+        render: (record) =>
+          `${record?.startTime?.slice(0, 10)},  ${record?.startTime?.slice(
+            11,
+            16
+          )}` ?? "-",
+      },
+      {
+        title: "End Time",
+        key: "endTime",
+        render: (record) =>
+          `${record?.endTime?.slice(0, 10)},  ${record?.endTime?.slice(
+            11,
+            16
+          )}` ?? "-",
+      },
+      {
+        title: "Status",
+        key: "status",
+        render: (record) => record?.status ?? "-",
+      },
+      ...(userData?.role !== "STUDENT"
+        ? [
             {
-              title: "Edit",
-              icon: <EditIcon />,
-              onClick: () => setEditQuiz(record),
+              title: "",
+              key: "actions",
+              render: (record) => (
+                <ActionMenu
+                  actions={[
+                    {
+                      title: "Edit",
+                      icon: <EditIcon />,
+                      onClick: () => setEditQuiz(record),
+                    },
+                    {
+                      title: "Delete",
+                      icon: <DeleteIcon />,
+                      onClick: () => setIdForDelete(record?.id ?? ""),
+                    },
+                  ]}
+                />
+              ),
             },
-            {
-              title: "Delete",
-              icon: <DeleteIcon />,
-              onClick: () => setIdForDelete(record?.id ?? ""),
-            },
-          ]}
-        />
-      ),
-    },
-  ];
+          ]
+        : []),
+    ],
+    [userData]
+  );
 
   const modalBody = (
     <>
@@ -167,11 +185,13 @@ const OngoingQuizzes = () => {
   );
 
   useEffect(() => {
-    const optionFromParams = QUIZ_STATUS_OPTIONS.find(item => item?.value === status)
-    if(optionFromParams){
-      setStatusOption(optionFromParams)
+    const optionFromParams = QUIZ_STATUS_OPTIONS.find(
+      (item) => item?.value === status
+    );
+    if (optionFromParams) {
+      setStatusOption(optionFromParams);
     }
-  },[status])
+  }, [status]);
 
   return (
     <div className={styles.container}>
@@ -179,10 +199,14 @@ const OngoingQuizzes = () => {
         <h1>Ongoing Quizzes</h1>
       </div>
 
-      <Flex alignItems='center' gap={4}>
+      <Flex alignItems="center" gap={4}>
         <SearchBar placeholder="Search for quizzes" />
-        <CSelect 
-          options={userData?.role !== 'STUDENT' ? QUIZ_STATUS_OPTIONS : QUIZ_STATUS_OPTIONS_FOR_STUDENTS}
+        <CSelect
+          options={
+            userData?.role !== "STUDENT"
+              ? QUIZ_STATUS_OPTIONS
+              : QUIZ_STATUS_OPTIONS_FOR_STUDENTS
+          }
           value={statusOption}
           onChange={(val) => setStatusOption(val)}
           isClearable={false}
