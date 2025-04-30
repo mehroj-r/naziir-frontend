@@ -240,7 +240,7 @@ const OngoingQuizzes = () => {
 
           if (userData.role === "STUDENT") {
             if (status === "OPEN") {
-              if (quizAttempt?.status === "Not Attempted" || !quizAttempt) {
+              if (quizAttempt?.status === "IN_PROGRESS" || !quizAttempt) {
                 navigate(`/quizzes/${id}`);
               } else {
                 customToast("info", "Quiz is already attempted");
@@ -251,7 +251,7 @@ const OngoingQuizzes = () => {
               } else {
                 customToast(
                   "info",
-                  "You cannot access this quiz or result right now."
+                  "You cannot view the results due to cheating or absence."
                 );
               }
             } else if (status === "CLOSED") {
