@@ -5,9 +5,10 @@ import {
   QuizzesIcon,
   StatisticsIcon,
   NotificationIcon,
+  LogoutIcon,
 } from "../../assets/icons/sidebarIcons";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Box, Flex } from "@chakra-ui/react";
 import {
   Courselisticon,
@@ -16,6 +17,11 @@ import {
   Professorlisticon,
   StudentlistIcon,
 } from "../../assets/icons/aaDashboardIcons";
+import { authService } from "@/services/auth.service";
+import { customToast } from "@/utils/toastify";
+import { useState } from "react";
+import ConfirmModal from "../CModal/ConfirmModal";
+import { userActions } from "@/store/slices/userSlice";
 
 const items = [
   {
@@ -169,40 +175,82 @@ export default function Sidebar() {
   const { pathname } = useLocation();
   const { role } = useSelector((state) => state.user);
   const isActive = (path) => pathname === path;
-  // console.log("pathname" + pathname);
-  //  const isQuizAttemptPage = pathname.includes("/quizzes/");
+  const dispatch = useDispatch();
 
-  // if (isQuizAttemptPage) {
-  //   return null;
-  // }
+  const [confirmLogout, setConfirmLogout] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  
+  const logout = () => {
+    setIsLoggingOut(true);
+    authService
+      .logout()
+      .then(() => {
+        customToast("success", "You have logged out successfully");
+      })
+      .catch((err) => {
+        console.log("logout err:", err);
+      })
+      .finally(() => {
+        dispatch(userActions.logout());
+        setIsLoggingOut(false);
+        setConfirmLogout(false);
+      });
+  };
 
   return (
     <Box bg="#081545" h="full" w="full" p={4} rounded="8px">
-      <Flex flexDirection="column" gap={2} cursor="pointer">
-        {SIDEBAR_ITEMS?.[role]?.map((item) => (
-          <Flex
-            key={item.id}
-            px={9}
-            py={4}
-            gap={4}
-            h="40px"
-            rounded="12px"
-            alignItems="center"
-            transition="0.3s"
-            color={isActive(item.navigateTo) ? "black" : "white"}
-            bg={isActive(item.navigateTo) ? "white" : "transparent"}
-            onClick={() => navigate(item.navigateTo)}
-            _hover={{
-              bg: isActive(item.navigateTo)
-                ? "whiteAlpha.950"
-                : "whiteAlpha.500",
-            }}
-          >
-            {item.icon(isActive(item.navigateTo) ? "black" : "white")}
-            <span>{item.title}</span>
-          </Flex>
-        ))}
+      <Flex flexDirection='column' h='full' justifyContent='space-between' pb='36px'>
+        <Flex flexDirection="column" gap={2} cursor="pointer">
+          {SIDEBAR_ITEMS?.[role]?.map((item) => (
+            <Flex
+              key={item.id}
+              px={9}
+              py={4}
+              gap={4}
+              h="40px"
+              rounded="12px"
+              alignItems="center"
+              transition="0.3s"
+              color={isActive(item.navigateTo) ? "black" : "white"}
+              bg={isActive(item.navigateTo) ? "white" : "transparent"}
+              onClick={() => navigate(item.navigateTo)}
+              _hover={{
+                bg: isActive(item.navigateTo)
+                  ? "whiteAlpha.950"
+                  : "whiteAlpha.500",
+              }}
+            >
+              {item.icon(isActive(item.navigateTo) ? "black" : "white")}
+              <span>{item.title}</span>
+            </Flex>
+          ))}
+        </Flex>
+        <Flex
+          px={9}
+          py={4}
+          gap={4}
+          h="40px"
+          rounded="12px"
+          alignItems="center"
+          transition="0.3s"
+          color="white"
+          bg="transparent"
+          cursor='pointer'
+          border='1px solid'
+          borderColor='whiteAlpha.500'
+          _hover={{ bg: "whiteAlpha.500" }}
+          onClick={() => setConfirmLogout(true)}
+        >
+          <LogoutIcon />
+          <span>Logout</span>
+        </Flex>
       </Flex>
+      <ConfirmModal
+        isOpen={confirmLogout}
+        onClose={() => setConfirmLogout(false)}
+        onConfirm={logout}
+        isLoading={isLoggingOut}
+      />
     </Box>
   );
 }

@@ -15,3 +15,11 @@ export const useProfessors = ({ params, props }) =>
     queryFn: () => professorService.getAll(params),
     ...props,
   });
+
+export const useProfessorById = ({ id, props }) =>
+  useQuery({
+    queryKey: ["GET_STUDENT_BY_ID", id],
+    queryFn: () => professorService.getById(id),
+    enabled: !!id,
+    ...props,
+  });

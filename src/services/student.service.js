@@ -15,3 +15,11 @@ export const useStudents = ({ params, props }) =>
     queryFn: () => studentService.getAll(params),
     ...props,
   });
+
+export const useStudentById = ({ id, props }) =>
+  useQuery({
+    queryKey: ["GET_STUDENT_BY_ID", id],
+    queryFn: () => studentService.getById(id),
+    enabled: !!id,
+    ...props,
+  });

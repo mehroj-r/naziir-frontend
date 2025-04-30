@@ -1,4 +1,4 @@
-export function HomeIcon({ color = 'white' }) {
+export function HomeIcon({ color = "white" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,7 +12,7 @@ export function HomeIcon({ color = 'white' }) {
   );
 }
 
-export function CourseIcon({ color = 'white' }) {
+export function CourseIcon({ color = "white" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +26,7 @@ export function CourseIcon({ color = 'white' }) {
   );
 }
 
-export function CreateQuizIcon({ color = 'white' }) {
+export function CreateQuizIcon({ color = "white" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ export function CreateQuizIcon({ color = 'white' }) {
   );
 }
 
-export function QuizzesIcon({ color = 'white' }) {
+export function QuizzesIcon({ color = "white" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@ export function QuizzesIcon({ color = 'white' }) {
   );
 }
 
-export function StatisticsIcon({ color = 'white' }) {
+export function StatisticsIcon({ color = "white" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +71,7 @@ export function StatisticsIcon({ color = 'white' }) {
   );
 }
 
-export function NotificationIcon({ color = 'white' }) {
+export function NotificationIcon({ color = "white" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -85,3 +85,17 @@ export function NotificationIcon({ color = 'white' }) {
   );
 }
 
+export function LogoutIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill='white'
+    >
+      <path d="M16 13v-2H7V8l-5 4 5 4v-3z"></path>
+      <path d="M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z"></path>
+    </svg>
+  );
+}

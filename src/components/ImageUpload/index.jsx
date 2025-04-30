@@ -19,6 +19,7 @@ const ImageUpload = ({
   console.log("image image:", image) // log
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false)
+  const [tryCount, setTryCount] = useState(0)
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -54,9 +55,7 @@ const ImageUpload = ({
     });
   };
 
-  useEffect(() => {
-    if(!image?.id || image?.url) return;
-
+  const getImage = () => {
     setIsLoading(true)
     mediaService.getById(image.id)
       .then(res => {
@@ -69,20 +68,32 @@ const ImageUpload = ({
       })
       .catch(err => {
         console.log("image err:", err) // log
+        setTryCount(oldV => oldV + 1)
       })
       .finally(() => {
         setIsLoading(false)
       })
+  }
+
+  useEffect(() => {
+    if(!image?.id || image?.url) return;
+    getImage()
   }, [image])
+
+  useEffect(() => {
+    if(!image?.id || image?.url || tryCount >= 3) return;
+    getImage()
+  }, [tryCount])
 
   return (
     <Box w={w} h={h}>
       {image?.url ? (
-        <Box position='relative' w='full' h='full'>
+        <Box position='relative' w='full' h='full' overflow='hidden'>
           <img
             src={image?.url}
             alt="Preview"
-            className={`w-full h-full object-cover rounded-[${rounded}]`} 
+            className={`w-full h-full object-cover`}
+            style={{ borderRadius: rounded }}
           />
           {!disabled && (
             <Box
@@ -112,7 +123,8 @@ const ImageUpload = ({
             <img
               src={noImageSrc}
               alt="Preview"
-              className={`w-full h-full object-cover rounded-[${rounded}]`} 
+              className={`w-full h-full object-cover`}
+              style={{ borderRadius: rounded }}
             />
           ) : (
             <>
