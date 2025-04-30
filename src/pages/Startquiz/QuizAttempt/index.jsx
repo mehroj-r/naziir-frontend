@@ -330,7 +330,7 @@ const QuizAttempt = () => {
     } catch (error) {}
   };
 
-  const handleViolation = () => {
+  const handleViolation = async () => {
     if (violationTimer.current) {
       clearTimeout(violationTimer.current);
     }
@@ -338,8 +338,13 @@ const QuizAttempt = () => {
     setShowViolationAlert(true);
     setTimeout(() => setShowViolationAlert(false), 3000);
 
-    violationTimer.current = setTimeout(() => {
+    violationTimer.current = setTimeout(async () => {
       setViolationCount((prev) => prev + 1);
+      try {
+        await quizService.reportViolation(quizId);
+      } catch (error) {
+        console.error("Failed to report violation:", error);
+      }
     }, 3000);
   };
 
@@ -427,10 +432,10 @@ const QuizAttempt = () => {
 
   useEffect(() => {
     if (violationCount >= 3) {
-      autoSubmitQuiz();
+      alert("You failed");
       navigate(`/quizzes?status=OPEN`);
     }
-  }, [violationCount, started, submittedDueToViolation]);
+  }, [violationCount]);
 
   useEffect(() => {
     if (fullscreenLost) {
