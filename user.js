@@ -1,26 +1,17 @@
-const a = {
-  id: "b663ae77-82b1-4394-a8bf-67965d1c6b54",
-  firstName: "Nurdaulet",
-  lastName: "Prof",
-  email: "nurdauletshinpolatov@gmail.com",
-  employeeId: "EMP12375",
-  departmentId: "6b667975-5ff2-4639-a9c8-57b6ba2d8528",
-  organizationId: "3f69ffb4-2e25-4041-9520-c61ea6937650",
-  courseIds: [],
+const admin = {
+  "email":"admin@gmail.com",
+  "password":"passworD1$",
+  "role": "ADMIN", //ACADEMIC_AFFAIRS, MANAGER, PROFESSOR, ADMIN
+  "organizationId":"f65127c3-42a4-4473-9d46-7dfab13f3344 "
+}
 
-  password: "ZlmjG8#K",
-};
+const orgId = "5475df6d-38e5-4a13-8642-746c6316cdfd"
 
-const b = {
-  email: "2110017@newuu.uz",
-  password: "cP-o89ek",
-  role: "MANAGER",
-  organizationId: "3f69ffb4-2e25-4041-9520-c61ea6937650",
-};
+const manager = {
+  "email": "nshinpolatov@gmail.com",
+  "password": "XP&0WFaI",
+  "role": "MANAGER",
+  "organizationId": "5475df6d-38e5-4a13-8642-746c6316cdfd"
+}
 
-const c = {
-  email: "nshinpolatov@gmail.com",
-  password: "Password123!",
-  role: "STUDENT",
-  organizationId: "3f69ffb4-2e25-4041-9520-c61ea6937650",
-};
+const managerId = "c4efc062-e746-4561-8773-a4b499dee519"

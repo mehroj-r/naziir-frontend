@@ -36,13 +36,13 @@ const CourseIdPage = () => {
           setGroups([]);
         }
 
-        const professorDetails = await Promise.all(
-          (courseData.professors || []).filter(Boolean).map((item) => {
-            const id = typeof item === "string" ? item : item.id;
-            return professorService.getById(id).then((res) => res.data);
-          })
-        );
-        setProfessors(professorDetails);
+        // const professorDetails = await Promise.all(
+        //   (courseData.professors || []).filter(Boolean).map((item) => {
+        //     const id = typeof item === "string" ? item : item.id;
+        //     return professorService.getById(id).then((res) => res.data);
+        //   })
+        // );
+        setProfessors(courseData?.professors);
 
         const allGroupsResponse = await groupService.getAll();
         const allGroups =
@@ -177,8 +177,8 @@ const CourseIdPage = () => {
         <h3>Assigned Professors</h3>
         <ul>
           {professors.map((professor) => (
-            <li key={professor.id}>
-              {professor.firstName} {professor.lastName}
+            <li key={professor.professorId}>
+              {professor.professorFirstName} {professor.professorLastName}
               <button onClick={() => handleRemoveProfessor(professor.id)}>
                 Remove
               </button>
