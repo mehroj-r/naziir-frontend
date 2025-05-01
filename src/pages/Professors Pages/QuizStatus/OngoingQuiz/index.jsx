@@ -240,7 +240,7 @@ const OngoingQuizzes = () => {
 
           if (userData.role === "STUDENT") {
             if (status === "OPEN") {
-              if (quizAttempt?.status === "IN_PROGRESS" || !quizAttempt) {
+              if (quizAttempt?.status === "Not Attempted" || !quizAttempt) {
                 navigate(`/quizzes/${id}`);
               } else {
                 customToast("info", "Quiz is already attempted");
