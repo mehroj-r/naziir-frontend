@@ -31,7 +31,7 @@ export default function RegisterPage() {
       setIsLoading(true);
       const body = {
         idToken: response?.credential,
-        organizationId: "9fe767fc-817c-4809-9e57-8c7c9d9fe865",
+        organizationId: "047ed419-0bb0-4386-99e2-a86b931b2d4f",
         role: "STUDENT",
       };
 

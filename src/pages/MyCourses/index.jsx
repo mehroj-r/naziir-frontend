@@ -35,7 +35,7 @@ const Courses = () => {
   const [credits, setCredits] = useState("");
   const [courseType, setCourseType] = useState("");
   const [academicYear, setAcademicYear] = useState(currentYear.toString());
-  const [organizationId] = useState("9fe767fc-817c-4809-9e57-8c7c9d9fe865");
+  const [organizationId] = useState("047ed419-0bb0-4386-99e2-a86b931b2d4f");
   const { role } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
