@@ -28,25 +28,28 @@ export default function RegisterPage() {
   const handleGoogleSuccess = (response) => {
     console.log("Google sign-in successful:", response);
     if (response?.credential) {
-      setIsLoading(true)
+      setIsLoading(true);
       const body = {
         idToken: response?.credential,
-        organizationId: "285b0609-8656-4ecd-869f-67338f68dab5",
-        role: "STUDENT"
-      }
-      
-      authService.google(body)
-        .then(res => {
+        organizationId: "9fe767fc-817c-4809-9e57-8c7c9d9fe865",
+        role: "STUDENT",
+      };
+
+      authService
+        .google(body)
+        .then((res) => {
           if (res?.data?.token) {
-            customToast("success", "Successfully registered!")
-            dispatch(userActions.setAuthorization({
-              token: res?.data?.token,
-              role: "STUDENT",
-              userId: res?.data?.userId,
-            }));
+            customToast("success", "Successfully registered!");
+            dispatch(
+              userActions.setAuthorization({
+                token: res?.data?.token,
+                role: "STUDENT",
+                userId: res?.data?.userId,
+              })
+            );
           }
         })
-        .catch(err => {
+        .catch((err) => {
           if (false) {
             customToast("error", err?.response?.data?.message);
           } else {
@@ -54,8 +57,8 @@ export default function RegisterPage() {
           }
         })
         .finally(() => {
-          setIsLoading(false)
-        })
+          setIsLoading(false);
+        });
     }
   };
 
@@ -71,7 +74,8 @@ export default function RegisterPage() {
       firstName: data?.firstName,
       lastName: data?.lastName,
     };
-    authService.register(body)
+    authService
+      .register(body)
       .then((res) => {
         if (res?.status == 200) {
           customToast("success", "User registered successfully", 3000);
