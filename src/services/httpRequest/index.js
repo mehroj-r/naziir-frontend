@@ -2,7 +2,7 @@ import { customToast } from "@/utils/toastify";
 import axios from "axios";
 
 const httpRequest = axios.create({
-  baseURL: "https://dilnur.lumipass.uz/api",
+  baseURL: "http://dilnur.lumipass.uz/api",
   timeout: 100000,
 });
 
