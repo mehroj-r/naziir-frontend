@@ -29,7 +29,7 @@
       "Accept": "application/json, text/plain, */*",
       "Content-Type": "application/json"
     },
-    "baseURL": "http://dilnur.lumipass.uz/api/auth",
+    "baseURL": "https://dilnur.lumipass.uz/api/auth",
     "withCredentials": true,
     "method": "post",
     "url": "/token/refresh",
