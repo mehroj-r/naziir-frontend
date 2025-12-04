@@ -12,15 +12,28 @@ import {
   useToast,
   Text,
   Spinner,
+  Select,
+  Alert,
+  AlertIcon,
+  AlertDescription,
+  Collapse,
 } from "@chakra-ui/react";
 import CModal from "@/components/CModal";
 import { useDispatch } from "react-redux";
 import { settingsActions } from "@/store/slices/settingsSlice";
 
+const PROGRAMMING_LANGUAGES = [
+  { value: "python", label: "Python" },
+  { value: "javascript", label: "JavaScript" },
+  { value: "java", label: "Java" },
+  { value: "go", label: "Go" },
+];
+
 const QuizAttempt = () => {
   const { quizId } = useParams();
   const [quiz, setQuiz] = useState(null);
   const [answers, setAnswers] = useState({});
+  const [programmingLanguages, setProgrammingLanguages] = useState({});
   const [loading, setLoading] = useState(true);
   const [started, setStarted] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -28,6 +41,8 @@ const QuizAttempt = () => {
   const [resultError, setResultError] = useState(null);
   const [violationCount, setViolationCount] = useState(0);
   const [submittedDueToViolation, setSubmittedDueToViolation] = useState(false);
+  const [submissionError, setSubmissionError] = useState(null);
+  const [showHint, setShowHint] = useState({});
   const violationTimer = useRef(null);
   const toast = useToast();
   const navigate = useNavigate();
@@ -84,7 +99,6 @@ const QuizAttempt = () => {
       .padStart(2, "0")}`;
   };
 
-
   useEffect(() => {
     const handleScreenshotAttempt = (e) => {
       if (e.key === "PrintScreen") {
@@ -92,16 +106,14 @@ const QuizAttempt = () => {
         setTimeout(() => {
           document.body.style.opacity = "1";
         }, 100);
-  
       }
     };
     document.addEventListener("keyup", handleScreenshotAttempt);
-  
+
     return () => {
       document.removeEventListener("keyup", handleScreenshotAttempt);
     };
   }, []);
-  
 
   useEffect(() => {
     if (!started) return;
@@ -274,11 +286,23 @@ const QuizAttempt = () => {
     setAnswers((prev) => ({ ...prev, [questionId]: answer }));
   };
 
+  const handleLanguageChange = (questionId, language) => {
+    setProgrammingLanguages((prev) => ({ ...prev, [questionId]: language }));
+  };
+
   const handleNext = async () => {
+    // Clear any previous submission error
+    setSubmissionError(null);
+
     const currentAnswer = {
       questionVersionId: currentQuestion.id,
       answerContent: answers[currentQuestion.id] || "",
     };
+
+    // Add programming language for CODING questions
+    if (currentQuestion?.questionType === "CODING") {
+      currentAnswer.programmingLanguage = programmingLanguages[currentQuestion.id] || "python";
+    }
 
     try {
       await quizService.submitResponses(quizId, currentAnswer);
@@ -306,6 +330,17 @@ const QuizAttempt = () => {
         setResultError(
           "The results have not been revealed yet. Please check back later."
         );
+      } else if (error.response?.status === 400) {
+        // Handle code validation errors
+        const errorMessage = error.response?.data?.message || "Submission failed. Please check your answer.";
+        setSubmissionError(errorMessage);
+        toast({
+          title: "Submission Error",
+          description: "Please check the error message below.",
+          status: "error",
+          isClosable: true,
+          duration: 5000,
+        });
       } else {
         console.error(error);
         toast({
@@ -627,7 +662,20 @@ const QuizAttempt = () => {
                     onChange={(e) =>
                       handleAnswerChange(currentQuestion.id, e.target.value)
                     }
-                    placeholder="Type your answer..."
+                    placeholder="Type your short answer..."
+                    rows={3}
+                  />
+                )}
+
+                {currentQuestion?.questionType === "LONG_ANSWER" && (
+                  <Textarea
+                    value={answers[currentQuestion.id] || ""}
+                    onChange={(e) =>
+                      handleAnswerChange(currentQuestion.id, e.target.value)
+                    }
+                    placeholder="Type your detailed answer..."
+                    rows={8}
+                    minHeight="200px"
                   />
                 )}
 
@@ -665,7 +713,100 @@ const QuizAttempt = () => {
                     </Stack>
                   </RadioGroup>
                 )}
+
+                {currentQuestion?.questionType === "CODING" && (
+                  <Box className={styles.codingBlock}>
+                    <Select
+                      placeholder="Select programming language"
+                      value={programmingLanguages[currentQuestion.id] || ""}
+                      onChange={(e) =>
+                        handleLanguageChange(currentQuestion.id, e.target.value)
+                      }
+                      mb={4}
+                      width="250px"
+                    >
+                      {PROGRAMMING_LANGUAGES.map((lang) => (
+                        <option key={lang.value} value={lang.value}>
+                          {lang.label}
+                        </option>
+                      ))}
+                    </Select>
+
+                    <Textarea
+                      value={answers[currentQuestion.id] || ""}
+                      onChange={(e) =>
+                        handleAnswerChange(currentQuestion.id, e.target.value)
+                      }
+                      placeholder="// Write your code here..."
+                      minHeight="250px"
+                      fontFamily="'Fira Code', 'Consolas', monospace"
+                      fontSize="14px"
+                      bg="#1e1e1e"
+                      color="#d4d4d4"
+                      p={4}
+                      borderRadius="md"
+                      _placeholder={{ color: "gray.500" }}
+                    />
+                  </Box>
+                )}
+
+                {/* Submission Error Display */}
+                {submissionError && (
+                  <Alert status="error" mt={4} borderRadius="md">
+                    <AlertIcon />
+                    <Box>
+                      <Text fontWeight="bold" mb={1}>Submission Error</Text>
+                      <AlertDescription>
+                        <Box
+                          as="pre"
+                          whiteSpace="pre-wrap"
+                          fontFamily="monospace"
+                          fontSize="sm"
+                          maxHeight="150px"
+                          overflowY="auto"
+                        >
+                          {submissionError}
+                        </Box>
+                      </AlertDescription>
+                    </Box>
+                  </Alert>
+                )}
               </Box>
+
+              {/* Hint Section */}
+              {currentQuestion?.hint && (
+                <Box className={styles.hintSection}>
+                  <Button
+                    variant="outline"
+                    onClick={() =>
+                      setShowHint((prev) => ({
+                        ...prev,
+                        [currentQuestion.id]: !prev[currentQuestion.id],
+                      }))
+                    }
+                    size="sm"
+                    colorScheme="teal"
+                    leftIcon={<Text>💡</Text>}
+                  >
+                    {showHint[currentQuestion.id] ? "Hide Hint" : "Show Hint"}
+                  </Button>
+
+                  <Collapse in={showHint[currentQuestion.id]} animateOpacity>
+                    <Box
+                      p={4}
+                      mt={2}
+                      borderWidth={1}
+                      borderRadius="md"
+                      borderColor="teal.200"
+                      bg="teal.50"
+                    >
+                      <Text fontSize="sm" color="teal.800">
+                        <strong>Hint:</strong> {currentQuestion.hint}
+                      </Text>
+                    </Box>
+                  </Collapse>
+                </Box>
+              )}
 
               <Box className={styles.pointsSection}>
                 <Text>Point</Text>
