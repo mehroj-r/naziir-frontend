@@ -233,8 +233,10 @@ const QuizId = () => {
             }
           >
             <option value="SHORT_ANSWER">Short Answer</option>
+            <option value="LONG_ANSWER">Long Answer</option>
             <option value="TRUE_FALSE">True / False</option>
             <option value="MULTIPLE_CHOICE">Multiple Choice</option>
+            <option value="CODING">Coding</option>
           </Select>
 
           <label className={styles.uploadLabel}>
@@ -297,6 +299,65 @@ const QuizId = () => {
                   handleFieldChange2(idx, "expectedAnswer", e.target.value)
                 }
                 placeholder="Expected Answer"
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <FormLabel>Hint</FormLabel>
+              <Textarea
+                disabled={quiz?.status !== 'DRAFT'}
+                value={q.hint}
+                onChange={(e) =>
+                  handleFieldChange2(idx, "hint", e.target.value)
+                }
+                placeholder="Hint (optional)"
+              />
+            </div>
+          </>
+        )}
+
+        {q.questionType === "LONG_ANSWER" && (
+          <>
+            <div className={styles.fieldGroup}>
+              <FormLabel>Expected Answer *</FormLabel>
+              <Textarea
+                disabled={quiz?.status !== 'DRAFT'}
+                value={q.expectedAnswer}
+                onChange={(e) =>
+                  handleFieldChange2(idx, "expectedAnswer", e.target.value)
+                }
+                placeholder="Expected Answer"
+                rows={6}
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <FormLabel>Hint</FormLabel>
+              <Textarea
+                disabled={quiz?.status !== 'DRAFT'}
+                value={q.hint}
+                onChange={(e) =>
+                  handleFieldChange2(idx, "hint", e.target.value)
+                }
+                placeholder="Hint (optional)"
+              />
+            </div>
+          </>
+        )}
+
+        {q.questionType === "CODING" && (
+          <>
+            <div className={styles.fieldGroup}>
+              <FormLabel>Expected Answer *</FormLabel>
+              <Textarea
+                disabled={quiz?.status !== 'DRAFT'}
+                value={q.expectedAnswer}
+                onChange={(e) =>
+                  handleFieldChange2(idx, "expectedAnswer", e.target.value)
+                }
+                placeholder="Expected Code Solution"
+                rows={8}
+                fontFamily="monospace"
               />
             </div>
 
@@ -463,8 +524,10 @@ const QuizId = () => {
           className={styles.dropdown}
         >
           <option value="SHORT_ANSWER">Short Answer</option>
+          <option value="LONG_ANSWER">Long Answer</option>
           <option value="TRUE_FALSE">True / False</option>
           <option value="MULTIPLE_CHOICE">Multiple Choice</option>
+          <option value="CODING">Coding</option>
         </Select>
 
         <label className={styles.uploadLabel}>
@@ -515,6 +578,57 @@ const QuizId = () => {
                 handleFieldChange("expectedAnswer", e.target.value)
               }
               placeholder="Expected Answer"
+            />
+          </div>
+
+          <div className={styles.fieldGroup}>
+            <FormLabel>Hint</FormLabel>
+            <Textarea
+              value={currentQuestion.hint}
+              onChange={(e) => handleFieldChange("hint", e.target.value)}
+              placeholder="Hint (optional)"
+            />
+          </div>
+        </>
+      )}
+
+      {currentQuestion.questionType === "LONG_ANSWER" && (
+        <>
+          <div className={styles.fieldGroup}>
+            <FormLabel>Expected Answer *</FormLabel>
+            <Textarea
+              value={currentQuestion.expectedAnswer}
+              onChange={(e) =>
+                handleFieldChange("expectedAnswer", e.target.value)
+              }
+              placeholder="Expected Answer"
+              rows={6}
+            />
+          </div>
+
+          <div className={styles.fieldGroup}>
+            <FormLabel>Hint</FormLabel>
+            <Textarea
+              value={currentQuestion.hint}
+              onChange={(e) => handleFieldChange("hint", e.target.value)}
+              placeholder="Hint (optional)"
+            />
+          </div>
+        </>
+      )}
+
+      {currentQuestion.questionType === "CODING" && (
+        <>
+          <div className={styles.fieldGroup}>
+            <FormLabel>Expected Answer *</FormLabel>
+            <Textarea
+              value={currentQuestion.expectedAnswer}
+              onChange={(e) =>
+                handleFieldChange("expectedAnswer", e.target.value)
+              }
+              placeholder="Expected Code Solution"
+              rows={8}
+              fontFamily="monospace"
             />
           </div>
 

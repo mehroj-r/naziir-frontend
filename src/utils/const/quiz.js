@@ -10,7 +10,9 @@ export const QUIZ_TYPES = [
 export const QUESTION_TYPES = [
   'MULTIPLE_CHOICE',
   'SHORT_ANSWER',
+  'LONG_ANSWER',
   'TRUE_FALSE',
+  'CODING',
   'MIXED'
 ]
 
