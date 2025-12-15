@@ -135,7 +135,7 @@ const Courses = () => {
       courseName &&
       academicTerm &&
       description &&
-      credits &&
+      parseInt(credits, 10) &&
       courseType &&
       academicYear &&
       !isNaN(credits) &&
