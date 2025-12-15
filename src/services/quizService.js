@@ -91,19 +91,6 @@ export const quizService = {
     }
   },
 
-  getById: async (id) => {
-    try {
-      const response = await httpRequest.get(`/quizzes/${id}`, {
-        params: { includeVersions: true },
-      });
-      console.log("Quiz fetched", response.data);
-      return response.data;
-    } catch (error) {
-      console.error("Failed to fetch quiz:", error.message);
-      throw new Error("Failed to fetch quiz: " + error.message);
-    }
-  },
-
   startAttempt: async (quizId) => {
     const response = await httpRequest.post(
       `/student/quizzes/attempts/start/${quizId}`
@@ -169,6 +156,18 @@ export const quizService = {
     } catch (error) {
       console.error("Error fetching grading report:", error.message);
       throw new Error("Failed to fetch grading report: " + error.message);
+    }
+  },
+
+  getQuizStatistics: async (quizId) => {
+    try {
+      const response = await httpRequest.get(
+        `/api/professors/${quizId}/statistics`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching quiz statistics:", error.message);
+      throw new Error("Failed to fetch quiz statistics: " + error.message);
     }
   },
 

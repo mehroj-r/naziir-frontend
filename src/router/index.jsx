@@ -46,6 +46,7 @@ import QuizAttempt from "@/pages/Startquiz/QuizAttempt/index";
 import GradeQuiz from "@/pages/Professors Pages/QuizGrading/index";
 import QuizResult from "@/pages/QuizResults/index";
 import PCourseIdPage from "@/pages/Academic Affairs/PCourseDetail/index";
+import QuizStatistics from "@/pages/Professors Pages/QuizStatistics/index";
 
 const Router = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -159,6 +160,7 @@ const Router = () => {
           <Route path="/past-quizzes" element={<PastQuizzes />} />
           <Route path="/upcoming-quizzes" element={<UpcomingQuizzes />} />
           <Route path="/professor/grading/quiz/:id" element={<GradeQuiz />} />
+          <Route path="/professor/quiz/:quizId/statistics" element={<QuizStatistics />} />
 
           <Route
             path="/student/quizzes/:quizId/attempt"

@@ -749,6 +749,9 @@ const QuizId = () => {
           Quiz: {quiz?.title}
         </Heading>
         <HStack>
+          <Button onClick={() => navigate(`/professor/quiz/${quizId}/statistics`)} colorScheme="teal">
+            View Statistics
+          </Button>
           {quiz?.status === 'DRAFT' && (
             <>
               <Button onClick={handleOpenModal} mt={4} colorScheme="blue">
