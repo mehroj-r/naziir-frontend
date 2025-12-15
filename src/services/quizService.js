@@ -162,7 +162,7 @@ export const quizService = {
   getQuizStatistics: async (quizId) => {
     try {
       const response = await httpRequest.get(
-        `/api/professors/${quizId}/statistics`
+        `/professors/${quizId}/statistics`
       );
       return response.data;
     } catch (error) {
